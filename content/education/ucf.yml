@@ -1,0 +1,13 @@
+order: 1
+school: University of Central Florida
+degree: B.S. Computer Science
+detail: Burnett Honors College · Provost Scholar
+location: Orlando, FL
+start: Aug 2023
+end: May 2027
+coursework:
+  - Data Structures and Algorithms
+  - Systems Software
+  - Compilers
+  - Neural Networks and Deep Learning
+  - Front-end Development

@@ -1,0 +1,101 @@
+# Production stack for the home server. See docs/deployment.md.
+#
+#   docker compose up -d                          site only (plug into an existing tunnel)
+#   docker compose --profile tunnel up -d         site + Cloudflare Tunnel
+#   docker compose --profile tunnel --profile analytics up -d    everything
+#
+# deploy/auto-update.sh keeps the site image current after each push to main.
+# Values come from .env next to this file (copy .env.example).
+
+name: benduffaut
+
+services:
+  site:
+    image: ${SITE_IMAGE:-ghcr.io/bduffaut/benduffaut.com:latest}
+    restart: unless-stopped
+    # Only the variables the site needs, so tunnel and database secrets stay out of it
+    environment:
+      NUXT_CONTACT_TO: ${NUXT_CONTACT_TO:-}
+      NUXT_CONTACT_FROM: ${NUXT_CONTACT_FROM:-}
+      NUXT_CONTACT_SMTP_HOST: ${NUXT_CONTACT_SMTP_HOST:-}
+      NUXT_CONTACT_SMTP_PORT: ${NUXT_CONTACT_SMTP_PORT:-465}
+      NUXT_CONTACT_SMTP_SECURE: ${NUXT_CONTACT_SMTP_SECURE:-true}
+      NUXT_CONTACT_SMTP_USER: ${NUXT_CONTACT_SMTP_USER:-}
+      NUXT_CONTACT_SMTP_PASS: ${NUXT_CONTACT_SMTP_PASS:-}
+      NUXT_CONTACT_TURNSTILE_SECRET: ${NUXT_CONTACT_TURNSTILE_SECRET:-}
+    # Published on localhost only: for a host-level cloudflared, or for checking it locally
+    ports:
+      - 127.0.0.1:${SITE_PORT:-3000}:3000
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+
+  # Outbound-only tunnel to Cloudflare: no open router ports and the home IP stays private.
+  # In the Zero Trust dashboard, point the tunnel's public hostnames at http://site:3000.
+  cloudflared:
+    image: cloudflare/cloudflared:2026.10.1
+    profiles: [tunnel]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    depends_on:
+      - site
+    logging: *logging
+
+  # Self-hosted analytics. The site proxies the tracker at /stats, so Umami needs no public
+  # hostname for visitors. Its dashboard is on localhost:3001, or behind Cloudflare Access.
+  umami:
+    image: ghcr.io/umami-software/umami:3.4.0
+    profiles: [analytics]
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD:-}@umami-db:5432/umami
+      APP_SECRET: ${UMAMI_APP_SECRET:-}
+      DISABLE_TELEMETRY: 1
+    ports:
+      - 127.0.0.1:${UMAMI_PORT:-3001}:3000
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 384m
+    logging: *logging
+
+  umami-db:
+    image: postgres:17.11-alpine
+    profiles: [analytics]
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD:-}
+    volumes:
+      # A named volume on the SSD by default. Backups go to the external drive, see docs/deployment.md
+      - ${UMAMI_DATA_DIR:-umami-db}:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U umami -d umami']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    logging: *logging
+
+volumes:
+  umami-db:

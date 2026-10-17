@@ -1,0 +1,10 @@
+# Copy to /etc/systemd/system/ and edit the paths and user. See docs/deployment.md.
+[Unit]
+Description=Update benduffaut.com to the latest image
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+User=ben
+ExecStart=/home/ben/benduffaut.com/deploy/auto-update.sh

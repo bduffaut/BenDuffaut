@@ -1,0 +1,12 @@
+order: 3
+role: Research Intern
+company: UF Pathology Lab
+location: Gainesville, FL
+# TODO(ben): fill in the dates from the other resume, then delete the draft line below.
+start: TBD
+end: TBD
+kind: research
+highlights:
+  - Built a Python pipeline to detect microsatellite instability (MSI) in cancer samples, parsing MSI detection tool output and classifying samples as MSI-High, MSI-Low or stable.
+stack: [Python, pandas, Matplotlib]
+draft: true

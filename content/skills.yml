@@ -1,0 +1,16 @@
+groups:
+  - name: Languages
+    items: [TypeScript, JavaScript, Python, Java, C, C++, SQL, HTML/CSS, Bash]
+  - name: Frontend
+    items: [Vue 3, Nuxt, React, React Native, Tailwind CSS, Vite, Flutter, Figma]
+  - name: Backend and data
+    items: [Node.js, Express, FastAPI, MongoDB, PostgreSQL, MySQL, REST APIs]
+  - name: Testing
+    items: [Vitest, Jest, Playwright, Mockoon, Postman]
+  - name: Infrastructure
+    items: [Docker, Docker Compose, GitHub Actions, Cloudflare Tunnel, Linux, Git]
+  - name: Machine learning
+    items: [PyTorch, torchvision, OpenCV, LLM APIs, Ollama]
+  - name: Process
+    items: [Scrum, Jira, Code review]
+    resume: false

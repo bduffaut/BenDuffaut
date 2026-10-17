@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /og
+Disallow: /api/
+
+Sitemap: https://benduffaut.com/sitemap.xml

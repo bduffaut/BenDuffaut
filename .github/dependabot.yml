@@ -1,0 +1,50 @@
+# Weekly dependency updates. Minor and patch updates come grouped in one PR per
+# ecosystem; majors get their own. New releases wait 7 days first, so broken or
+# malicious releases are usually caught before they get here. CI tests every PR.
+#
+# Held back on purpose:
+# - TypeScript majors: vue-tsc and typescript-eslint lag behind new majors
+# - @playwright/test: its version is pinned in the Dockerfile too, bump both together
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    commit-message: { prefix: build, include: scope }
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+    ignore:
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
+      - dependency-name: '@playwright/test'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    commit-message: { prefix: ci }
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: docker
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    commit-message: { prefix: build }
+    ignore:
+      # Node majors and the Playwright image are bumped by hand, alongside .nvmrc and package.json
+      - dependency-name: node
+        update-types: [version-update:semver-major]
+      - dependency-name: mcr.microsoft.com/playwright
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    commit-message: { prefix: build }
+    ignore:
+      - dependency-name: postgres
+        update-types: [version-update:semver-major]

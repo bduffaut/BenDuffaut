@@ -1,0 +1,45 @@
+name: Benjamin Duffaut
+shortName: Ben Duffaut
+role: Software Engineer
+# The hero headline. Keep it short, it's set in the display face at a large size.
+headline: I build interfaces that are useful and look really good.
+summary: >-
+  Full-stack engineer whose strongest work is on the frontend. Vue, TypeScript, careful
+  animation, and the backend work it takes to ship. Computer Science at UCF, class of 2027.
+location: Orlando, FL
+# Public address on the site. Set up Cloudflare Email Routing to forward it to Gmail (docs/deployment.md).
+email: ben@benduffaut.com
+availability:
+  open: true
+  label: Open to full-time roles
+links:
+  github: https://github.com/bduffaut
+  linkedin: https://www.linkedin.com/in/benjamin-duffaut
+  repo: https://github.com/bduffaut/benduffaut.com
+about:
+  - >-
+    I like building things that are useful and look really cool. Most of my time goes into
+    frontend work: component systems, dashboards, animation, and the small interaction details
+    that make an interface feel fast and deliberate.
+  - >-
+    Most recently I interned at Reveal Security, shipping production features in Vue alongside the
+    CTO and product lead. It was my first time on a real company's codebase and team, and I did
+    everything from the dashboard to tests to supporting backend work. Afterwards I wrote my own
+    dashboard grid engine from scratch, the project I'm proudest of.
+  - >-
+    I'm comfortable across the stack (Node and Express APIs, MongoDB and Postgres, Docker, CI) and
+    I've built applied ML systems in PyTorch. This site runs on a laptop server in my apartment.
+beyond:
+  - title: UCF Club Tennis
+    meta: National team · 2023 to present
+    stat: 12th
+    resume: true
+    resumeText: Three years on the national team, competing at USTA/ITA Club Tennis Nationals and finishing 12th in the nation.
+    body: >-
+      Three straight years on the national team. We qualified for USTA/ITA Club Tennis Nationals
+      and finished 12th in the country. Tennis is also why my ML project analyzes match video.
+  - title: Working on my car
+    meta: Garage hours
+    body: >-
+      When I'm not at a keyboard I'm usually under the hood. Same instinct as software: take it
+      apart, understand it, make it better.

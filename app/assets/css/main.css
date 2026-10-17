@@ -1,0 +1,671 @@
+/*
+ * Design system, dark only
+ *
+ * Taken from the Sentinel demo of custom-dashboard-grid: near-black surfaces, a teal
+ * signal color for interface chrome, cyan for data and highlights, and panels with one
+ * chamfered corner. On top of that: gradient borders that follow the pointer, animated
+ * button edges and soft glows.
+ *
+ * Chakra Petch for display, IBM Plex Sans for reading, IBM Plex Mono for labels and data.
+ * Tokens live in @theme so every one is also a Tailwind utility (bg-surface, text-muted...).
+ */
+@import 'tailwindcss';
+
+@import '@fontsource/chakra-petch/500.css';
+@import '@fontsource/chakra-petch/600.css';
+@import '@fontsource/chakra-petch/700.css';
+@import '@fontsource-variable/ibm-plex-sans';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+@theme {
+  --color-bg: #0a0e14;
+  --color-bg-deep: #070a0f;
+  --color-surface: #10161e;
+  --color-surface-2: #151c26;
+  --color-surface-3: #1c2531;
+  --color-border: #1f2833;
+  --color-border-strong: #2c3846;
+  --color-text: #e6edf3;
+  --color-muted: #8b96a5;
+  /* Lightest text that still meets WCAG AA (4.5:1) on bg, surface and surface-2 */
+  --color-faint: #7a8697;
+
+  /* Signal teal for interface chrome */
+  --color-accent: #2dd4bf;
+  --color-accent-strong: #5eead4;
+  /* Cyan for data, numbers and highlights */
+  --color-cyan: #22d3ee;
+  --color-cyan-strong: #67e8f9;
+  /* Cool end of the gradient, used sparingly */
+  --color-indigo: #818cf8;
+
+  --color-good: #22c55e;
+  --color-warning: #fab219;
+
+  --font-display: 'Chakra Petch', 'Segoe UI', sans-serif;
+  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.3, 1.4, 0.5, 1);
+
+  --animate-led: led 2.4s ease-in-out infinite;
+  --animate-spin-border: spin-border 5s linear infinite;
+}
+
+:root {
+  --chamfer: 14px;
+  --accent-soft: rgb(45 212 191 / 0.12);
+  --accent-glow: rgb(45 212 191 / 0.35);
+  --cyan-glow: rgb(34 211 238 / 0.4);
+  --gradient-signal: linear-gradient(115deg, var(--color-accent), var(--color-cyan) 55%, var(--color-indigo));
+
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+@layer base {
+  html {
+    background: var(--color-bg);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--color-accent-strong);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+}
+
+/* Backdrop: a lit-screen vignette and a faint grid that fades out toward the edges */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 620px at 78% -8%, rgb(45 212 191 / 0.09), transparent 62%),
+    radial-gradient(900px 560px at -10% 18%, rgb(129 140 248 / 0.06), transparent 60%), var(--color-bg);
+}
+
+.backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
+/* Fine film grain so large gradients don't band */
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer components {
+  /*
+   * Panel: one chamfered corner, a hairline edge, and a gradient border plus inner glow
+   * that follow the pointer. v-spotlight sets --mx and --my, relative to each panel.
+   */
+  .panel {
+    --edge: var(--color-border);
+    --fill: var(--color-surface);
+    position: relative;
+    isolation: isolate;
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--fill), var(--fill)) padding-box,
+      radial-gradient(420px circle at var(--mx, -999px) var(--my, -999px), var(--color-accent), transparent 45%) border-box,
+      linear-gradient(var(--edge), var(--edge)) border-box;
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+    transition:
+      --edge 0.2s,
+      transform 0.35s var(--ease-out-expo);
+  }
+
+  /* Soft light under the pointer */
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), rgb(45 212 191 / 0.07), transparent 50%);
+    transition: opacity 0.3s;
+  }
+
+  .panel:hover::before {
+    opacity: 1;
+  }
+
+  /* Draws the border along the cut corner, which clip-path would otherwise remove */
+  .panel::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: var(--chamfer);
+    height: var(--chamfer);
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom left,
+      transparent calc(50% - 1px),
+      var(--corner, var(--edge)) calc(50% - 1px) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    );
+    transition: filter 0.25s;
+  }
+
+  .panel:hover {
+    --edge: var(--color-border-strong);
+    --corner: var(--color-accent);
+  }
+
+  .panel:hover::after {
+    filter: drop-shadow(0 0 3px var(--accent-glow));
+  }
+
+  .panel--raised {
+    --fill: var(--color-surface-2);
+  }
+
+  .panel--lift:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Edit-mode registration marks from the grid demo, as decoration */
+  .marks {
+    background-image:
+      linear-gradient(var(--color-faint), var(--color-faint)), linear-gradient(var(--color-faint), var(--color-faint)),
+      linear-gradient(var(--color-faint), var(--color-faint)), linear-gradient(var(--color-faint), var(--color-faint));
+    background-size:
+      8px 1px,
+      1px 8px,
+      8px 1px,
+      1px 8px;
+    background-position:
+      0 100%,
+      0 100%,
+      100% 100%,
+      100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  /* Buttons */
+  .btn {
+    --fill: var(--color-surface-2);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 42px;
+    padding: 0 1.1rem;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+    background: var(--fill);
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      background-color 0.2s,
+      box-shadow 0.25s,
+      transform 0.2s var(--ease-spring);
+  }
+
+  .btn:hover {
+    border-color: var(--color-faint);
+    --fill: var(--color-surface-3);
+  }
+
+  .btn:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  .btn svg {
+    transition: transform 0.3s var(--ease-spring);
+  }
+
+  .btn:hover svg:last-child {
+    transform: translateX(3px);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Primary: a gradient edge that slowly rotates, and fills in with a sweep of light on hover */
+  .btn--primary {
+    --fill: var(--color-bg-deep);
+    border-color: transparent;
+    background:
+      linear-gradient(var(--fill), var(--fill)) padding-box,
+      conic-gradient(from var(--angle), var(--color-accent), var(--color-cyan), var(--color-indigo), var(--color-accent)) border-box;
+    animation: var(--animate-spin-border);
+  }
+
+  .btn--primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: var(--gradient-signal);
+    transition: opacity 0.3s;
+  }
+
+  .btn--primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    translate: -120% 0;
+    background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.45) 50%, transparent 70%);
+    transition: translate 0.7s var(--ease-out-expo);
+  }
+
+  .btn--primary:hover {
+    --fill: transparent;
+    color: var(--color-bg-deep);
+    box-shadow: 0 0 28px var(--accent-glow);
+  }
+
+  .btn--primary:hover::before {
+    opacity: 1;
+  }
+
+  .btn--primary:hover::after {
+    translate: 120% 0;
+  }
+
+  .btn--ghost {
+    --fill: transparent;
+    border-color: transparent;
+    color: var(--color-muted);
+  }
+
+  .btn--ghost:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+  }
+
+  .btn--sm {
+    min-height: 34px;
+    padding: 0 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .btn--icon {
+    width: 42px;
+    padding: 0;
+  }
+
+  /* Small mono label used above headings and in readouts */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+    border: 1px solid var(--color-border);
+    background: rgb(255 255 255 / 0.02);
+    border-radius: 2px;
+    white-space: nowrap;
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+
+  .chip:hover {
+    color: var(--color-accent-strong);
+    border-color: rgb(45 212 191 / 0.4);
+    background: var(--accent-soft);
+  }
+
+  .led {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--led, var(--color-accent));
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--led, var(--color-accent)) 18%, transparent),
+      0 0 10px var(--led, var(--color-accent));
+    animation: var(--animate-led);
+  }
+
+  .text-gradient {
+    background: var(--gradient-signal);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .glow {
+    text-shadow: 0 0 24px rgb(34 211 238 / 0.3);
+  }
+
+  /* Form fields */
+  .field {
+    width: 100%;
+    min-width: 0;
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 2px;
+    background: var(--color-bg-deep);
+    caret-color: var(--color-cyan);
+    transition:
+      border-color 0.15s,
+      box-shadow 0.2s;
+  }
+
+  .field::placeholder {
+    color: var(--color-faint);
+  }
+
+  .field:hover {
+    border-color: var(--color-faint);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-cyan);
+    box-shadow:
+      0 0 0 3px rgb(34 211 238 / 0.12),
+      0 0 16px rgb(34 211 238 / 0.15);
+  }
+
+  .field[aria-invalid='true'] {
+    border-color: #d03b3b;
+  }
+
+  /* Long-form project write-ups rendered from Markdown */
+  .prose-site {
+    color: var(--color-muted);
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+
+  .prose-site > * + * {
+    margin-top: 1.1em;
+  }
+
+  .prose-site h2 {
+    margin-top: 2.4em;
+    font-size: 1.45rem;
+    color: var(--color-text);
+  }
+
+  .prose-site h2::before {
+    content: '// ';
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  .prose-site h3 {
+    margin-top: 1.8em;
+    font-size: 1.15rem;
+    color: var(--color-text);
+  }
+
+  .prose-site a {
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+    text-decoration-color: rgb(45 212 191 / 0.4);
+    text-underline-offset: 3px;
+  }
+
+  .prose-site a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .prose-site strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .prose-site em {
+    color: var(--color-text);
+  }
+
+  .prose-site ul {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .prose-site ul > li {
+    position: relative;
+    padding-left: 1.4em;
+  }
+
+  .prose-site ul > li + li {
+    margin-top: 0.45em;
+  }
+
+  .prose-site ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0.15em;
+    top: 0.72em;
+    width: 7px;
+    height: 1px;
+    background: var(--color-accent);
+    box-shadow: 0 0 6px var(--color-accent);
+  }
+
+  .prose-site code {
+    padding: 0.1em 0.4em;
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    color: var(--color-cyan-strong);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+  }
+
+  .prose-site pre {
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    background: var(--color-bg-deep);
+    border: 1px solid var(--color-border);
+  }
+
+  .prose-site pre code {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text);
+  }
+
+  .prose-site .table-scroll {
+    overflow-x: auto;
+  }
+
+  .prose-site table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  .prose-site th {
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+    border-bottom: 1px solid var(--color-border-strong);
+  }
+
+  .prose-site td {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .prose-site td:first-child {
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+}
+
+/* Scroll reveal, driven by v-reveal. Content is visible by default and only hidden once JS
+   has marked the document, so nothing disappears if scripts fail. */
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 18px;
+  filter: blur(4px);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    translate 0.8s var(--ease-out-expo),
+    filter 0.7s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].is-revealed {
+  opacity: 1;
+  translate: 0 0;
+  filter: none;
+}
+
+/* Route transitions */
+.page-enter-active,
+.page-leave-active {
+  transition:
+    opacity 0.25s ease,
+    translate 0.35s var(--ease-out-expo);
+}
+
+.page-enter-from {
+  opacity: 0;
+  translate: 0 10px;
+}
+
+.page-leave-to {
+  opacity: 0;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@property --edge {
+  syntax: '<color>';
+  initial-value: #1f2833;
+  inherits: true;
+}
+
+@keyframes spin-border {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes led {
+  50% {
+    opacity: 0.4;
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    translate: none;
+    filter: none;
+  }
+}
+
+@media print {
+  .backdrop {
+    display: none;
+  }
+}

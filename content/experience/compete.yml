@@ -1,0 +1,11 @@
+order: 2
+role: Frontend Developer Intern
+company: Compete Co.
+location: Orlando, FL
+start: Aug 2025
+end: May 2026
+kind: work
+highlights:
+  - Built 6+ core frontend features of the Compete mobile app in React Native, covered by Jest unit tests.
+  - Worked on a 6-person Agile team with designers and backend engineers, building 5+ responsive UIs to spec. Every sprint goal shipped on time.
+stack: [React Native, TypeScript, Jest, Jira]

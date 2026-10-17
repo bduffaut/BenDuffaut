@@ -1,0 +1,12 @@
+order: 1
+role: Software Engineer Intern
+company: Reveal Security
+location: New York, NY (remote)
+start: Jun 2026
+end: Oct 2026
+kind: work
+highlights:
+  - Shipped 5+ features to the production codebase, working directly with the CTO and Senior Director of Product on the Vue.js frontend and supporting backend work.
+  - Built a fully custom, componentized dashboard on GridStack.js with widget-level data caching, so adding, removing and rearranging widgets doesn't degrade performance. Real-time alerts link straight into detailed views.
+  - Wrote frontend unit and browser tests with Vitest and Playwright and backend API tests with Jest, using Mockoon for mock data-ingestion APIs and pgAdmin for test data seeding.
+stack: [Vue 3, TypeScript, GridStack.js, Vitest, Playwright, Jest, PostgreSQL]
