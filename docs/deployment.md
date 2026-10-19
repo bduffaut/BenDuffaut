@@ -58,8 +58,7 @@ Cloudflare creates the DNS records for those hostnames automatically.
 A systemd timer runs `deploy/auto-update.sh` every 2 minutes. It pulls the latest image and recreates the container only if the image changed.
 
 ```sh
-chmod +x ~/benduffaut.com/deploy/auto-update.sh
-# Edit User= and the ExecStart path in the .service file to match your user and home folder
+# The .service file is set up for user bduffaut and ~/benduffaut.com; edit both if that changes
 sudo cp ~/benduffaut.com/deploy/benduffaut-update.{service,timer} /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now benduffaut-update.timer
@@ -105,7 +104,7 @@ The tracker loads from `/stats/script.js` on the site itself and the site proxie
 **Backups to the external drive.** For example, nightly from root's crontab:
 
 ```cron
-15 3 * * * docker compose -f /home/ben/benduffaut.com/compose.yaml exec -T umami-db pg_dump -U umami umami | gzip > /mnt/external/backups/umami-$(date +\%F).sql.gz
+15 3 * * * docker compose -f /home/bduffaut/benduffaut.com/compose.yaml exec -T umami-db pg_dump -U umami umami | gzip > /mnt/external/backups/umami-$(date +\%F).sql.gz
 ```
 
 ## 7. Turnstile (optional)
