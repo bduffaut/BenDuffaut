@@ -72,7 +72,6 @@
   --dg-focus-color: var(--color-accent);
   --dg-selection-color: var(--color-accent);
   --dg-marquee-bg: rgb(45 212 191 / 0.07);
-  --dg-snap-color: var(--color-accent-strong);
 
   color-scheme: dark;
   scroll-behavior: smooth;
@@ -676,10 +675,6 @@
     translate: none;
     filter: none;
   }
-}
-
-.dg-snap-guide {
-  box-shadow: 0 0 6px rgb(94 234 212 / 0.7);
 }
 
 @media print {

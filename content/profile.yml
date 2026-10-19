@@ -34,8 +34,6 @@ beyond:
   - title: UCF Club Tennis
     meta: National team · 2023 to present
     stat: 12th
-    resume: true
-    resumeText: Three years on the national team, competing at USTA/ITA Club Tennis Nationals and finishing 12th in the nation.
     body: >-
       Three straight years on the national team. We qualified for USTA/ITA Club Tennis Nationals
       and finished 12th in the country. Tennis is also why my ML project analyzes match video.

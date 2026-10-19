@@ -88,8 +88,13 @@ test.describe('server', () => {
 
   test('resume PDF is served', async ({ request }) => {
     const res = await request.get('/resume.pdf')
-    test.skip(res.status() === 404 && !process.env.CI, 'Run npm run assets first')
     expect(res.status()).toBe(200)
     expect(res.headers()['content-type']).toBe('application/pdf')
   })
+})
+
+test('resume page shows the PDF with a download link', async ({ page }) => {
+  await page.goto('/resume')
+  await expect(page.locator('object[type="application/pdf"]')).toHaveAttribute('data', /^\/resume\.pdf/)
+  await expect(page.getByRole('link', { name: 'Download PDF' }).first()).toHaveAttribute('href', '/resume.pdf')
 })

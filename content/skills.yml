@@ -13,4 +13,3 @@ groups:
     items: [PyTorch, torchvision, OpenCV, LLM APIs, Ollama]
   - name: Process
     items: [Scrum, Jira, Code review]
-    resume: false

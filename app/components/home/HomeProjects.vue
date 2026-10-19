@@ -219,7 +219,6 @@ onMounted(() => {
         :gap="16"
         resize-handles="all"
         show-cells="editing"
-        snap-guides
         selectable
         :guides="false"
         :animation="{ preset: 'smooth', enter: 'zip', stagger: 70 }"
@@ -275,28 +274,32 @@ onMounted(() => {
   border-color: rgb(45 212 191 / 0.25);
 }
 
+/* The overlay covers the board and the sweep is a 120px band in its background, with the
+   bright line at the band's bottom edge. Background position percentages are relative to
+   (board height - band height), so 0 -120px puts the line on the board's top edge and 0 100%
+   lands it exactly on the bottom edge, whatever the board's height. It never leaves the board. */
 .board--editing::after {
   content: '';
   position: absolute;
-  inset: 0 0 auto;
-  height: 120px;
+  inset: 0;
   z-index: 40;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgb(45 212 191 / 0.07) 85%, rgb(45 212 191 / 0.55) 99%, transparent);
+  background: linear-gradient(to bottom, transparent, rgb(45 212 191 / 0.07) 85%, rgb(45 212 191 / 0.55) 99%, transparent) no-repeat;
+  background-size: 100% 120px;
   animation: scan 1.1s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 @keyframes scan {
   from {
     opacity: 1;
-    translate: 0 -120px;
+    background-position: 0 -120px;
   }
   85% {
     opacity: 1;
   }
   to {
     opacity: 0;
-    translate: 0 min(100vh, 900px);
+    background-position: 0 100%;
   }
 }
 

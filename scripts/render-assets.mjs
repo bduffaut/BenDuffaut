@@ -1,6 +1,6 @@
-// Renders files that are made from the built site itself:
-//   /resume.pdf  the /resume page printed to US Letter
-//   /og.png      the /og page screenshotted at 1200×630, used as every page's og:image
+// Renders a file that's made from the built site itself:
+//   /og.png  the /og page screenshotted at 1200×630, used as every page's og:image
+// (The resume is a hand-made PDF in public/, not rendered here.)
 //
 // Usage: npm run build && npm run assets
 // It starts the built server on a spare port, renders with Playwright's Chromium, writes
@@ -28,18 +28,6 @@ try {
   const browser = await chromium.launch()
   try {
     const page = await browser.newPage()
-
-    await page.goto(`${ORIGIN}/resume`, { waitUntil: 'networkidle' })
-    await page.evaluate(() => document.fonts.ready)
-    await page.emulateMedia({ media: 'print' })
-    const pdf = await page.pdf({ path: resolve(OUT, 'resume.pdf'), format: 'Letter', printBackground: true, preferCSSPageSize: true })
-    const pages = pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g)?.length ?? 0
-    if (pages > 1) {
-      const message = `resume.pdf is ${pages} pages. Trim content marked resume: true until it fits on one.`
-      if (process.env.CI) throw new Error(message)
-      console.warn(`[assets] ${message}`)
-    }
-    console.log('[assets] wrote resume.pdf')
 
     await page.emulateMedia({ media: 'screen', reducedMotion: 'reduce' })
     await page.setViewportSize({ width: 1200, height: 630 })

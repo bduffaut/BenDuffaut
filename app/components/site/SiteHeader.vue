@@ -3,7 +3,7 @@ import { Menu, X } from 'lucide-vue-next'
 
 const NAV = [
   { label: 'Experience', to: '/#experience' },
-  { label: 'Projects', to: '/projects' },
+  { label: 'Projects', to: '/#projects' },
   { label: 'About', to: '/#about' },
   { label: 'Resume', to: '/resume' },
 ]

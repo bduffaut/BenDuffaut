@@ -5,7 +5,7 @@
 ```
  content/*.yml, *.md ──► Nuxt build ──► prerendered HTML + JSON payloads ─┐
                                                                           ├─► Docker image ─► GHCR
- /resume, /og pages ──► Playwright ──► resume.pdf, og.png ────────────────┘
+ /og page ──► Playwright ──► og.png ──────────────────────────────────────┘
                                                                                    │ pulled every 2 min
  visitor ─► Cloudflare (TLS, CDN) ─► Tunnel ─► cloudflared ─► site container ◄─────┘
                                                                │  /api/contact ─► SMTP (Gmail)
@@ -18,7 +18,9 @@
 
 **Content collections, not components, hold the copy.** `content.config.ts` defines a schema for each kind of content. Pages query collections (`app/composables/useContent.ts`), so adding a project or a job is a content change, never a code change. A blog will be another collection.
 
-**The resume is a page.** `/resume` renders from the same collections, filtered by `resume: true`. `scripts/render-assets.mjs` starts the built server, prints `/resume` to PDF with Chromium, and screenshots `/og` for the social preview. Those files depend on the build, so they're written to `.output/generated` and served by routes in `server/routes`, rather than living in `public/`.
+**The resume is my own PDF.** It's typeset in LaTeX and saved as `public/resume.pdf`, served as a static file. `/resume` shows it in an `<object>`, with a download fallback for browsers that can't display PDFs inline (most phones). It isn't generated from `content/`, so updating the resume means replacing the file.
+
+**The social preview is rendered from the build.** `scripts/render-assets.mjs` starts the built server and screenshots `/og` with Chromium. The image depends on the build, so it's written to `.output/generated` and served by `server/routes/og.png.get.ts`, rather than living in `public/`.
 
 **Tailwind v4 with the design tokens in CSS.** All colors, fonts and easings are declared once in `@theme` in `app/assets/css/main.css`, which makes them CSS variables and Tailwind utilities at the same time (`bg-surface`, `text-faint`, `var(--color-accent)`). Larger patterns (panels, buttons, chips, prose) are component classes in the same file.
 
@@ -34,7 +36,7 @@
 - **Edit mode** (Customize) shows:
   - `BoardDock`: undo, redo, auto-arrange, reset, and a trash zone via `v-widget-trash`
   - `BoardTray`: removed widgets, which visitors drag back in with `v-draggable-widget`
-  - selection, snap guides and the cell lattice
+  - selection and the cell lattice. Snap guides are off on purpose
 - **Breakpoints:** the full 12 columns down to a 700px board, then one column in reading order
 - **Saving:** the library's `useLayoutStorage` with `loadOnMount` and `reconcileLayout`. A storage adapter only writes after the visitor's first `source: 'user'` change, so people who never touch the board always get the current default. Removed widget ids are stored separately, so they stay removed while new projects still appear. The keys are `benduffaut:project-board` and `...:removed`. Bump `PROJECT_LAYOUT_VERSION` if the widget format changes
 - **Arrival:** the board stays hidden until it scrolls into view, then plays the grid's `zip` cascade

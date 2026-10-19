@@ -1,4 +1,4 @@
-<!-- No site chrome. Used by /resume (printed to the PDF) and /og (screenshotted to og.png). -->
+<!-- No site chrome. Used by /og (screenshotted to og.png). -->
 <template>
   <div>
     <slot />

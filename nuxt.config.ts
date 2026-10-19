@@ -72,7 +72,6 @@ export default defineNuxtConfig({
   routeRules: {
     '/api/**': { prerender: false, headers: { 'cache-control': 'no-store' } },
     // Rendered after the build by scripts/render-assets.mjs, served by server/routes
-    '/resume.pdf': { prerender: false },
     '/og.png': { prerender: false },
     '/stats/script.js': { proxy: `${umamiUrl}/script.js` },
     '/stats/api/send': { proxy: `${umamiUrl}/api/send` },

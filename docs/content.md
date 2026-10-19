@@ -20,7 +20,6 @@ After editing, `npm run dev` shows the change immediately. Pushing to `main` dep
 | ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `order`    | experience, education, projects | Sort order, lowest first                                                                                                                                      |
 | `draft`    | experience                      | `true` hides the entry everywhere                                                                                                                             |
-| `resume`   | everything                      | Include on `/resume` and in the PDF. Projects default to `false`, the rest to `true`                                                                          |
 | `featured` | projects                        | Card in the home page's project grid and the top of `/projects`. Others go in "More projects". Grid order follows `order`: two wide cards, then rows of three |
 | `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                                                                                  |
 | `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `none`                                                       |
@@ -48,18 +47,18 @@ links:
 The case study, in Markdown. Use `## Headings` for sections.
 ```
 
-Optional fields: `team`, `metrics` (value and label, shown as counters), `visual`, `video`, `resume` and `resumeHighlights`.
+Optional fields: `team`, `metrics` (value and label, shown as counters), `visual` and `video`.
 
 ## Adding a demo video
 
 Put an MP4 in `public/media/` (keep it under about 10 MB: 720p, H.264, no audio) and set `video: /media/name.mp4` in the project's front matter. It autoplays muted and loops in the case study header.
 
-## Keeping the resume to one page
+## Updating the resume
 
-`npm run build && npm run assets` warns if the PDF runs past one page, and in CI that fails the build. To fit, shorten bullets or set `resume: false` on entries.
+The resume isn't built from `content/`. It's my own PDF, exported from LaTeX, saved as `public/resume.pdf`. `/resume` shows it and the download button serves it as `Benjamin-Duffaut-Resume.pdf`. To update it, replace the file.
+
+**Export it without the phone number.** The repo and the site are public, so the version here must not include it. Keep the full version for applications.
 
 ## Things to fill in
 
-- `experience/uf-pathology.yml`: real dates, then delete `draft: true`
 - `projects/02.tennistracker.md`: `video:` once the demo is recorded
-- `projects/01.dashboard-grid.md`: add an npm link under `links` once it's published

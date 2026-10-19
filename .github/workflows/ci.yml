@@ -43,7 +43,7 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Render resume PDF and preview image
+      - name: Render preview image
         run: npm run assets
 
       - name: Browser tests

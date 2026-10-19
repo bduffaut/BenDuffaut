@@ -39,10 +39,6 @@ export default defineContentConfig({
             body: z.string(),
             /* Big outlined figure behind the card, e.g. "12th" */
             stat: z.string().optional(),
-            /* Listed under Activities on /resume and in the PDF */
-            resume: z.boolean().default(false),
-            /* Shorter text for the resume, falls back to body */
-            resumeText: z.string().optional(),
           }),
         ),
       }),
@@ -64,8 +60,6 @@ export default defineContentConfig({
         stack: z.array(z.string()).default([]),
         /* Hidden everywhere until it's ready, e.g. missing dates */
         draft: z.boolean().default(false),
-        /* Shown on /resume and in the PDF */
-        resume: z.boolean().default(true),
       }),
     }),
 
@@ -81,7 +75,6 @@ export default defineContentConfig({
         start: z.string(),
         end: z.string(),
         coursework: z.array(z.string()).default([]),
-        resume: z.boolean().default(true),
       }),
     }),
 
@@ -93,8 +86,6 @@ export default defineContentConfig({
           z.object({
             name: z.string(),
             items: z.array(z.string()),
-            /* Shown on /resume and in the PDF */
-            resume: z.boolean().default(true),
           }),
         ),
       }),
@@ -125,9 +116,6 @@ export default defineContentConfig({
         visual: z.enum(['grid', 'tennis', 'news', 'mutation', 'components', 'site', 'none']).default('none'),
         /* Path under public/ of a demo video. Leave empty to show a placeholder. */
         video: z.string().optional(),
-        resume: z.boolean().default(false),
-        /* Bullets used on /resume and in the PDF */
-        resumeHighlights: z.array(z.string()).default([]),
       }),
     }),
   },

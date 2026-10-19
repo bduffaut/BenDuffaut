@@ -2,7 +2,7 @@
 #
 # Three stages:
 #   build   install deps and prerender the site with Nuxt
-#   assets  print /resume to a PDF and screenshot /og with Playwright's Chromium
+#   assets  screenshot /og to og.png with Playwright's Chromium
 #   runtime a small Node image with only the built output, running as a non-root user
 #
 # Public settings are baked into the prerendered HTML, so they're build args, not env vars.

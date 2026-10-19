@@ -1,12 +1,11 @@
 order: 3
-role: Research Intern
-company: UF Pathology Lab
+role: Pathology Lab Bioinformatics Intern
+company: University of Florida
 location: Gainesville, FL
-# TODO(ben): fill in the dates from the other resume, then delete the draft line below.
-start: TBD
-end: TBD
+start: May 2024
+end: Aug 2024
 kind: research
 highlights:
-  - Built a Python pipeline to detect microsatellite instability (MSI) in cancer samples, parsing MSI detection tool output and classifying samples as MSI-High, MSI-Low or stable.
-stack: [Python, pandas, Matplotlib]
-draft: true
+  - Automated an existing data pipeline in Python and Bash, cutting manual processing time by 60% and enabling reliable batch analysis and validation of 500+ lab samples.
+  - Built Python scripts and internal tooling to generate real-time data visualizations for 1,000+ lab samples, improving analysis efficiency, reproducibility, and the accuracy of results documentation in a clinical research lab setting.
+stack: [Python, Bash, pandas, Matplotlib]

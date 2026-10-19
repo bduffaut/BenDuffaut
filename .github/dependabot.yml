@@ -5,6 +5,7 @@
 # Held back on purpose:
 # - TypeScript majors: vue-tsc and typescript-eslint lag behind new majors
 # - @playwright/test: its version is pinned in the Dockerfile too, bump both together
+# - @types/node majors: they follow the Node version in .nvmrc
 version: 2
 updates:
   - package-ecosystem: npm
@@ -19,6 +20,9 @@ updates:
       - dependency-name: typescript
         update-types: [version-update:semver-major]
       - dependency-name: '@playwright/test'
+      # Tracks the Node major in .nvmrc and the Dockerfile, bumped by hand alongside them
+      - dependency-name: '@types/node'
+        update-types: [version-update:semver-major]
 
   - package-ecosystem: github-actions
     directory: /
