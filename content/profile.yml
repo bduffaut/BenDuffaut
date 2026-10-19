@@ -15,7 +15,7 @@ availability:
 links:
   github: https://github.com/bduffaut
   linkedin: https://www.linkedin.com/in/benjamin-duffaut
-  repo: https://github.com/bduffaut/benduffaut.com
+  repo: https://github.com/bduffaut/BenDuffaut
 about:
   - >-
     I like building things that are useful and look really cool. Most of my time goes into
@@ -25,7 +25,8 @@ about:
     Most recently I interned at Reveal Security, shipping production features in Vue alongside the
     CTO and product lead. It was my first time on a real company's codebase and team, and I did
     everything from the dashboard to tests to supporting backend work. Afterwards I wrote my own
-    dashboard grid engine from scratch, the project I'm proudest of.
+    dashboard grid engine from scratch and published it on npm. It's the project I'm proudest of,
+    and it runs the project grid on this page.
   - >-
     I'm comfortable across the stack (Node and Express APIs, MongoDB and Postgres, Docker, CI) and
     I've built applied ML systems in PyTorch. This site runs on a laptop server in my apartment.

@@ -11,7 +11,7 @@ name: benduffaut
 
 services:
   site:
-    image: ${SITE_IMAGE:-ghcr.io/bduffaut/benduffaut.com:latest}
+    image: ${SITE_IMAGE:-ghcr.io/bduffaut/benduffaut:latest}
     restart: unless-stopped
     # Only the variables the site needs, so tunnel and database secrets stay out of it
     environment:

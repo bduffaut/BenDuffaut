@@ -61,6 +61,19 @@
   --cyan-glow: rgb(34 211 238 / 0.4);
   --gradient-signal: linear-gradient(115deg, var(--color-accent), var(--color-cyan) 55%, var(--color-indigo));
 
+  /* custom-dashboard-grid theming hooks, the same values as its Sentinel demo */
+  --dg-radius: 2px;
+  --dg-placeholder-bg: rgb(45 212 191 / 0.08);
+  --dg-placeholder-border: rgb(45 212 191 / 0.6);
+  --dg-handle-hover: rgb(45 212 191 / 0.45);
+  --dg-pending-bg: rgb(45 212 191 / 0.04);
+  --dg-cell-color: rgb(45 212 191 / 0.045);
+  --dg-cell-active-color: rgb(45 212 191 / 0.09);
+  --dg-focus-color: var(--color-accent);
+  --dg-selection-color: var(--color-accent);
+  --dg-marquee-bg: rgb(45 212 191 / 0.07);
+  --dg-snap-color: var(--color-accent-strong);
+
   color-scheme: dark;
   scroll-behavior: smooth;
   scroll-padding-top: 88px;
@@ -598,7 +611,8 @@
 
 .js [data-reveal].is-revealed {
   opacity: 1;
-  translate: 0 0;
+  /* none rather than 0 0: any transform would trap position: fixed descendants, like the grid's drag ghost */
+  translate: none;
   filter: none;
 }
 
@@ -662,6 +676,10 @@
     translate: none;
     filter: none;
   }
+}
+
+.dg-snap-guide {
+  box-shadow: 0 0 6px rgb(94 234 212 / 0.7);
 }
 
 @media print {

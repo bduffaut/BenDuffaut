@@ -57,7 +57,7 @@ COPY --from=assets --chown=node:node /app/.output ./.output
 ARG NUXT_PUBLIC_BUILD_SHA=dev
 LABEL org.opencontainers.image.title="benduffaut.com" \
       org.opencontainers.image.description="Benjamin Duffaut's portfolio and resume site" \
-      org.opencontainers.image.source="https://github.com/bduffaut/benduffaut.com" \
+      org.opencontainers.image.source="https://github.com/bduffaut/BenDuffaut" \
       org.opencontainers.image.revision="${NUXT_PUBLIC_BUILD_SHA}"
 
 USER node

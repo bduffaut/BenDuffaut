@@ -31,12 +31,30 @@ test.describe('pages', () => {
 
 test('home links through to a project case study', async ({ page }) => {
   await page.goto('/')
-  await page
-    .locator('#projects')
-    .getByRole('link', { name: /Custom Dashboard Grid/ })
-    .click()
+  await page.locator('#projects').getByRole('link', { name: 'Open Custom Dashboard Grid' }).click()
   await expect(page).toHaveURL(/\/projects\/dashboard-grid$/)
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Custom Dashboard Grid')
+})
+
+test('project board can be customized', async ({ page }) => {
+  await page.goto('/')
+  const projects = page.locator('#projects')
+  await expect(projects.locator('.dg-item').first()).toBeAttached()
+  const count = await projects.locator('.dg-item').count()
+
+  await projects.getByRole('button', { name: 'Customize' }).click()
+  await expect(page.getByRole('toolbar', { name: 'Board layout commands' })).toBeVisible()
+  // Widgets stop being links while they can be dragged
+  await expect(projects.locator('.dg-item .frame__body[href]')).toHaveCount(0)
+
+  // Remove a widget, then put it back from the tray
+  await projects.getByRole('button', { name: 'Remove Mode & Surface' }).click()
+  await expect(projects.locator('.dg-item')).toHaveCount(count - 1)
+  await projects.getByRole('button', { name: 'Add Mode & Surface' }).click()
+  await expect(projects.locator('.dg-item')).toHaveCount(count)
+
+  await page.getByRole('toolbar', { name: 'Board layout commands' }).getByRole('button', { name: 'Done' }).click()
+  await expect(projects.getByRole('link', { name: 'Open TennisTracker' })).toBeAttached()
 })
 
 test('contact form checks fields before sending', async ({ page }) => {

@@ -16,15 +16,15 @@ After editing, `npm run dev` shows the change immediately. Pushing to `main` dep
 
 ## Flags
 
-| Field      | Where                           | Effect                                                                                                  |
-| ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `order`    | experience, education, projects | Sort order, lowest first                                                                                |
-| `draft`    | experience                      | `true` hides the entry everywhere                                                                       |
-| `resume`   | everything                      | Include on `/resume` and in the PDF. Projects default to `false`, the rest to `true`                    |
-| `featured` | projects                        | Card on the home page and the top of `/projects`. Others go in "More projects"                          |
-| `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                            |
-| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `none` |
-| `video`    | projects                        | Path to a demo video under `public/`, or `pending` to show "Demo video coming soon"                     |
+| Field      | Where                           | Effect                                                                                                                                                        |
+| ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `order`    | experience, education, projects | Sort order, lowest first                                                                                                                                      |
+| `draft`    | experience                      | `true` hides the entry everywhere                                                                                                                             |
+| `resume`   | everything                      | Include on `/resume` and in the PDF. Projects default to `false`, the rest to `true`                                                                          |
+| `featured` | projects                        | Card in the home page's project grid and the top of `/projects`. Others go in "More projects". Grid order follows `order`: two wide cards, then rows of three |
+| `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                                                                                  |
+| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `none`                                                       |
+| `video`    | projects                        | Path to a demo video under `public/`, or `pending` to show "Demo video coming soon"                                                                           |
 
 ## Adding a project
 

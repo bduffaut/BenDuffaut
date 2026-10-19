@@ -65,8 +65,6 @@ compose.yaml      site, Cloudflare Tunnel, Umami analytics
 ## Before launch
 
 - [ ] Fill in the UF Pathology dates in `content/experience/uf-pathology.yml` and remove `draft: true`
-- [ ] Create the public GitHub repo `bduffaut/benduffaut.com` and push
 - [ ] Set up the server, tunnel, email routing and SMTP: [docs/deployment.md](docs/deployment.md)
 - [ ] Record the TennisTracker demo and set `video:` in `content/projects/02.tennistracker.md`
-- [ ] Publish `custom-dashboard-grid` to npm, then add an npm link and a live demo (see [architecture](docs/architecture.md#adding-the-live-grid-demo))
 - [ ] Add `benduffaut.com` as the website on your GitHub profile

@@ -6,8 +6,8 @@ Everything here is free: GitHub Actions and GHCR for a public repo, Cloudflare T
 
 ## 1. GitHub
 
-1. Create a **public** repo named `benduffaut.com` under `bduffaut` and push this project.
-2. The first push to `main` runs CI and publishes `ghcr.io/bduffaut/benduffaut.com`. Then open **Packages → benduffaut.com → Package settings**, set visibility to **Public**, and check that the package is linked to the repo. A public image lets the server pull without credentials.
+1. The public repo is `bduffaut/BenDuffaut`. Every push to `main` runs CI.
+2. The first push to `main` runs CI and publishes `ghcr.io/bduffaut/benduffaut` (the repo name, lowercased). Then open **Packages → benduffaut → Package settings**, set visibility to **Public**, and check that the package is linked to the repo. A public image lets the server pull without credentials.
 3. Optional build settings live under **Settings → Secrets and variables → Actions → Variables**. These are public values baked into the HTML:
    - `SITE_URL`: defaults to `https://benduffaut.com`
    - `UMAMI_WEBSITE_ID`: after step 6
@@ -18,7 +18,7 @@ Everything here is free: GitHub Actions and GHCR for a public repo, Cloudflare T
 On the Linux laptop, with Docker and Compose already installed:
 
 ```sh
-git clone https://github.com/bduffaut/benduffaut.com.git ~/benduffaut.com
+git clone https://github.com/bduffaut/BenDuffaut.git ~/benduffaut.com
 cd ~/benduffaut.com
 cp .env.example .env    # then fill it in, see below
 docker compose pull
@@ -68,7 +68,7 @@ journalctl -u benduffaut-update -f      # watch deploys
 
 Your user needs to be in the `docker` group (`sudo usermod -aG docker $USER`, then log in again).
 
-To roll back, pin an older build in `.env` (`SITE_IMAGE=ghcr.io/bduffaut/benduffaut.com:sha-abc1234`) and run `docker compose up -d`. Remove the line to follow `latest` again.
+To roll back, pin an older build in `.env` (`SITE_IMAGE=ghcr.io/bduffaut/benduffaut:sha-abc1234`) and run `docker compose up -d`. Remove the line to follow `latest` again.
 
 ## 5. Email
 
