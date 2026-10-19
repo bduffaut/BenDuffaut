@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import { defineConfig, devices } from '@playwright/test'
 
 // Runs against the production build, so build first: npm run build && npm run test:e2e
@@ -20,7 +21,13 @@ export default defineConfig({
   webServer: {
     command: 'node .output/server/index.mjs',
     url: `http://127.0.0.1:${PORT}/healthz`,
-    env: { PORT: String(PORT), HOST: '127.0.0.1' },
+    env: {
+      PORT: String(PORT),
+      HOST: '127.0.0.1',
+      // An absolute path, like the Docker image uses. Nuxt Content's default breaks when the
+      // project path has a space in it (it keeps the %20)
+      NUXT_CONTENT_DATABASE_FILENAME: resolve('.data/e2e/contents.sqlite'),
+    },
     reuseExistingServer: !process.env.CI,
   },
 })

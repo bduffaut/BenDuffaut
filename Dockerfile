@@ -47,10 +47,13 @@ RUN node scripts/render-assets.mjs
 FROM node:${NODE_VERSION}-alpine AS runtime
 WORKDIR /app
 
+# Nuxt Content opens a SQLite file for anything not prerendered (like a 404). The container's
+# filesystem is read-only (compose.yaml), so it goes in the /tmp tmpfs; otherwise those pages 500.
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
     PORT=3000 \
-    GENERATED_ASSETS_DIR=/app/.output/generated
+    GENERATED_ASSETS_DIR=/app/.output/generated \
+    NUXT_CONTENT_DATABASE_FILENAME=/tmp/contents.sqlite
 
 COPY --from=assets --chown=node:node /app/.output ./.output
 
