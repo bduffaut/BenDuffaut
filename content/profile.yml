@@ -2,7 +2,7 @@ name: Benjamin Duffaut
 shortName: Ben Duffaut
 role: Software Engineer
 # The hero headline. Keep it short, it's set in the display face at a large size.
-headline: I build interfaces that are useful and look really good.
+headline: I build fast, polished interfaces and the systems behind them.
 summary: >-
   Full-stack engineer whose strongest work is on the frontend. Vue, TypeScript, careful
   animation, and the backend work it takes to ship. Computer Science at UCF, class of 2027.
@@ -18,18 +18,20 @@ links:
   repo: https://github.com/bduffaut/BenDuffaut
 about:
   - >-
-    I like building things that are useful and look really cool. Most of my time goes into
-    frontend work: component systems, dashboards, animation, and the small interaction details
-    that make an interface feel fast and deliberate.
+    I'm a software engineer finishing my Computer Science degree at UCF. I do my best work on the
+    frontend: component systems, dashboards, and the interaction details that make an interface
+    feel fast and intentional. I care about how things look, but I care more about whether they
+    actually make someone's work easier.
   - >-
-    Most recently I interned at Reveal Security, shipping production features in Vue alongside the
-    CTO and product lead. It was my first time on a real company's codebase and team, and I did
-    everything from the dashboard to tests to supporting backend work. Afterwards I wrote my own
-    dashboard grid engine from scratch and published it on npm. It's the project I'm proudest of,
-    and it runs the project grid on this page.
+    Most recently I interned at Reveal Security, where I shipped production Vue features working
+    directly with the CTO and product lead, from a customizable security dashboard to the tests
+    behind it. That dashboard got me curious about how grid layouts really work, so I built my own
+    engine from scratch and published it on npm. It's the project I'm proudest of, and it powers
+    the projects board on this page.
   - >-
-    I'm comfortable across the stack (Node and Express APIs, MongoDB and Postgres, Docker, CI) and
-    I've built applied ML systems in PyTorch. This site runs on a laptop server in my apartment.
+    I'm comfortable across the stack, from Node and Express APIs to MongoDB, Postgres, Docker and
+    CI, and I've built applied machine learning systems in PyTorch. I also like owning things end
+    to end: this site runs on a laptop server in my apartment and deploys itself every time I push.
 beyond:
   - title: UCF Club Tennis
     meta: National team · 2023 to present
@@ -37,8 +39,10 @@ beyond:
     body: >-
       Three straight years on the national team. We qualified for USTA/ITA Club Tennis Nationals
       and finished 12th in the country. Tennis is also why my ML project analyzes match video.
-  - title: Working on my car
-    meta: Garage hours
+  - title: Under the hood
+    meta: Car projects · Always ongoing
+    icon: wrench
     body: >-
-      When I'm not at a keyboard I'm usually under the hood. Same instinct as software: take it
-      apart, understand it, make it better.
+      Away from the keyboard, I'm usually in the garage working on my car. It scratches the same
+      itch as engineering: figure out how something works, track down what's wrong, and fix it
+      properly instead of just making the symptom go away.

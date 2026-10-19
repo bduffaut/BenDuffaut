@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { defaultProjectLayout, projectCatalog, statId, unplaced } from '../../shared/utils/projectLayout'
+import { BOARD_BREAKPOINTS, defaultProjectLayout, projectCatalog, statId, unplaced } from '../../shared/utils/projectLayout'
 
 const FEATURED = [
   { slug: 'dashboard-grid', metrics: 3 },
@@ -7,6 +7,7 @@ const FEATURED = [
   { slug: 'news-briefing', metrics: 0 },
   { slug: 'mtlj', metrics: 0 },
   { slug: 'mode-surface', metrics: 0 },
+  { slug: 'homelab', metrics: 3 },
 ]
 
 describe('defaultProjectLayout', () => {
@@ -19,8 +20,11 @@ describe('defaultProjectLayout', () => {
       'news-briefing',
       'mtlj',
       'mode-surface',
+      'homelab',
       statId('tennistracker', 0),
       statId('dashboard-grid', 0),
+      statId('homelab', 0),
+      statId('homelab', 1),
     ])
   })
 
@@ -39,6 +43,32 @@ describe('defaultProjectLayout', () => {
 
   it('uses varied sizes, not one card size', () => {
     expect(new Set(layout.map((w) => `${w.w}x${w.h}`)).size).toBeGreaterThan(4)
+  })
+})
+
+describe('phone layout', () => {
+  const columns = BOARD_BREAKPOINTS.phone.columns
+  const phone = defaultProjectLayout(FEATURED).map((w) => ({ id: w.id, ...w.breakpoints!.phone! }))
+
+  it('places every widget', () => {
+    expect(phone.every((w) => Number.isFinite(w.x) && Number.isFinite(w.w))).toBe(true)
+  })
+
+  it(`fits in ${columns} columns with no overlaps`, () => {
+    const cells = new Set<string>()
+    for (const w of phone) {
+      expect(w.x + w.w).toBeLessThanOrEqual(columns)
+      for (let x = w.x; x < w.x + w.w; x++)
+        for (let y = w.y; y < w.y + w.h; y++) {
+          const key = `${x},${y}`
+          expect(cells.has(key), `${w.id} overlaps at ${key}`).toBe(false)
+          cells.add(key)
+        }
+    }
+  })
+
+  it('still reads as a dashboard: some tiles sit side by side', () => {
+    expect(phone.filter((w) => w.w < columns).length).toBeGreaterThanOrEqual(4)
   })
 })
 

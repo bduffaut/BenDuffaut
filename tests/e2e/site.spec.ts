@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-const PAGES = ['/', '/projects', '/projects/dashboard-grid', '/projects/tennistracker', '/resume']
+const PAGES = ['/', '/projects', '/projects/dashboard-grid', '/projects/tennistracker', '/projects/homelab', '/resume']
 
 test.describe('pages', () => {
   // Check colors at rest, not halfway through a fade-in

@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { Wrench } from 'lucide-vue-next'
+
 const profile = await useRequiredProfile()
+
+// Picked by `icon` in content/profile.yml, drawn as an outline like the stat figures
+const ICONS = { wrench: Wrench }
 </script>
 
 <template>
@@ -14,6 +19,7 @@ const profile = await useRequiredProfile()
         class="panel panel--lift relative overflow-hidden p-7"
       >
         <span v-if="item.stat" class="rank" aria-hidden="true">{{ item.stat }}</span>
+        <component :is="ICONS[item.icon]" v-else-if="item.icon" class="mark" :stroke-width="0.6" aria-hidden="true" />
         <p class="eyebrow relative">{{ item.meta }}</p>
         <h3 class="relative mt-3 text-2xl text-text">{{ item.title }}</h3>
         <p class="relative mt-3 max-w-md text-muted">{{ item.body }}</p>
@@ -33,6 +39,19 @@ const profile = await useRequiredProfile()
   line-height: 1;
   color: transparent;
   -webkit-text-stroke: 1px rgb(45 212 191 / 0.22);
+  pointer-events: none;
+}
+
+/* The icon version of .rank: same thin teal outline. Top right, where the short eyebrow and
+   title leave room, so it never sits behind the body text in the narrower card */
+.mark {
+  position: absolute;
+  top: -1.75rem;
+  right: -1.5rem;
+  width: 9rem;
+  height: 9rem;
+  color: rgb(45 212 191 / 0.22);
+  rotate: -12deg;
   pointer-events: none;
 }
 </style>

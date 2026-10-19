@@ -26,9 +26,6 @@ const catalog = computed(() => projectCatalog(boardProjects.value))
 
 const components = { project: markRaw(BoardProjectWidget), stat: markRaw(BoardStatWidget) }
 
-// The full 12-column board down to tablets, then one column in reading order on phones.
-// The library's default 6-column middle step leaves gaps with widgets this varied.
-const BREAKPOINTS = { lg: { width: 700, columns: 12 }, sm: { width: 0, columns: 1 } }
 const grid = useTemplateRef<DashboardGridApi>('grid')
 const board = useTemplateRef<HTMLElement>('board')
 const editing = ref(false)
@@ -213,7 +210,7 @@ onMounted(() => {
         v-model="widgets"
         :components="components"
         :editable="editing"
-        :breakpoints="BREAKPOINTS"
+        :breakpoints="BOARD_BREAKPOINTS"
         breakpoint-layout="list"
         :row-height="52"
         :gap="16"

@@ -32,7 +32,7 @@ const project = computed(() => projects?.value.get(props.slug))
 
         <div class="pw__meta">
           <UiStatusChip :status="project.status ?? 'shipped'" />
-          <span class="truncate font-mono text-xs text-faint">{{ project.period }}</span>
+          <span class="pw__period truncate font-mono text-xs text-faint">{{ project.period }}</span>
         </div>
 
         <ul class="pw__stack" aria-label="Technologies">
@@ -113,6 +113,16 @@ const project = computed(() => projects?.value.get(props.slug))
     -webkit-line-clamp: 1;
   }
   .pw__meta {
+    display: none;
+  }
+}
+
+/* Narrow (side by side on phones): a longer tagline instead of a date that won't fit */
+@container (max-width: 200px) {
+  .pw__tagline {
+    -webkit-line-clamp: 3;
+  }
+  .pw__period {
     display: none;
   }
 }

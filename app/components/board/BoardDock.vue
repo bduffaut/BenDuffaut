@@ -111,9 +111,16 @@ const drag = useDragState()
     background-color 0.15s;
 }
 
-.dock__btn:hover:not(:disabled) {
+.dock__btn:active:not(:disabled) {
   color: var(--color-text);
   background: var(--color-surface-3);
+}
+
+@media (hover: hover) {
+  .dock__btn:hover:not(:disabled) {
+    color: var(--color-text);
+    background: var(--color-surface-3);
+  }
 }
 
 .dock__btn:disabled {
@@ -121,26 +128,28 @@ const drag = useDragState()
   cursor: default;
 }
 
-/* Each icon hints at what its button does */
+/* Each icon hints at what its button does, on hover with a mouse */
 .dock__btn svg {
   transition: transform 0.3s var(--ease-spring);
 }
 
-.dock__btn--undo:hover:not(:disabled) svg {
-  transform: rotate(-35deg);
-}
+@media (hover: hover) {
+  .dock__btn--undo:hover:not(:disabled) svg {
+    transform: rotate(-35deg);
+  }
 
-.dock__btn--redo:hover:not(:disabled) svg {
-  transform: rotate(35deg);
-}
+  .dock__btn--redo:hover:not(:disabled) svg {
+    transform: rotate(35deg);
+  }
 
-.dock__btn--reset:hover svg {
-  transform: rotate(-200deg);
-  transition-duration: 0.5s;
-}
+  .dock__btn--reset:hover svg {
+    transform: rotate(-200deg);
+    transition-duration: 0.5s;
+  }
 
-.dock__btn--arrange:hover svg {
-  animation: wand 0.6s ease-in-out;
+  .dock__btn--arrange:hover svg {
+    animation: wand 0.6s ease-in-out;
+  }
 }
 
 @keyframes wand {
@@ -158,13 +167,20 @@ const drag = useDragState()
   background: var(--accent-soft);
 }
 
-.dock__done:hover {
+.dock__done:active {
   color: var(--color-accent-strong) !important;
   background: rgb(45 212 191 / 0.2) !important;
 }
 
-.dock__done:hover svg {
-  transform: scale(1.25);
+@media (hover: hover) {
+  .dock__done:hover {
+    color: var(--color-accent-strong) !important;
+    background: rgb(45 212 191 / 0.2) !important;
+  }
+
+  .dock__done:hover svg {
+    transform: scale(1.25);
+  }
 }
 
 .dock__count {
@@ -176,8 +192,14 @@ const drag = useDragState()
   color: var(--color-accent);
 }
 
-.dock__danger:hover {
+.dock__danger:active {
   color: #ec835a !important;
+}
+
+@media (hover: hover) {
+  .dock__danger:hover {
+    color: #ec835a !important;
+  }
 }
 
 /* The drop target covers the tools while a widget is being dragged */

@@ -97,6 +97,16 @@ const readout = computed(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  container: frame / inline-size;
+}
+
+/* Narrow tiles (side by side on phones): the title needs the room more than the project icon,
+   and the status chip in the body already shows what the in-progress light says */
+@container frame (max-width: 200px) {
+  .frame__icon,
+  .frame__led {
+    display: none;
+  }
 }
 
 /* Edit mode registration marks on the three square corners, as in the Sentinel demo */
@@ -155,8 +165,15 @@ const readout = computed(() => {
   transition: transform 0.3s var(--ease-spring);
 }
 
-.frame:hover .frame__icon {
+/* Lit by the scroll line on touch screens, or hovered with a mouse (see .panel in main.css) */
+.frame[data-lit] .frame__icon {
   transform: rotate(-8deg) scale(1.1);
+}
+
+@media (hover: hover) {
+  .frame:hover .frame__icon {
+    transform: rotate(-8deg) scale(1.1);
+  }
 }
 
 .frame__title {
@@ -195,10 +212,16 @@ const readout = computed(() => {
   transition: opacity 0.2s;
 }
 
-.frame:hover .frame__actions,
+.frame[data-lit] .frame__actions,
 .frame:focus-within .frame__actions,
 .frame--editing .frame__actions {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .frame:hover .frame__actions {
+    opacity: 1;
+  }
 }
 
 .frame__btn {
@@ -215,25 +238,40 @@ const readout = computed(() => {
     background-color 0.15s;
 }
 
-.frame__btn:hover {
+.frame__btn:active {
   color: var(--color-text);
   background: var(--color-surface-3);
-}
-
-.frame__remove:hover {
-  color: #ec835a;
 }
 
 .frame__open svg {
   transition: transform 0.3s var(--ease-spring);
 }
 
-.frame:hover .frame__open {
+.frame[data-lit] .frame__open {
   color: var(--color-accent);
 }
 
-.frame:hover .frame__open svg {
+.frame[data-lit] .frame__open svg {
   transform: translate(1px, -1px);
+}
+
+@media (hover: hover) {
+  .frame__btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface-3);
+  }
+
+  .frame__remove:hover {
+    color: #ec835a;
+  }
+
+  .frame:hover .frame__open {
+    color: var(--color-accent);
+  }
+
+  .frame:hover .frame__open svg {
+    transform: translate(1px, -1px);
+  }
 }
 
 .frame__pin {

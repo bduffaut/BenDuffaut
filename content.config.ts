@@ -39,6 +39,8 @@ export default defineContentConfig({
             body: z.string(),
             /* Big outlined figure behind the card, e.g. "12th" */
             stat: z.string().optional(),
+            /* Big outlined icon behind the card instead of a stat, see components/home/HomeBeyond.vue */
+            icon: z.enum(['wrench']).optional(),
           }),
         ),
       }),
@@ -113,7 +115,7 @@ export default defineContentConfig({
           .default([]),
         links: z.array(link).default([]),
         /* Which visual the card and case study header use, see components/project/ProjectVisual.vue */
-        visual: z.enum(['grid', 'tennis', 'news', 'mutation', 'components', 'site', 'none']).default('none'),
+        visual: z.enum(['grid', 'tennis', 'news', 'mutation', 'components', 'site', 'homelab', 'none']).default('none'),
         /* Path under public/ of a demo video. Leave empty to show a placeholder. */
         video: z.string().optional(),
       }),

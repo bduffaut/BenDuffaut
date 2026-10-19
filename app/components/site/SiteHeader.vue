@@ -108,9 +108,16 @@ onMounted(() => {
     transform 0.4s var(--ease-spring);
 }
 
-.brand:hover .brand__mark {
+.brand:active .brand__mark {
   filter: drop-shadow(0 0 10px var(--accent-glow)) brightness(1.1);
   transform: rotate(-6deg) scale(1.05);
+}
+
+@media (hover: hover) {
+  .brand:hover .brand__mark {
+    filter: drop-shadow(0 0 10px var(--accent-glow)) brightness(1.1);
+    transform: rotate(-6deg) scale(1.05);
+  }
 }
 
 .brand__name {
@@ -142,14 +149,24 @@ onMounted(() => {
   transition: scale 0.35s var(--ease-out-expo);
 }
 
-.nav-link:hover,
+.nav-link:active,
 .nav-link.is-active {
   color: var(--color-text);
 }
 
-.nav-link:hover::after,
+.nav-link:active::after,
 .nav-link.is-active::after {
   scale: 1 1;
+}
+
+@media (hover: hover) {
+  .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  .nav-link:hover::after {
+    scale: 1 1;
+  }
 }
 
 .drop-enter-active,

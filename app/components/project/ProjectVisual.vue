@@ -8,6 +8,7 @@ import News from './visual/News.vue'
 import Mutation from './visual/Mutation.vue'
 import Components from './visual/Components.vue'
 import Site from './visual/Site.vue'
+import Homelab from './visual/Homelab.vue'
 
 const props = defineProps<{ visual: string }>()
 
@@ -18,6 +19,7 @@ const VISUALS: Record<string, Component> = {
   mutation: Mutation,
   components: Components,
   site: Site,
+  homelab: Homelab,
 }
 
 const component = computed(() => VISUALS[props.visual])

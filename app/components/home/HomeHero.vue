@@ -33,7 +33,7 @@ const readout = computed(() => [
         <UiScrambleText :text="profile.name.split(' ').slice(1).join(' ')" :delay="350" class="text-gradient block pb-2" />
       </h1>
 
-      <p v-reveal="120" class="mt-7 max-w-xl font-display text-xl text-text md:text-2xl">{{ profile.headline }}</p>
+      <p v-reveal="120" class="mt-7 max-w-xl font-display text-xl text-balance text-text md:text-2xl">{{ profile.headline }}</p>
       <p v-reveal="200" class="mt-4 max-w-xl text-muted">{{ profile.summary }}</p>
 
       <div v-reveal="280" class="mt-9 flex flex-wrap items-center gap-3">

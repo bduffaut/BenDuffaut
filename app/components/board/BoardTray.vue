@@ -86,15 +86,26 @@ const emit = defineEmits<{ add: [entry: TrayEntry] }>()
     background-color 0.15s;
 }
 
-.tray__item:hover,
+.tray__item:active,
 .tray__item:focus-visible {
   border-color: var(--color-accent);
   background: var(--color-surface-3);
 }
 
-.tray__item:hover :deep(.on),
+.tray__item:active :deep(.on),
 .tray__item:focus-visible :deep(.on) {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .tray__item:hover {
+    border-color: var(--color-accent);
+    background: var(--color-surface-3);
+  }
+
+  .tray__item:hover :deep(.on) {
+    opacity: 1;
+  }
 }
 
 .tray__name {
@@ -117,9 +128,16 @@ const emit = defineEmits<{ add: [entry: TrayEntry] }>()
     transform 0.3s var(--ease-spring);
 }
 
-.tray__item:hover .tray__plus {
+.tray__item:active .tray__plus {
   color: var(--color-accent);
   transform: rotate(90deg);
+}
+
+@media (hover: hover) {
+  .tray__item:hover .tray__plus {
+    color: var(--color-accent);
+    transform: rotate(90deg);
+  }
 }
 
 .tray-enter-active,

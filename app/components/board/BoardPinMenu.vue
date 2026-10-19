@@ -115,10 +115,17 @@ onBeforeUnmount(close)
   cursor: pointer;
 }
 
-.pin-btn:hover,
+.pin-btn:active,
 .pin-btn.is-open {
   color: var(--color-text);
   background: var(--color-surface-3);
+}
+
+@media (hover: hover) {
+  .pin-btn:hover {
+    color: var(--color-text);
+    background: var(--color-surface-3);
+  }
 }
 
 /* Any mode other than free stands out */
@@ -156,9 +163,15 @@ onBeforeUnmount(close)
   cursor: pointer;
 }
 
-.pin-menu__item:hover,
+.pin-menu__item:active,
 .pin-menu__item:focus-visible {
   background: var(--color-surface-3);
+}
+
+@media (hover: hover) {
+  .pin-menu__item:hover {
+    background: var(--color-surface-3);
+  }
 }
 
 .pin-menu__icon {

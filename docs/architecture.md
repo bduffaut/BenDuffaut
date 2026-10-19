@@ -37,7 +37,8 @@
   - `BoardDock`: undo, redo, auto-arrange, reset, and a trash zone via `v-widget-trash`
   - `BoardTray`: removed widgets, which visitors drag back in with `v-draggable-widget`
   - selection and the cell lattice. Snap guides are off on purpose
-- **Breakpoints:** the full 12 columns down to a 700px board, then one column in reading order
+- **Breakpoints** (`BOARD_BREAKPOINTS`): the full 12 columns down to a 700px board, then a hand-placed 6-column phone board (`PHONE_PLACEMENT`, stored on each widget as `breakpoints.phone`) with stat tiles and two projects side by side, so it still reads as a dashboard
+- **Touch screens:** `v-spotlight` swaps the pointer for a line across the middle of the screen, so panel edges light up as they scroll past and the crossing panel gets `data-lit` (styled like `:hover`). Hover effects only apply with `(hover: hover)`, and taps get `:active` press states instead
 - **Saving:** the library's `useLayoutStorage` with `loadOnMount` and `reconcileLayout`. A storage adapter only writes after the visitor's first `source: 'user'` change, so people who never touch the board always get the current default. Removed widget ids are stored separately, so they stay removed while new projects still appear. The keys are `benduffaut:project-board` and `...:removed`. Bump `PROJECT_LAYOUT_VERSION` if the widget format changes
 - **Arrival:** the board stays hidden until it scrolls into view, then plays the grid's `zip` cascade
 - **Workaround for 0.2.0** ([issue #2](https://github.com/bduffaut/Custom-Dashboard/issues/2)): the server renders placeholder widths, so the grid's transitions stay off until it has measured. Remove it once that's fixed. Widgets use fixed sizes rather than `sizeToContent`, so [issue #1](https://github.com/bduffaut/Custom-Dashboard/issues/1) doesn't affect the board

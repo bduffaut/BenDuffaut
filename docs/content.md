@@ -22,7 +22,7 @@ After editing, `npm run dev` shows the change immediately. Pushing to `main` dep
 | `draft`    | experience                      | `true` hides the entry everywhere                                                                                                                             |
 | `featured` | projects                        | Card in the home page's project grid and the top of `/projects`. Others go in "More projects". Grid order follows `order`: two wide cards, then rows of three |
 | `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                                                                                  |
-| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `none`                                                       |
+| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `homelab`, `none`                                            |
 | `video`    | projects                        | Path to a demo video under `public/`, or `pending` to show "Demo video coming soon"                                                                           |
 
 ## Adding a project

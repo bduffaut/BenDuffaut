@@ -81,6 +81,8 @@
 @layer base {
   html {
     background: var(--color-bg);
+    /* Taps get the site's own press states (see .btn:active, a.panel:active) instead of a grey box */
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
@@ -175,7 +177,18 @@
     clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
     transition:
       --edge 0.2s,
-      transform 0.35s var(--ease-out-expo);
+      transform 0.35s var(--ease-out-expo),
+      scale 0.3s var(--ease-out-expo);
+  }
+
+  /* Touch screens: a band of light along the scan line instead of a circle, so both side edges
+     light where the line crosses them and the top and bottom edges flash as it passes */
+  .panel[data-scan] {
+    background:
+      linear-gradient(var(--fill), var(--fill)) padding-box,
+      linear-gradient(to bottom, transparent calc(var(--my) - 140px), var(--color-accent) var(--my), transparent calc(var(--my) + 140px))
+        border-box,
+      linear-gradient(var(--edge), var(--edge)) border-box;
   }
 
   /* Soft light under the pointer */
@@ -190,8 +203,19 @@
     transition: opacity 0.3s;
   }
 
-  .panel:hover::before {
+  /*
+   * Lit: under the mouse (:hover), or on touch screens while the scroll line crosses the panel
+   * ([data-lit], set by v-spotlight). Hover effects only run with a real pointer, so a tap
+   * never leaves a panel or button stuck in its hover look.
+   */
+  .panel[data-lit]::before {
     opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .panel:hover::before {
+      opacity: 1;
+    }
   }
 
   /* Draws the border along the cut corner, which clip-path would otherwise remove */
@@ -212,21 +236,46 @@
     transition: filter 0.25s;
   }
 
-  .panel:hover {
+  .panel[data-lit] {
     --edge: var(--color-border-strong);
     --corner: var(--color-accent);
   }
 
-  .panel:hover::after {
+  .panel[data-lit]::after {
     filter: drop-shadow(0 0 3px var(--accent-glow));
+  }
+
+  @media (hover: hover) {
+    .panel:hover {
+      --edge: var(--color-border-strong);
+      --corner: var(--color-accent);
+    }
+
+    .panel:hover::after {
+      filter: drop-shadow(0 0 3px var(--accent-glow));
+    }
+  }
+
+  /* Pressing a panel that's a link (project cards, board widgets): the edge flashes teal and it dips */
+  :is(a.panel, .panel:has(.frame__body[href])):active {
+    --edge: var(--color-accent);
+    --corner: var(--color-accent);
+    scale: 0.985;
+    transition-duration: 0.08s;
+  }
+
+  :is(a.panel, .panel:has(.frame__body[href])):active::before {
+    opacity: 1;
   }
 
   .panel--raised {
     --fill: var(--color-surface-2);
   }
 
-  .panel--lift:hover {
-    transform: translateY(-3px);
+  @media (hover: hover) {
+    .panel--lift:hover {
+      transform: translateY(-3px);
+    }
   }
 
   /* Edit-mode registration marks from the grid demo, as decoration */
@@ -276,21 +325,28 @@
       transform 0.2s var(--ease-spring);
   }
 
-  .btn:hover {
-    border-color: var(--color-faint);
-    --fill: var(--color-surface-3);
+  @media (hover: hover) {
+    .btn:hover {
+      border-color: var(--color-faint);
+      --fill: var(--color-surface-3);
+    }
+
+    /* Trailing arrows nudge forward. Not in icon-only buttons, where the icon would slide off center */
+    .btn:not(.btn--icon):hover svg:last-child {
+      transform: translateX(3px);
+    }
   }
 
+  /* Press: it gives a little and the edge flashes teal, on touch and mouse alike */
   .btn:active {
-    transform: translateY(1px) scale(0.98);
+    border-color: var(--color-accent);
+    --fill: var(--color-surface-3);
+    transform: translateY(1px) scale(0.97);
+    transition-duration: 0.06s;
   }
 
   .btn svg {
     transition: transform 0.3s var(--ease-spring);
-  }
-
-  .btn:hover svg:last-child {
-    transform: translateX(3px);
   }
 
   .btn:disabled {
@@ -328,18 +384,32 @@
     transition: translate 0.7s var(--ease-out-expo);
   }
 
-  .btn--primary:hover {
+  @media (hover: hover) {
+    .btn--primary:hover {
+      --fill: transparent;
+      color: var(--color-bg-deep);
+      box-shadow: 0 0 28px var(--accent-glow);
+    }
+
+    .btn--primary:hover::before {
+      opacity: 1;
+    }
+
+    .btn--primary:hover::after {
+      translate: 120% 0;
+    }
+  }
+
+  /* Pressed, the primary button floods with the gradient, the same as its hover */
+  .btn--primary:active {
     --fill: transparent;
     color: var(--color-bg-deep);
     box-shadow: 0 0 28px var(--accent-glow);
   }
 
-  .btn--primary:hover::before {
+  .btn--primary:active::before {
     opacity: 1;
-  }
-
-  .btn--primary:hover::after {
-    translate: 120% 0;
+    transition-duration: 0.06s;
   }
 
   .btn--ghost {
@@ -348,9 +418,16 @@
     color: var(--color-muted);
   }
 
-  .btn--ghost:hover {
+  @media (hover: hover) {
+    .btn--ghost:hover {
+      color: var(--color-text);
+      border-color: var(--color-border-strong);
+    }
+  }
+
+  .btn--ghost:active {
     color: var(--color-text);
-    border-color: var(--color-border-strong);
+    border-color: var(--color-accent);
   }
 
   .btn--sm {
@@ -393,10 +470,12 @@
       background-color 0.2s;
   }
 
-  .chip:hover {
-    color: var(--color-accent-strong);
-    border-color: rgb(45 212 191 / 0.4);
-    background: var(--accent-soft);
+  @media (hover: hover) {
+    .chip:hover {
+      color: var(--color-accent-strong);
+      border-color: rgb(45 212 191 / 0.4);
+      background: var(--accent-soft);
+    }
   }
 
   .led {
@@ -444,8 +523,10 @@
     color: var(--color-faint);
   }
 
-  .field:hover {
-    border-color: var(--color-faint);
+  @media (hover: hover) {
+    .field:hover {
+      border-color: var(--color-faint);
+    }
   }
 
   .field:focus {
@@ -467,7 +548,9 @@
     line-height: 1.75;
   }
 
-  .prose-site > * + * {
+  /* ContentRenderer wraps the Markdown in a div, so space its children too */
+  .prose-site > * + *,
+  .prose-site > div > * + * {
     margin-top: 1.1em;
   }
 
@@ -497,8 +580,14 @@
     text-underline-offset: 3px;
   }
 
-  .prose-site a:hover {
+  .prose-site a:active {
     text-decoration-color: currentColor;
+  }
+
+  @media (hover: hover) {
+    .prose-site a:hover {
+      text-decoration-color: currentColor;
+    }
   }
 
   .prose-site strong {

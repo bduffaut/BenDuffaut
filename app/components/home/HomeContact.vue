@@ -60,8 +60,15 @@ const profile = await useRequiredProfile()
   color: var(--color-accent);
 }
 
-.contact-link:hover {
+.contact-link:active {
   color: var(--color-text);
   translate: 4px 0;
+}
+
+@media (hover: hover) {
+  .contact-link:hover {
+    color: var(--color-text);
+    translate: 4px 0;
+  }
 }
 </style>
