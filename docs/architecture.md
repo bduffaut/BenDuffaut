@@ -26,6 +26,8 @@
 
 **Motion is CSS first.** Animations are CSS keyframes and transitions. Two directives in `app/plugins/directives.ts` add behavior: `v-reveal` fades content in on scroll, and `v-spotlight` makes panel borders follow the pointer. Everything respects `prefers-reduced-motion`, and content is never hidden if JavaScript fails.
 
+**The background is a live lattice.** `app/components/site/SiteField.vue` is a canvas inside the fixed `.backdrop`, drawn on the backdrop's 56px grid. Near the mouse, grid points come up as + marks that lean toward the cursor, and the cell under it gets a highlight that glides from cell to cell like the grid's drop placeholder. A click or tap sends a cyan ripple through the lattice. It only animates while something is happening and stops when the page is idle. The `body` has no background of its own on purpose: it would paint over the backdrop.
+
 **The home page's projects section is a live board on my own library.** `app/components/home/HomeProjects.vue` renders a `DashboardGrid` from [`custom-dashboard-grid`](https://www.npmjs.com/package/custom-dashboard-grid) (0.2), set up like the library's Sentinel demo. It server-renders like everything else, so the projects are in the HTML.
 
 - **Widgets** (`app/components/board/`):

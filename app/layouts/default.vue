@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="backdrop" aria-hidden="true" />
+    <div class="backdrop" aria-hidden="true">
+      <SiteField />
+    </div>
     <a href="#main" class="skip-link">Skip to content</a>
     <SiteHeader />
     <main id="main" class="relative">
