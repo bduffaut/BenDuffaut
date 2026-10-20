@@ -60,6 +60,8 @@ async function submit() {
     if (data?.data?.errors) errors.value = data.data.errors
     failure.value = data?.statusMessage ?? `Something went wrong. Please email ${props.email} instead.`
     state.value = 'error'
+    // A token is single use, so a retry has to wait for the fresh one the reset produces
+    turnstileToken.value = ''
     ;(window as TurnstileWindow).turnstile?.reset()
   }
 }
@@ -151,7 +153,7 @@ function fieldProps(name: keyof ContactErrors) {
             <Send :size="15" />
           </template>
         </button>
-        <p v-if="state === 'error'" class="text-sm text-[#ec835a]" role="alert">{{ failure }}</p>
+        <p v-if="state === 'error'" class="text-sm text-danger" role="alert">{{ failure }}</p>
       </div>
     </form>
   </Transition>
@@ -161,7 +163,7 @@ function fieldProps(name: keyof ContactErrors) {
 .label {
   display: block;
   margin-bottom: 0.45rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -171,7 +173,7 @@ function fieldProps(name: keyof ContactErrors) {
 .error {
   margin-top: 0.4rem;
   font-size: 0.85rem;
-  color: #ec835a;
+  color: var(--color-danger);
 }
 
 .sent-mark {
@@ -179,9 +181,9 @@ function fieldProps(name: keyof ContactErrors) {
   place-items: center;
   width: 64px;
   height: 64px;
-  color: var(--color-bg-deep);
-  background: var(--gradient-signal);
-  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  color: var(--color-on-accent);
+  background: var(--gradient-brand);
+  clip-path: var(--clip, polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%));
   filter: drop-shadow(0 0 20px var(--accent-glow));
   animation: pop 0.6s var(--ease-spring);
 }

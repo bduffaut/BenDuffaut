@@ -1,0 +1,128 @@
+/*
+ * Every theme's typefaces, self-hosted from Fontsource's packages.
+ *
+ * Declared here by hand rather than with Fontsource's own CSS, which declares every language
+ * subset of every weight: this keeps only the Latin files the site's text uses, about a tenth
+ * of the rules, in a stylesheet every page loads before it can paint.
+ *
+ * These are only @font-face rules: a browser downloads a file the first time text on the page
+ * uses it, so the themes a visitor never picks cost them nothing. The default theme's fonts are
+ * also preloaded (app.vue) so the first paint doesn't wait on them.
+ */
+
+/* Signal */
+@font-face {
+  font-family: 'Chakra Petch';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('~~/node_modules/@fontsource/chakra-petch/files/chakra-petch-latin-500-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Chakra Petch';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url('~~/node_modules/@fontsource/chakra-petch/files/chakra-petch-latin-600-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Chakra Petch';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('~~/node_modules/@fontsource/chakra-petch/files/chakra-petch-latin-700-normal.woff2') format('woff2');
+}
+
+/* Shared: reading (Signal, Grove, Mustafar) and code */
+@font-face {
+  font-family: 'IBM Plex Sans Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 700;
+  src: url('~~/node_modules/@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('~~/node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('~~/node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2') format('woff2');
+}
+
+/* Mustafar: condensed capitals, like film credits */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('~~/node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-500-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url('~~/node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('~~/node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2') format('woff2');
+}
+
+/* Elements: hand-lettered headings with an old-map feel, and a calligraphic serif for reading */
+@font-face {
+  font-family: 'Macondo';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('~~/node_modules/@fontsource/macondo/files/macondo-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Alegreya Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('~~/node_modules/@fontsource-variable/alegreya/files/alegreya-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Alegreya Variable';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('~~/node_modules/@fontsource-variable/alegreya/files/alegreya-latin-wght-italic.woff2') format('woff2-variations');
+}
+
+/* Grove: every axis, for its soft optical sizes, and the italic for its labels */
+@font-face {
+  font-family: 'Fraunces Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('~~/node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Fraunces Variable';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('~~/node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2') format('woff2-variations');
+}

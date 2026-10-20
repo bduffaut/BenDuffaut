@@ -141,8 +141,8 @@ onBeforeUnmount(close)
   padding: 6px;
   background: var(--color-surface-2);
   border: 1px solid var(--color-border-strong);
-  clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
-  filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.55));
+  clip-path: var(--clip, polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%));
+  filter: drop-shadow(0 18px 30px color-mix(in srgb, var(--color-shadow) 55%, transparent));
   animation: menu-in 0.18s var(--ease-out-expo);
 }
 

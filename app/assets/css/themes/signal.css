@@ -1,0 +1,116 @@
+/*
+ * Signal: the original look, from the Sentinel demo of custom-dashboard-grid. Near-black
+ * surfaces, teal for chrome and cyan for data, panels with one chamfered corner, light that
+ * follows the pointer, and the live lattice behind the page (effects in app/themes/index.ts).
+ *
+ * Its token values are the defaults in main.css and tokens.css, so this file only adds what
+ * no other theme has.
+ */
+
+/* The border along the cut corner, which the clip-path would otherwise remove */
+[data-theme='signal'] .panel::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: var(--chamfer);
+  height: var(--chamfer);
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom left,
+    transparent calc(50% - 1px),
+    var(--corner, var(--edge)) calc(50% - 1px) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+  transition: filter 0.25s;
+}
+
+[data-theme='signal'] .panel[data-lit],
+[data-theme='signal'] :is(a.panel, .panel:has(.frame__body[href])):active {
+  --corner: var(--color-accent);
+}
+
+[data-theme='signal'] .panel[data-lit]::after {
+  filter: drop-shadow(0 0 3px var(--accent-glow));
+}
+
+@media (hover: hover) {
+  [data-theme='signal'] .panel:hover {
+    --corner: var(--color-accent);
+  }
+
+  [data-theme='signal'] .panel:hover::after {
+    filter: drop-shadow(0 0 3px var(--accent-glow));
+  }
+}
+
+/* Primary buttons: a gradient edge that turns while hovered, and fills in with a sweep of light.
+   It only turns on hover: animating the angle restyles the button every frame */
+[data-theme='signal'] .btn--primary {
+  --fill: var(--color-bg-deep);
+  color: var(--color-text);
+  border-color: transparent;
+  background:
+    linear-gradient(var(--fill), var(--fill)) padding-box,
+    conic-gradient(from var(--angle), var(--color-accent), var(--color-data), var(--color-accent-alt), var(--color-accent)) border-box;
+}
+
+[data-theme='signal'] .btn--primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: var(--gradient-brand);
+  transition: opacity 0.3s;
+}
+
+[data-theme='signal'] .btn--primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  translate: -120% 0;
+  background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--color-text) 45%, transparent) 50%, transparent 70%);
+  transition: translate 0.7s var(--ease-out-expo);
+}
+
+@media (hover: hover) {
+  [data-theme='signal'] .btn--primary:hover {
+    animation: var(--animate-spin-border);
+    --fill: transparent;
+    color: var(--color-on-accent);
+    box-shadow: 0 0 28px var(--accent-glow);
+  }
+
+  [data-theme='signal'] .btn--primary:hover::before {
+    opacity: 1;
+  }
+
+  [data-theme='signal'] .btn--primary:hover::after {
+    translate: 120% 0;
+  }
+}
+
+/* Pressed, the primary button floods with the gradient, the same as its hover */
+[data-theme='signal'] .btn--primary:active {
+  --fill: transparent;
+  color: var(--color-on-accent);
+  box-shadow: 0 0 28px var(--accent-glow);
+}
+
+[data-theme='signal'] .btn--primary:active::before {
+  opacity: 1;
+  transition-duration: 0.06s;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-border {
+  to {
+    --angle: 360deg;
+  }
+}

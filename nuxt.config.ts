@@ -17,6 +17,12 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  features: {
+    // Inline the CSS into the prerendered HTML instead of linking it: a stylesheet blocks the
+    // first paint until it arrives, and on a phone that round trip was most of the wait
+    inlineStyles: true,
+  },
+
   css: ['~/assets/css/main.css'],
 
   vite: {
@@ -29,7 +35,7 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'theme-color', content: '#0a0e14' },
-        { name: 'color-scheme', content: 'dark' },
+        { name: 'color-scheme', content: 'dark light' },
       ],
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     },
@@ -70,12 +76,30 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    // Baseline security headers on everything. No script CSP: Nuxt's inline payload, the JSON-LD
+    // and Turnstile would each need allowing, for little gain on a site with no user content.
+    // Framing is limited to this site, which /resume needs for its PDF <object>.
+    '/**': {
+      headers: {
+        'strict-transport-security': 'max-age=31536000',
+        'x-content-type-options': 'nosniff',
+        'x-frame-options': 'SAMEORIGIN',
+        'content-security-policy': "frame-ancestors 'self'; base-uri 'self'; form-action 'self'",
+        'referrer-policy': 'strict-origin-when-cross-origin',
+        'permissions-policy': 'camera=(), microphone=(), geolocation=()',
+      },
+    },
     '/api/**': { prerender: false, headers: { 'cache-control': 'no-store' } },
     // Rendered after the build by scripts/render-assets.mjs, served by server/routes
     '/og.png': { prerender: false },
     '/stats/script.js': { proxy: `${umamiUrl}/script.js` },
     '/stats/api/send': { proxy: `${umamiUrl}/api/send` },
     '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+    // Theme ornaments change rarely and aren't hashed: a week, then revalidate
+    '/themes/**': { headers: { 'cache-control': 'public, max-age=604800, stale-while-revalidate=86400' } },
+    '/favicon.svg': { headers: { 'cache-control': 'public, max-age=604800' } },
+    // Replaced by hand now and then, so a shorter cache
+    '/resume.pdf': { headers: { 'cache-control': 'public, max-age=86400' } },
   },
 
   nitro: {

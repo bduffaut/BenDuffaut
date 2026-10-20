@@ -9,13 +9,15 @@ const { data: experience } = await useExperience()
     <ol class="timeline">
       <li v-for="(job, i) in experience" :key="job.id" v-reveal="i * 80" class="timeline__item">
         <span class="timeline__node" aria-hidden="true" />
-        <p class="mb-3 font-mono text-xs tracking-wider text-faint uppercase md:mb-0 md:pt-6">{{ dateRange(job.start, job.end) }}</p>
+        <p class="timeline__date mb-3 font-meta text-xs tracking-wider text-faint uppercase md:mb-0 md:pt-6">
+          {{ dateRange(job.start, job.end) }}
+        </p>
 
-        <article v-spotlight class="panel panel--lift p-6 md:p-7">
+        <article v-spotlight class="job panel panel--lift p-6 md:p-7">
           <header class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <h3 class="text-xl text-text">{{ job.role }}</h3>
-            <span class="font-display text-accent">@ {{ job.company }}</span>
-            <span class="w-full font-mono text-xs text-faint md:ml-auto md:w-auto">{{ job.location }}</span>
+            <span class="job__company font-display text-accent">@ {{ job.company }}</span>
+            <span class="w-full font-meta text-xs text-faint md:ml-auto md:w-auto">{{ job.location }}</span>
           </header>
           <p v-if="job.summary" class="mt-3 text-muted">{{ job.summary }}</p>
           <ul class="mt-4 space-y-2.5 text-[0.95rem] text-muted">
@@ -45,7 +47,7 @@ const { data: experience } = await useExperience()
   bottom: 0;
   left: 5px;
   width: 1px;
-  background: linear-gradient(to bottom, var(--color-accent), var(--color-cyan) 40%, var(--color-border) 85%, transparent);
+  background: linear-gradient(to bottom, var(--color-accent), var(--color-data) 40%, var(--color-border) 85%, transparent);
 }
 
 .timeline__item {

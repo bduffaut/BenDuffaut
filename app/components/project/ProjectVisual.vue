@@ -23,10 +23,22 @@ const VISUALS: Record<string, Component> = {
 }
 
 const component = computed(() => VISUALS[props.visual])
+
+// The illustrations loop forever, so they pause while off screen: there can be a dozen on a
+// page and only a few are ever in view
+const root = useTemplateRef<HTMLElement>('root')
+const visible = ref(true)
+
+onMounted(() => {
+  if (!root.value) return
+  const observer = new IntersectionObserver(([entry]) => (visible.value = entry?.isIntersecting ?? true), { rootMargin: '120px' })
+  observer.observe(root.value)
+  onBeforeUnmount(() => observer.disconnect())
+})
 </script>
 
 <template>
-  <div v-if="component" class="visual" aria-hidden="true">
+  <div v-if="component" ref="root" class="visual" :data-paused="visible ? undefined : ''" aria-hidden="true">
     <component :is="component" />
   </div>
 </template>
@@ -35,9 +47,18 @@ const component = computed(() => VISUALS[props.visual])
 .visual {
   position: relative;
   overflow: hidden;
+  /* The illustrations animate positions and sizes; containment keeps that layout and paint
+     work inside the illustration instead of spreading to the page */
+  contain: layout paint;
   background:
-    radial-gradient(120% 90% at 80% 0%, rgb(45 212 191 / 0.08), transparent 60%),
+    radial-gradient(120% 90% at 80% 0%, color-mix(in srgb, var(--color-accent) 8%, transparent), transparent 60%),
     linear-gradient(var(--color-bg-deep), var(--color-surface));
+}
+
+.visual[data-paused] :deep(*),
+.visual[data-paused] :deep(*::before),
+.visual[data-paused] :deep(*::after) {
+  animation-play-state: paused !important;
 }
 
 /* Dot grid behind every visual */
@@ -45,7 +66,7 @@ const component = computed(() => VISUALS[props.visual])
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px);
+  background-image: radial-gradient(color-mix(in srgb, var(--color-text) 7%, transparent) 1px, transparent 1px);
   background-size: 14px 14px;
   mask-image: linear-gradient(to bottom, #000, transparent 95%);
 }

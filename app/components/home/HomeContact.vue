@@ -35,7 +35,7 @@ const profile = await useRequiredProfile()
         </ul>
       </div>
 
-      <div v-reveal="120" v-spotlight class="panel panel--raised relative p-6 md:p-8">
+      <div v-reveal="120" v-spotlight class="contact-card panel panel--raised relative p-6 md:p-8">
         <ContactForm :email="profile.email" />
       </div>
     </div>
@@ -48,7 +48,7 @@ const profile = await useRequiredProfile()
   align-items: center;
   gap: 0.8rem;
   padding: 0.35rem 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.92rem;
   color: var(--color-muted);
   transition:

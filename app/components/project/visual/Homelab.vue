@@ -88,14 +88,14 @@ const LINKS = [
 
 <style scoped>
 .boundary {
-  stroke: rgb(230 237 243 / 0.16);
+  stroke: color-mix(in srgb, var(--color-text) 16%, transparent);
   stroke-dasharray: 2 4;
 }
 
 .label,
 .node-text,
 .module-text {
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   fill: var(--color-faint);
 }
 
@@ -123,27 +123,27 @@ const LINKS = [
 
 .node {
   fill: var(--color-surface-2);
-  stroke: rgb(230 237 243 / 0.28);
+  stroke: color-mix(in srgb, var(--color-text) 28%, transparent);
   stroke-width: 1;
 }
 
 .node-line {
-  stroke: rgb(230 237 243 / 0.28);
+  stroke: color-mix(in srgb, var(--color-text) 28%, transparent);
 }
 
 .node--edge,
 .node--tail {
-  stroke: rgb(45 212 191 / 0.55);
+  stroke: color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
 
 .node--server {
-  stroke: rgb(45 212 191 / 0.7);
-  filter: drop-shadow(0 0 6px rgb(45 212 191 / 0.25));
+  stroke: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--color-accent) 25%, transparent));
 }
 
 .module {
-  fill: rgb(45 212 191 / 0.08);
-  stroke: rgb(45 212 191 / 0.3);
+  fill: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  stroke: color-mix(in srgb, var(--color-accent) 30%, transparent);
   stroke-width: 0.6;
 }
 
@@ -163,11 +163,11 @@ const LINKS = [
 }
 
 .link--media {
-  --link: var(--color-cyan);
+  --link: var(--color-data);
 }
 
 .link--backup {
-  --link: var(--color-indigo);
+  --link: var(--color-accent-alt);
 }
 
 .link--admin {

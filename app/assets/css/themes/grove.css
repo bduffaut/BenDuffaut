@@ -1,0 +1,406 @@
+/*
+ * Grove: the grove at dusk, kept like a naturalist's field journal.
+ *
+ * Forest-night greens in layers, pale lichen text, new-fern green for the interface and the
+ * yellow of fireflies for numbers. Fraunces with its soft axis turned up for headings, and
+ * italic field-guide annotations in place of tracked capitals. Cards have leaf corners (two
+ * rounded, two nearly square); the hero readout hangs like a specimen tag; the experience rail
+ * is a vine with a leaf at each job; a tree line stands over the footer. Behind it all,
+ * fireflies drift and gather at the cursor and grass sways along the bottom (app/backdrops/grove.ts),
+ * under slowly moving dappled light.
+ *
+ * The ornaments are SVGs in public/themes/grove/, used as masks so they take the theme's
+ * colors and only download for this theme. Rules here start with :root so they outrank the
+ * components' scoped styles.
+ */
+[data-theme='grove'] {
+  --color-bg: #0c1510;
+  --color-bg-deep: #08100c;
+  --color-surface: #111d16;
+  --color-surface-2: #16251c;
+  --color-surface-3: #1d3024;
+  --color-border: #213426;
+  --color-border-strong: #2f4a36;
+
+  --color-text: #e4ebd8;
+  --color-muted: #a9b8a1;
+  --color-faint: #8d9e87;
+
+  /* New fern for the interface, firefly for numbers, river teal at the ends of gradients */
+  --color-accent: #93cf73;
+  --color-accent-strong: #bfe6a4;
+  --color-data: #e8d982;
+  --color-data-strong: #f6eebd;
+  --color-accent-alt: #6fb3a0;
+  --color-on-accent: #0c1510;
+
+  --color-good: #86d39a;
+  --color-warning: #e8d982;
+  --color-danger: #f2a083;
+  --color-danger-strong: #c9684d;
+  --color-shadow: #020604;
+
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-meta: 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, sans-serif;
+
+  --clip: none;
+  --chamfer: 0px;
+  /* Leaf corners: top left and bottom right rounded, the other two nearly square */
+  --radius: 28px 6px;
+  --radius-control: 999px;
+  --radius-sm: 10px;
+  --dg-radius: 20px 5px;
+  --panel-shadow: 0 30px 60px -40px color-mix(in srgb, var(--color-shadow) 90%, transparent);
+  --shadow-lift: 0 40px 80px -36px color-mix(in srgb, var(--color-shadow) 95%, transparent);
+
+  --heading-weight: 480;
+  --heading-tracking: -0.012em;
+  --label-font: var(--font-display);
+  --label-size: 0.98rem;
+  --label-weight: 400;
+  --label-tracking: 0;
+  --label-case: none;
+  --prose-marker: none;
+
+  --accent-glow: color-mix(in srgb, var(--color-accent) 25%, transparent);
+  --data-glow: color-mix(in srgb, var(--color-data) 35%, transparent);
+  --spotlight: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  --spotlight-wash: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  --gradient-brand: linear-gradient(115deg, var(--color-accent-strong), var(--color-accent) 50%, var(--color-accent-alt));
+
+  /* Last light high in the canopy, a low mist over the ground */
+  --backdrop:
+    radial-gradient(900px 520px at 18% -12%, color-mix(in srgb, var(--color-data) 7%, transparent), transparent 65%),
+    radial-gradient(1200px 500px at 50% 112%, color-mix(in srgb, var(--color-accent-alt) 9%, transparent), transparent 70%),
+    linear-gradient(to bottom, var(--color-bg-deep), var(--color-bg) 40%);
+  --backdrop-grid: transparent;
+  --grain: 0.07;
+  --header-bg: color-mix(in srgb, var(--color-bg) 80%, transparent);
+
+  color-scheme: dark;
+}
+
+/* --- The page ------------------------------------------------------------------------- */
+
+/* Dappled light: soft patches drifting very slowly, as if through leaves */
+:root[data-theme='grove'] .backdrop::before {
+  inset: -20%;
+  background-image:
+    radial-gradient(closest-side, color-mix(in srgb, var(--color-data) 5%, transparent), transparent),
+    radial-gradient(closest-side, color-mix(in srgb, var(--color-accent) 4%, transparent), transparent),
+    radial-gradient(closest-side, color-mix(in srgb, var(--color-data) 3.5%, transparent), transparent);
+  background-size:
+    520px 380px,
+    640px 520px,
+    380px 300px;
+  background-position:
+    10% 20%,
+    80% 35%,
+    45% 75%;
+  background-repeat: no-repeat;
+  mask-image: none;
+  will-change: translate;
+  animation: dapple 48s ease-in-out infinite alternate;
+}
+
+/* The layer drifts rather than its background moving inside it, so the drift is a compositor
+   transform instead of a full-screen repaint every frame */
+@keyframes dapple {
+  to {
+    translate: 6% 4%;
+  }
+}
+
+:root[data-theme='grove'] :is(h1, h2, h3, h4) {
+  font-variation-settings: 'SOFT' 100;
+  font-optical-sizing: auto;
+}
+
+/* Field-guide annotations: italic serif, sentence case */
+:root[data-theme='grove'] .eyebrow {
+  font-style: italic;
+  font-variation-settings: 'SOFT' 100;
+}
+
+/* One color for the whole name: the type does the work, not a gradient */
+:root[data-theme='grove'] .text-gradient {
+  background: none;
+  color: inherit;
+}
+
+:root[data-theme='grove'] .glow {
+  text-shadow: 0 0 18px var(--data-glow);
+}
+
+/* --- Header and footer ---------------------------------------------------------------- */
+
+:root[data-theme='grove'] .brand__mark {
+  border-radius: 14px 3px;
+  background: var(--color-accent);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* The forest floor, with a tree line standing over it */
+:root[data-theme='grove'] .site-footer {
+  position: relative;
+  margin-top: 12rem;
+  border-top: 0;
+  background: var(--color-bg-deep);
+}
+
+:root[data-theme='grove'] .site-footer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: clamp(70px, 9vw, 130px);
+  background: var(--color-bg-deep);
+  mask: url('/themes/grove/trees.svg') bottom / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* --- Hero ----------------------------------------------------------------------------- */
+
+/* A fern frond leans in behind the readout, stirring now and then */
+:root[data-theme='grove'] .hero::before {
+  content: '';
+  position: absolute;
+  /* Behind the text: the hero isn't a stacking context, so this sits just above the backdrop */
+  z-index: -1;
+  top: 2rem;
+  right: -1rem;
+  width: min(320px, 60vw);
+  aspect-ratio: 1 / 2;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 22%, transparent), transparent 80%);
+  mask: url('/themes/grove/fern.svg') center / contain no-repeat;
+  transform-origin: 50% 100%;
+  rotate: -14deg;
+  animation: frond 11s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* Beside the readout on wide screens: bigger, rising from behind it and leaning out */
+@media (min-width: 1024px) {
+  :root[data-theme='grove'] .hero::before {
+    top: -2rem;
+    right: -6rem;
+    width: 400px;
+    rotate: 16deg;
+    animation-name: frond-wide;
+  }
+}
+
+@keyframes frond-wide {
+  to {
+    rotate: 12deg;
+  }
+}
+
+@keyframes frond {
+  to {
+    rotate: -10deg;
+  }
+}
+
+:root[data-theme='grove'] .hero__name {
+  font-weight: 420;
+  letter-spacing: -0.025em;
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 1;
+}
+
+/* The readout as a specimen tag: punched, tied with string and hung a little crooked */
+:root[data-theme='grove'] .readout {
+  --fill: color-mix(in srgb, var(--color-surface-2) 92%, var(--color-data));
+  border-radius: 34px 8px;
+  rotate: -2deg;
+  transition:
+    rotate 0.9s var(--ease-spring),
+    box-shadow 0.3s;
+}
+
+:root[data-theme='grove'] .readout:hover {
+  rotate: 0deg;
+}
+
+/* Its labels are annotations too */
+:root[data-theme='grove'] .readout dt {
+  font-family: var(--font-display);
+  font-style: italic;
+  text-transform: none;
+}
+
+:root[data-theme='grove'] .readout::after {
+  content: '';
+  position: absolute;
+  top: -46px;
+  left: 30px;
+  width: 60px;
+  height: 66px;
+  pointer-events: none;
+  /* The string, then the punched hole it runs through */
+  background:
+    radial-gradient(circle at 14px 54px, var(--color-bg) 0 5px, var(--color-border-strong) 5px 6.5px, transparent 7px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 66'%3E%3Cpath d='M14 54C10 34 30 22 34 0' stroke='%23a9b8a1' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+      no-repeat;
+}
+
+/* --- Sections ------------------------------------------------------------------------- */
+
+:root[data-theme='grove'] .section-heading__index {
+  font-variant-numeric: oldstyle-nums;
+}
+
+/* A sprout in place of the rule */
+:root[data-theme='grove'] .section-heading__rule {
+  width: 26px;
+  height: 18px;
+  background: var(--color-accent);
+  mask: url('/themes/grove/sprout.svg') center / contain no-repeat;
+}
+
+:root[data-theme='grove'] .section-heading__title {
+  font-weight: 420;
+}
+
+/* Experience: a vine climbs the rail, with a leaf at each job */
+:root[data-theme='grove'] .timeline::before {
+  left: -6px;
+  width: 24px;
+  background: linear-gradient(to bottom, var(--color-accent), var(--color-accent-alt) 50%, transparent);
+  mask: url('/themes/grove/vine.svg') top / 24px 80px repeat-y;
+  opacity: 0.75;
+}
+
+@media (min-width: 768px) {
+  :root[data-theme='grove'] .timeline::before {
+    left: calc(9rem - 6px);
+  }
+}
+
+:root[data-theme='grove'] .timeline__node {
+  width: 16px;
+  height: 16px;
+  margin-left: -2px;
+  border: 0;
+  border-radius: 0 100%;
+  background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
+  rotate: -20deg;
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+:root[data-theme='grove'] .timeline__date {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+:root[data-theme='grove'] .job__company {
+  font-style: italic;
+}
+
+/* Small leaves for bullets */
+:root[data-theme='grove'] :is(.bullet, .prose-site ul > li)::before {
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 0 100%;
+  background: var(--color-accent);
+  box-shadow: none;
+  rotate: -20deg;
+}
+
+/* Skills: pressed like a herbarium, groups falling into staggered columns instead of rows,
+   their leaf corners alternating */
+:root[data-theme='grove'] :has(> .skill-group) {
+  display: block;
+  columns: 3 260px;
+  column-gap: 1rem;
+}
+
+:root[data-theme='grove'] .skill-group {
+  margin-bottom: 1rem;
+  break-inside: avoid;
+}
+
+:root[data-theme='grove'] .skill-group:nth-child(even) {
+  border-radius: 6px 28px;
+}
+
+/* Beyond the code: the big figure in italic, like a pressed-flower label */
+:root[data-theme='grove'] .rank {
+  font-style: italic;
+  font-weight: 400;
+  -webkit-text-stroke-color: color-mix(in srgb, var(--color-data) 28%, transparent);
+}
+
+/* --- Cards and controls --------------------------------------------------------------- */
+
+:root[data-theme='grove'] .panel {
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--fill) 88%, var(--color-accent)), var(--fill) 45%) padding-box,
+    radial-gradient(420px circle at var(--mx, -999px) var(--my, -999px), var(--spotlight), transparent 45%) border-box,
+    linear-gradient(var(--edge), var(--edge)) border-box;
+}
+
+/* Hover: the card lifts and moss-light gathers underneath it */
+@media (hover: hover) {
+  :root[data-theme='grove'] .panel:hover {
+    box-shadow:
+      var(--panel-shadow),
+      0 24px 50px -30px color-mix(in srgb, var(--color-accent) 35%, transparent);
+  }
+}
+
+/* Seeds and pebbles: soft, borderless */
+:root[data-theme='grove'] .chip {
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  border-color: transparent;
+  background: color-mix(in srgb, var(--color-accent) 9%, var(--color-surface-2));
+}
+
+:root[data-theme='grove'] .btn {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+:root[data-theme='grove'] .btn--primary {
+  box-shadow: 0 10px 30px -14px var(--accent-glow);
+}
+
+:root[data-theme='grove'] .contact-card .label {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Fields are lines in a journal */
+:root[data-theme='grove'] .field {
+  padding-inline: 0.15rem;
+  border-width: 0 0 1px;
+  border-color: var(--color-faint);
+  border-radius: 0;
+  background: transparent;
+}
+
+:root[data-theme='grove'] .field:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 1px 0 var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme='grove'] .backdrop::before,
+  :root[data-theme='grove'] .hero::before {
+    animation: none;
+  }
+}

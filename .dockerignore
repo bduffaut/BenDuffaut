@@ -13,5 +13,6 @@ playwright-report
 *.log
 .DS_Store
 Ben_Resume.pdf
+notes
 docs
 deploy

@@ -21,7 +21,7 @@
   padding: 0.5rem 0.9rem;
   font-family: var(--font-display);
   font-weight: 600;
-  color: var(--color-bg-deep);
+  color: var(--color-on-accent);
   background: var(--color-accent);
   translate: 0 -200%;
   transition: translate 0.2s;

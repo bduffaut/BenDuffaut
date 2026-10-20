@@ -16,7 +16,7 @@ const ICONS = { wrench: Wrench }
         v-for="(item, i) in profile.beyond"
         :key="item.title"
         v-reveal="i * 90"
-        class="panel panel--lift relative overflow-hidden p-7"
+        class="beyond-card panel panel--lift relative overflow-hidden p-7"
       >
         <span v-if="item.stat" class="rank" aria-hidden="true">{{ item.stat }}</span>
         <component :is="ICONS[item.icon]" v-else-if="item.icon" class="mark" :stroke-width="0.6" aria-hidden="true" />
@@ -38,7 +38,7 @@ const ICONS = { wrench: Wrench }
   font-weight: 700;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(45 212 191 / 0.22);
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-accent) 22%, transparent);
   pointer-events: none;
 }
 
@@ -50,7 +50,7 @@ const ICONS = { wrench: Wrench }
   right: -1.5rem;
   width: 9rem;
   height: 9rem;
-  color: rgb(45 212 191 / 0.22);
+  color: color-mix(in srgb, var(--color-accent) 22%, transparent);
   rotate: -12deg;
   pointer-events: none;
 }

@@ -21,18 +21,21 @@ onMounted(() => {
   <div class="flex items-center gap-4 px-4 py-3" aria-hidden="true">
     <svg class="h-7 flex-1" :viewBox="`0 0 ${COUNT * 6} 28`" preserveAspectRatio="none">
       <line x1="0" :x2="COUNT * 6" y1="27.5" y2="27.5" class="stroke-border-strong" />
+      <!-- Full-height bars scaled down from the bottom: a transform animates without the
+           layout work that changing the height would cost -->
       <rect
         v-for="(h, i) in ticks"
         :key="i"
         :x="i * 6"
-        :y="28 - h"
+        y="0"
         width="3"
-        :height="h"
-        :class="i === COUNT - 1 ? 'fill-cyan' : 'fill-accent/40'"
-        class="transition-all duration-700"
+        height="28"
+        :style="{ transform: `scaleY(${h / 28})` }"
+        :class="i === COUNT - 1 ? 'fill-data' : 'fill-accent/40'"
+        class="tick"
       />
     </svg>
-    <div class="text-right font-mono leading-tight">
+    <div class="text-right font-meta leading-tight">
       <p class="text-[0.82rem] text-text">{{ build }}</p>
       <p class="text-[0.68rem] text-faint">build</p>
     </div>
@@ -40,6 +43,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.tick {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: transform 0.7s var(--ease-out-expo);
+}
+
 svg {
   mask-image: linear-gradient(to right, transparent, #000 30%);
 }

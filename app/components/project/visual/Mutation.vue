@@ -1,6 +1,6 @@
 <!-- An answer gets mutated, and the judge's score drops when it should -->
 <template>
-  <div class="relative flex aspect-[16/9] w-full flex-col justify-center gap-4 p-6 font-mono text-[0.72rem]">
+  <div class="relative flex aspect-[16/9] w-full flex-col justify-center gap-4 p-6 font-meta text-[0.72rem]">
     <p class="line">
       <span class="text-faint">answer</span>
       <span class="text-muted">The Eiffel Tower is in </span>
@@ -61,7 +61,7 @@
 }
 
 .score .a {
-  color: var(--color-cyan);
+  color: var(--color-data);
 }
 
 .score .b {
@@ -93,14 +93,14 @@
 .track {
   height: 6px;
   margin-top: 0.4rem;
-  background: rgb(255 255 255 / 0.05);
+  background: color-mix(in srgb, var(--color-text) 5%, transparent);
 }
 
 .bar {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, rgb(34 211 238 / 0.2), var(--color-cyan));
-  box-shadow: 3px 0 10px -2px var(--cyan-glow);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--color-data) 20%, transparent), var(--color-data));
+  box-shadow: 3px 0 10px -2px var(--data-glow);
   animation: bar 5s ease-in-out infinite;
 }
 

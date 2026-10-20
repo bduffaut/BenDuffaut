@@ -1,0 +1,615 @@
+/*
+ * Elements: water, earth, fire and air, painted in ink on an old scroll.
+ *
+ * Aged parchment, brown-black ink, hand-lettered headings (Macondo) over a
+ * calligraphic serif (Alegreya). The four elements run through the layout: every section
+ * belongs to one, which sets its color and its emblem (original designs in
+ * public/themes/elements/):
+ *   Experience  water  the timeline is a flowing stream, a drop at each job
+ *   Projects    earth
+ *   About       air
+ *   Skills      all four, each group taking the next element in turn
+ *   Beyond      fire
+ *   Contact     all four, under the ring of four
+ * The hero is a title card: the name in brush strokes under a slowly turning ring of the four
+ * emblems, the readout hung below as a scroll on wooden rods. Panels are framed like mounted
+ * scrolls and carry their element's emblem as a watermark; the primary button is a red seal
+ * stamp. Ink-wash mountains stand over the footer. Behind it all, wind lines drift across the
+ * page with tumbling leaves, and four element orbs follow the cursor (app/backdrops/elements.ts).
+ *
+ * Rules start with :root so they outrank the components' scoped styles.
+ */
+[data-theme='elements'] {
+  --color-bg: #ead9b5;
+  --color-bg-deep: #f7edd5;
+  --color-surface: #f3e5c4;
+  --color-surface-2: #f7ecd2;
+  --color-surface-3: #e6d2a6;
+  --color-border: #c9ad7c;
+  --color-border-strong: #9c7c4a;
+
+  --color-text: #25180b;
+  --color-muted: #4f3c27;
+  --color-faint: #5f4a31;
+
+  /* Fire red for the interface, water blue for numbers, earth green to end gradients */
+  --color-accent: #9e2016;
+  --color-accent-strong: #7a160e;
+  --color-data: #1b5794;
+  --color-data-strong: #134372;
+  --color-accent-alt: #3f5c1a;
+  --color-on-accent: #fbf3df;
+
+  --color-good: #2a5f1b;
+  --color-warning: #8a5a0a;
+  --color-danger: #9e2016;
+  --color-danger-strong: #9e2016;
+  --color-shadow: #3b2610;
+
+  /* The four elements. Each is dark enough to read as text on the parchment, except air,
+     whose bright saffron is for drawing only; --el-air-ink is its text color */
+  --el-water: #1b5794;
+  --el-earth: #3f5c1a;
+  --el-fire: #b3261e;
+  --el-air: #c98a1c;
+  --el-air-ink: #7d4a06;
+  /* The current section's element. Outside a section, fire */
+  --el: var(--el-fire);
+  --el-ink: var(--el-fire);
+  --emblem: url('/themes/elements/fire.svg');
+
+  --font-display: 'Macondo', 'Palatino Linotype', serif;
+  --font-sans: 'Alegreya Variable', Georgia, serif;
+  --font-meta: 'Alegreya Variable', Georgia, serif;
+
+  --clip: none;
+  --chamfer: 0px;
+  --radius: 3px;
+  --radius-control: 4px;
+  --radius-sm: 3px;
+  --panel-shadow: none;
+  --shadow-lift: 0 26px 50px -30px color-mix(in srgb, var(--color-shadow) 55%, transparent);
+
+  --heading-weight: 400;
+  --heading-tracking: 0.01em;
+  --label-font: var(--font-sans);
+  --label-size: 0.98rem;
+  --label-weight: 600;
+  --label-tracking: 0.08em;
+  --label-case: none;
+  --prose-marker: none;
+
+  --accent-glow: transparent;
+  --data-glow: transparent;
+  --spotlight: transparent;
+  --spotlight-wash: transparent;
+  --gradient-brand: linear-gradient(115deg, var(--el-water), var(--el-earth) 35%, var(--el-fire) 65%, var(--el-air));
+
+  /* Old paper: darker, foxed edges and fibre in the grain */
+  --backdrop:
+    radial-gradient(ellipse 85% 75% at 50% 45%, transparent 55%, color-mix(in srgb, var(--color-border-strong) 30%, transparent)),
+    radial-gradient(600px 400px at 12% 20%, color-mix(in srgb, var(--color-surface-3) 60%, transparent), transparent 70%),
+    radial-gradient(700px 500px at 90% 70%, color-mix(in srgb, var(--color-surface-3) 50%, transparent), transparent 70%);
+  --backdrop-grid: transparent;
+  --grain: 0.16;
+  --header-bg: color-mix(in srgb, var(--color-bg) 90%, transparent);
+
+  color-scheme: light;
+}
+
+/* --- Each section's element ----------------------------------------------------------- */
+
+:root[data-theme='elements'] #experience {
+  --el: var(--el-water);
+  --el-ink: var(--el-water);
+  --emblem: url('/themes/elements/water.svg');
+}
+
+:root[data-theme='elements'] #projects {
+  --el: var(--el-earth);
+  --el-ink: var(--el-earth);
+  --emblem: url('/themes/elements/earth.svg');
+}
+
+:root[data-theme='elements'] #about {
+  --el: var(--el-air);
+  --el-ink: var(--el-air-ink);
+  --emblem: url('/themes/elements/air.svg');
+}
+
+:root[data-theme='elements'] #beyond {
+  --el: var(--el-fire);
+  --el-ink: var(--el-fire);
+  --emblem: url('/themes/elements/fire.svg');
+}
+
+:root[data-theme='elements'] :is(#skills, #contact) {
+  --emblem: url('/themes/elements/ring.svg');
+}
+
+/* Skills: the groups take the four elements in turn */
+:root[data-theme='elements'] .skill-group:nth-child(4n + 1) {
+  --el: var(--el-water);
+  --el-ink: var(--el-water);
+  --emblem: url('/themes/elements/water.svg');
+}
+
+:root[data-theme='elements'] .skill-group:nth-child(4n + 2) {
+  --el: var(--el-earth);
+  --el-ink: var(--el-earth);
+  --emblem: url('/themes/elements/earth.svg');
+}
+
+:root[data-theme='elements'] .skill-group:nth-child(4n + 3) {
+  --el: var(--el-fire);
+  --el-ink: var(--el-fire);
+  --emblem: url('/themes/elements/fire.svg');
+}
+
+:root[data-theme='elements'] .skill-group:nth-child(4n + 4) {
+  --el: var(--el-air);
+  --el-ink: var(--el-air-ink);
+  --emblem: url('/themes/elements/air.svg');
+}
+
+/* --- Type ----------------------------------------------------------------------------- */
+
+:root[data-theme='elements'] .text-gradient {
+  background: none;
+  color: inherit;
+}
+
+/* The hand lettering is for big type. Card titles and other small headings use the reading
+   face, bold, so they stay easy to read */
+:root[data-theme='elements'] :is(h3, h4, .education p.font-display, .frame__title) {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+:root[data-theme='elements'] .eyebrow {
+  font-variant: small-caps;
+  color: var(--el-ink);
+}
+
+/* The section's emblem in place of the rule, its title underlined with a stroke of the brush */
+:root[data-theme='elements'] .section-heading__rule {
+  width: 30px;
+  height: 30px;
+  background: var(--el);
+  mask: var(--emblem) center / contain no-repeat;
+}
+
+:root[data-theme='elements'] .section-heading__index {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--color-faint);
+}
+
+:root[data-theme='elements'] .section-heading__title {
+  position: relative;
+  width: fit-content;
+  font-size: clamp(2.3rem, 5vw, 3.3rem);
+  line-height: 1.05;
+}
+
+:root[data-theme='elements'] .section-heading__title::after {
+  content: '';
+  position: absolute;
+  left: -4%;
+  right: -10%;
+  bottom: -0.35em;
+  height: 0.42em;
+  z-index: -1;
+  background: color-mix(in srgb, var(--el) 42%, transparent);
+  mask: url('/themes/elements/brush.svg') center / 100% 100% no-repeat;
+  transform-origin: left;
+  transition: scale 0.9s 0.2s cubic-bezier(0.3, 0.8, 0.3, 1);
+}
+
+/* The stroke is painted as the heading comes into view */
+:root.js[data-theme='elements'] .section-heading:not(.is-revealed) .section-heading__title::after {
+  scale: 0 1;
+}
+
+/* --- Header and footer ---------------------------------------------------------------- */
+
+/* The monogram is a red seal */
+:root[data-theme='elements'] .brand__mark {
+  border-radius: 3px;
+  background: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  rotate: -4deg;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-on-accent) 35%, transparent);
+}
+
+:root[data-theme='elements'] .brand__name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+/* Two ranges of ink-wash mountains, the far one paler */
+:root[data-theme='elements'] .site-footer {
+  position: relative;
+  margin-top: 13rem;
+  border-top: 0;
+  background: var(--color-surface-3);
+}
+
+:root[data-theme='elements'] .site-footer::before,
+:root[data-theme='elements'] .site-footer::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  pointer-events: none;
+}
+
+:root[data-theme='elements'] .site-footer::before {
+  height: clamp(90px, 12vw, 170px);
+  background: color-mix(in srgb, var(--color-border-strong) 45%, transparent);
+  mask: url('/themes/elements/mountains-far.svg') bottom / 100% 100% no-repeat;
+}
+
+:root[data-theme='elements'] .site-footer::after {
+  height: clamp(60px, 8vw, 110px);
+  background: var(--color-surface-3);
+  mask: url('/themes/elements/mountains-near.svg') bottom / 100% 100% no-repeat;
+}
+
+/* --- Hero: a title card --------------------------------------------------------------- */
+
+:root[data-theme='elements'] .hero {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  text-align: center;
+}
+
+:root[data-theme='elements'] .hero > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:root[data-theme='elements'] .hero > div:first-child > :is(p, div) {
+  justify-content: center;
+}
+
+/* The ring of four, turning slowly behind the name */
+:root[data-theme='elements'] .hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  width: min(560px, 92vw);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  background: color-mix(in srgb, var(--color-text) 13%, transparent);
+  mask: url('/themes/elements/ring.svg') center / contain no-repeat;
+  animation: turn 120s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+:root[data-theme='elements'] .hero__name {
+  margin-top: 4.5rem;
+  font-size: clamp(3.2rem, 9.5vw, 6.6rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+/* The name sits on one line where it fits, like a title */
+@media (min-width: 900px) {
+  :root[data-theme='elements'] .hero__name > * {
+    display: inline;
+  }
+
+  :root[data-theme='elements'] .hero__name > * + * {
+    margin-left: 0.3em;
+  }
+}
+
+:root[data-theme='elements'] .pill {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-variant: small-caps;
+  box-shadow: none;
+}
+
+/* The readout hangs below as a scroll between two wooden rods */
+:root[data-theme='elements'] .readout {
+  --rod: linear-gradient(to bottom, #8a5a2b, #5b3615 60%, #3c220b);
+  width: min(100%, 560px);
+  margin-top: 1.5rem;
+  overflow: visible;
+  text-align: left;
+}
+
+:root[data-theme='elements'] .readout::before,
+:root[data-theme='elements'] .readout::after {
+  content: '';
+  position: absolute;
+  left: -18px;
+  right: -18px;
+  height: 14px;
+  z-index: 1;
+  border-radius: 7px;
+  background: var(--rod);
+  opacity: 1;
+  box-shadow: 0 3px 6px -2px color-mix(in srgb, var(--color-shadow) 50%, transparent);
+}
+
+:root[data-theme='elements'] .readout::before {
+  top: -8px;
+  inset-inline: -18px;
+}
+
+:root[data-theme='elements'] .readout::after {
+  bottom: -8px;
+}
+
+:root[data-theme='elements'] .readout dt {
+  font-variant: small-caps;
+  text-transform: lowercase;
+  color: var(--color-accent);
+}
+
+/* --- Sections ------------------------------------------------------------------------- */
+
+/* A last group left alone on its row takes the whole row: 2 columns on tablets, 3 on desktop */
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  :root[data-theme='elements'] .skill-group:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root[data-theme='elements'] .skill-group:last-child:nth-child(3n + 1) {
+    grid-column: 1 / -1;
+  }
+
+  :root[data-theme='elements'] .skill-group:last-child:nth-child(3n + 2) {
+    grid-column: span 2;
+  }
+}
+
+/* Experience: a stream flows down the rail, a drop of water at each job */
+:root[data-theme='elements'] .timeline::before {
+  left: -6px;
+  width: 24px;
+  background: var(--el-water);
+  opacity: 0.6;
+  mask: url('/themes/elements/stream.svg') top / 24px 80px repeat-y;
+  animation: stream 4s linear infinite;
+}
+
+@media (min-width: 768px) {
+  :root[data-theme='elements'] .timeline::before {
+    left: calc(9rem - 6px);
+  }
+}
+
+@keyframes stream {
+  to {
+    mask-position: 0 80px;
+  }
+}
+
+:root[data-theme='elements'] .timeline__node {
+  width: 14px;
+  height: 14px;
+  border: 0;
+  border-radius: 50% 0 50% 50%;
+  rotate: -45deg;
+  background: var(--el-water);
+  box-shadow: inset -2px 2px 0 color-mix(in srgb, var(--color-on-accent) 45%, transparent);
+}
+
+:root[data-theme='elements'] .timeline__date {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--el-water);
+}
+
+:root[data-theme='elements'] .job__company {
+  font-family: var(--font-sans);
+  font-style: italic;
+  color: var(--el-water);
+}
+
+:root[data-theme='elements'] .bullet::before,
+:root[data-theme='elements'] .prose-site ul > li::before {
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--el);
+  box-shadow: none;
+}
+
+:root[data-theme='elements'] .rank {
+  right: -1rem;
+  bottom: -2.25rem;
+  font-size: 7.5rem;
+  -webkit-text-stroke-color: color-mix(in srgb, var(--el-fire) 40%, transparent);
+}
+
+:root[data-theme='elements'] .mark {
+  color: color-mix(in srgb, var(--el-fire) 30%, transparent);
+}
+
+:root[data-theme='elements'] .contact-card .label {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--color-muted);
+}
+
+/* --- Panels: mounted scrolls ---------------------------------------------------------- */
+
+/* A mounted scroll: a fine frame line just inside the edge */
+:root[data-theme='elements'] .panel {
+  --edge: var(--color-border-strong);
+  outline: 1px solid color-mix(in srgb, var(--color-border-strong) 55%, transparent);
+  outline-offset: -7px;
+}
+
+/* Keyboard focus still gets the site's focus ring, not the frame line */
+:root[data-theme='elements'] .panel:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* Their element's emblem as a watermark, which darkens and turns on hover. Only on cards with
+   a free corner: board widgets keep theirs for their controls, project cards have their visual
+   and the Beyond cards their own figure */
+:root[data-theme='elements'] :is(.job, .skill-group, .education, .contact-card)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 52px;
+  height: 52px;
+  background: var(--el);
+  mask: var(--emblem) center / contain no-repeat;
+  opacity: 0.14;
+  pointer-events: none;
+  transition:
+    opacity 0.4s,
+    rotate 0.8s var(--ease-spring);
+}
+
+/* A job's top corner has its location, and the form's has a field: theirs sit at the bottom */
+:root[data-theme='elements'] :is(.job, .contact-card)::after {
+  top: auto;
+  bottom: 14px;
+}
+
+/* Hover: the scroll lifts and its element runs along the top edge */
+:root[data-theme='elements'] .panel[data-lit] {
+  box-shadow:
+    inset 0 3px 0 var(--el),
+    var(--shadow-lift);
+}
+
+:root[data-theme='elements'] :is(.job, .skill-group, .education, .contact-card)[data-lit]::after {
+  opacity: 0.4;
+  rotate: 20deg;
+}
+
+@media (hover: hover) {
+  :root[data-theme='elements'] .panel:hover {
+    box-shadow:
+      inset 0 3px 0 var(--el),
+      var(--shadow-lift);
+  }
+
+  :root[data-theme='elements'] :is(.job, .skill-group, .education, .contact-card):hover::after {
+    opacity: 0.4;
+    rotate: 20deg;
+  }
+}
+
+:root[data-theme='elements'] .chip {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  border-color: color-mix(in srgb, var(--el, var(--color-border-strong)) 35%, var(--color-border));
+  background: color-mix(in srgb, var(--el) 6%, var(--color-surface-2));
+  color: var(--color-muted);
+}
+
+/* --- Buttons -------------------------------------------------------------------------- */
+
+:root[data-theme='elements'] .btn {
+  --fill: transparent;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  border: 1.5px solid var(--color-text);
+  /* An ink wash that sweeps in from the left on hover */
+  background:
+    linear-gradient(color-mix(in srgb, var(--el) 16%, transparent), color-mix(in srgb, var(--el) 16%, transparent)) left / 0% 100% no-repeat,
+    var(--fill);
+  transition:
+    background-size 0.45s var(--ease-out-expo),
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.25s,
+    transform 0.2s var(--ease-spring);
+}
+
+:root[data-theme='elements'] .btn--ghost {
+  border-color: transparent;
+}
+
+/* The primary button is a red seal stamp */
+:root[data-theme='elements'] .btn--primary {
+  --fill: var(--color-accent);
+  color: var(--color-on-accent);
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-on-accent) 30%, transparent);
+}
+
+@media (hover: hover) {
+  :root[data-theme='elements'] .btn:hover {
+    background-size:
+      100% 100%,
+      auto;
+    border-color: var(--color-text);
+  }
+
+  /* Hover presses the seal down onto the paper: it tilts and an inked ring spreads around it */
+  :root[data-theme='elements'] .btn--primary:hover {
+    --fill: var(--color-accent-strong);
+    color: var(--color-on-accent);
+    border-color: var(--color-accent-strong);
+    rotate: -1.5deg;
+    box-shadow:
+      inset 0 0 0 2px color-mix(in srgb, var(--color-on-accent) 30%, transparent),
+      0 0 0 3px var(--color-bg),
+      0 0 0 4.5px var(--color-accent);
+  }
+}
+
+:root[data-theme='elements'] .btn--primary:active {
+  --fill: var(--color-accent-strong);
+  color: var(--color-on-accent);
+}
+
+/* Fields: lines of the scroll to write on */
+:root[data-theme='elements'] .field {
+  border-width: 0 0 1.5px;
+  border-color: var(--color-border-strong);
+  border-radius: 0;
+  background: transparent;
+}
+
+:root[data-theme='elements'] .field:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 1.5px 0 var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme='elements'] .hero::before,
+  :root[data-theme='elements'] .timeline::before {
+    animation: none;
+  }
+}

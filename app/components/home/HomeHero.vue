@@ -18,9 +18,11 @@ const readout = computed(() => [
 </script>
 
 <template>
-  <section class="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pt-16 pb-24 md:px-8 md:pt-24 lg:grid-cols-[1.25fr_1fr] lg:pb-32">
+  <section
+    class="hero relative mx-auto grid max-w-6xl items-center gap-14 px-5 pt-16 pb-24 md:px-8 md:pt-24 lg:grid-cols-[1.25fr_1fr] lg:pb-32"
+  >
     <div>
-      <p v-reveal class="flex flex-wrap items-center gap-3">
+      <p class="flex flex-wrap items-center gap-3">
         <span v-if="profile.availability.open" class="pill">
           <span class="led" aria-hidden="true" />
           {{ profile.availability.label }}
@@ -28,15 +30,15 @@ const readout = computed(() => [
         <span class="eyebrow text-faint!">{{ profile.role }} · {{ profile.location }}</span>
       </p>
 
-      <h1 class="mt-7 text-[clamp(3rem,9vw,5.6rem)] leading-[0.95] font-bold tracking-tight">
+      <h1 class="hero__name mt-7 text-[clamp(3rem,9vw,5.6rem)] leading-[0.95] font-bold tracking-tight">
         <UiScrambleText :text="profile.name.split(' ')[0]!" class="block text-text" />
         <UiScrambleText :text="profile.name.split(' ').slice(1).join(' ')" :delay="350" class="text-gradient block pb-2" />
       </h1>
 
-      <p v-reveal="120" class="mt-7 max-w-xl font-display text-xl text-balance text-text md:text-2xl">{{ profile.headline }}</p>
-      <p v-reveal="200" class="mt-4 max-w-xl text-muted">{{ profile.summary }}</p>
+      <p class="mt-7 max-w-xl font-display text-xl text-balance text-text md:text-2xl">{{ profile.headline }}</p>
+      <p class="mt-4 max-w-xl text-muted">{{ profile.summary }}</p>
 
-      <div v-reveal="280" class="mt-9 flex flex-wrap items-center gap-3">
+      <div class="mt-9 flex flex-wrap items-center gap-3">
         <NuxtLink to="/projects" class="btn btn--primary">
           See my work
           <ArrowRight :size="16" />
@@ -61,9 +63,9 @@ const readout = computed(() => [
       <header class="flex h-11 items-center gap-2.5 border-b border-border px-4">
         <span class="led" aria-hidden="true" />
         <span class="font-display text-sm font-semibold">profile.sys</span>
-        <span class="ml-auto font-mono text-[0.7rem] text-faint">LIVE</span>
+        <span class="ml-auto font-meta text-[0.7rem] text-faint">LIVE</span>
       </header>
-      <dl class="divide-y divide-border/70 px-4 py-2 font-mono text-[0.82rem]">
+      <dl class="divide-y divide-border/70 px-4 py-2 font-meta text-[0.82rem]">
         <div v-for="(row, i) in readout" :key="row.key" class="readout__row" :style="{ '--i': i }">
           <dt class="w-14 shrink-0 text-faint uppercase">{{ row.key }}</dt>
           <dd class="truncate text-text">{{ row.value }}</dd>
@@ -80,18 +82,18 @@ const readout = computed(() => [
   align-items: center;
   gap: 0.6rem;
   padding: 0.3rem 0.85rem 0.3rem 0.7rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.78rem;
   color: var(--color-accent-strong);
-  border: 1px solid rgb(45 212 191 / 0.3);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
   background: var(--accent-soft);
   border-radius: 999px;
-  box-shadow: 0 0 24px rgb(45 212 191 / 0.08);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
 
 .readout {
   --chamfer: 18px;
-  box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.7);
+  box-shadow: var(--shadow-lift);
 }
 
 .readout__row {

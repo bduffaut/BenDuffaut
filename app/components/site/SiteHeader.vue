@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Menu, X } from 'lucide-vue-next'
+import { THEME_MENU } from '~/themes'
 
 const NAV = [
   { label: 'Experience', to: '/#experience' },
@@ -23,17 +24,26 @@ const isActive = (to: string) => !to.includes('#') && route.path.startsWith(to)
 onMounted(() => {
   const onScroll = () => (scrolled.value = window.scrollY > 8)
   onScroll()
+  // Escape closes the mobile menu, like any other disclosure
+  const onKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') open.value = false
+  }
   window.addEventListener('scroll', onScroll, { passive: true })
-  onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+  window.addEventListener('keydown', onKey)
+  onBeforeUnmount(() => {
+    window.removeEventListener('scroll', onScroll)
+    window.removeEventListener('keydown', onKey)
+  })
 })
 </script>
 
 <template>
   <header class="header" :class="{ 'header--scrolled': scrolled || open }">
     <nav class="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 md:px-8" aria-label="Main">
-      <NuxtLink to="/" class="brand" aria-label="Ben Duffaut, home">
+      <!-- Named by its text, so the accessible name always matches what is shown -->
+      <NuxtLink to="/" class="brand">
         <span class="brand__mark" aria-hidden="true">BD</span>
-        <span class="brand__name hidden sm:inline">Ben Duffaut</span>
+        <span class="brand__name sr-only sm:not-sr-only">Ben Duffaut</span>
       </NuxtLink>
 
       <ul class="ml-auto hidden items-center gap-1 md:flex">
@@ -41,10 +51,12 @@ onMounted(() => {
           <NuxtLink :to="item.to" class="nav-link" :class="{ 'is-active': isActive(item.to) }">{{ item.label }}</NuxtLink>
         </li>
       </ul>
+      <SiteThemeMenu v-if="THEME_MENU" class="ml-auto md:ml-0" />
       <NuxtLink to="/#contact" class="btn btn--primary btn--sm hidden md:inline-flex">Get in touch</NuxtLink>
 
       <button
-        class="btn btn--ghost btn--icon ml-auto md:hidden"
+        class="btn btn--ghost btn--icon md:hidden"
+        :class="{ 'ml-auto': !THEME_MENU }"
         :aria-expanded="open"
         aria-controls="mobile-nav"
         :aria-label="open ? 'Close menu' : 'Open menu'"
@@ -81,7 +93,7 @@ onMounted(() => {
 }
 
 .header--scrolled {
-  background: rgb(10 14 20 / 0.72);
+  background: var(--header-bg);
   border-color: var(--color-border);
   backdrop-filter: blur(14px) saturate(1.4);
 }
@@ -100,9 +112,9 @@ onMounted(() => {
   font-family: var(--font-display);
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--color-bg-deep);
-  background: var(--gradient-signal);
-  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+  color: var(--color-on-accent);
+  background: var(--gradient-brand);
+  clip-path: var(--clip, polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%));
   transition:
     filter 0.3s,
     transform 0.4s var(--ease-spring);
@@ -143,7 +155,7 @@ onMounted(() => {
   right: 0.8rem;
   bottom: 0.2rem;
   height: 1px;
-  background: var(--gradient-signal);
+  background: var(--gradient-brand);
   box-shadow: 0 0 8px var(--accent-glow);
   scale: 0 1;
   transition: scale 0.35s var(--ease-out-expo);

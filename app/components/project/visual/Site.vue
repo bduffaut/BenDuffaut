@@ -1,6 +1,6 @@
 <!-- The deploy pipeline for this site, printed like a terminal session -->
 <template>
-  <div class="relative flex aspect-[16/9] w-full flex-col justify-center gap-1.5 p-6 font-mono text-[0.72rem]">
+  <div class="relative flex aspect-[16/9] w-full flex-col justify-center gap-1.5 p-6 font-meta text-[0.72rem]">
     <p v-for="(line, i) in LINES" :key="i" class="line" :style="{ '--i': i }">
       <span :class="line.ok ? 'text-good' : 'text-accent'">{{ line.ok ? '✓' : '$' }}</span>
       <span :class="line.ok ? 'text-muted' : 'text-text'">{{ line.text }}</span>

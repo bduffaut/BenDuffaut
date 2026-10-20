@@ -25,14 +25,14 @@ const project = computed(() => projects?.value.get(props.slug))
         <dl v-if="project.metrics?.length" class="pw__metrics">
           <div v-for="metric in project.metrics" :key="metric.label" class="min-w-0">
             <dt class="sr-only">{{ metric.label }}</dt>
-            <dd class="glow font-display text-xl font-semibold text-cyan"><UiCountUp :value="metric.value" /></dd>
+            <dd class="glow font-display text-xl font-semibold text-data"><UiCountUp :value="metric.value" /></dd>
             <dd class="mt-0.5 truncate text-xs text-faint">{{ metric.label }}</dd>
           </div>
         </dl>
 
         <div class="pw__meta">
           <UiStatusChip :status="project.status ?? 'shipped'" />
-          <span class="pw__period truncate font-mono text-xs text-faint">{{ project.period }}</span>
+          <span class="pw__period truncate font-meta text-xs text-faint">{{ project.period }}</span>
         </div>
 
         <ul class="pw__stack" aria-label="Technologies">

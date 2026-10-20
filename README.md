@@ -65,6 +65,6 @@ compose.yaml      site, Cloudflare Tunnel, Umami analytics
 
 ## Before launch
 
-- [ ] Set up the server, tunnel, email routing and SMTP: [docs/deployment.md](docs/deployment.md)
+- [x] Set up the server, tunnel, email routing and SMTP: [docs/deployment.md](docs/deployment.md)
 - [ ] Record the TennisTracker demo and set `video:` in `content/projects/02.tennistracker.md`
 - [ ] Add `benduffaut.com` as the website on your GitHub profile

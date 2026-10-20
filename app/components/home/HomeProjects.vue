@@ -38,10 +38,20 @@ const editing = ref(false)
 const customized = ref(false)
 const removed = ref<string[]>([])
 
+// Any localStorage call throws when the browser blocks site data, so each one is guarded and
+// the board just doesn't persist
 const storage = {
-  getItem: (key: string) => (typeof localStorage === 'undefined' ? null : localStorage.getItem(key)),
-  setItem: (key: string, value: string) => customized.value && localStorage.setItem(key, value),
-  removeItem: (key: string) => localStorage.removeItem(key),
+  getItem: (key: string) => quietly(() => localStorage.getItem(key)) ?? null,
+  setItem: (key: string, value: string) => customized.value && quietly(() => localStorage.setItem(key, value)),
+  removeItem: (key: string) => quietly(() => localStorage.removeItem(key)),
+}
+
+function quietly<T>(fn: () => T): T | undefined {
+  try {
+    return fn()
+  } catch {
+    return undefined
+  }
 }
 
 const { widgets, clear } = useLayoutStorage(STORAGE_KEY, () => defaultProjectLayout(boardProjects.value), {
@@ -268,7 +278,7 @@ onMounted(() => {
 }
 
 .board--editing::before {
-  border-color: rgb(45 212 191 / 0.25);
+  border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
 }
 
 /* The overlay covers the board and the sweep is a 120px band in its background, with the
@@ -281,7 +291,14 @@ onMounted(() => {
   inset: 0;
   z-index: 40;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgb(45 212 191 / 0.07) 85%, rgb(45 212 191 / 0.55) 99%, transparent) no-repeat;
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-accent) 7%, transparent) 85%,
+      color-mix(in srgb, var(--color-accent) 55%, transparent) 99%,
+      transparent
+    )
+    no-repeat;
   background-size: 100% 120px;
   animation: scan 1.1s cubic-bezier(0.4, 0, 0.2, 1) both;
 }

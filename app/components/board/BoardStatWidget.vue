@@ -41,7 +41,7 @@ const stat = computed(() => project.value?.metrics?.[props.metric])
   position: absolute;
   inset: auto -20% -60% 30%;
   height: 140%;
-  background: radial-gradient(closest-side, rgb(34 211 238 / 0.12), transparent);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-data) 12%, transparent), transparent);
   pointer-events: none;
 }
 
@@ -51,7 +51,7 @@ const stat = computed(() => project.value?.metrics?.[props.metric])
   font-size: clamp(1.25rem, min(42cqh, 20cqw), 4.5rem);
   font-weight: 600;
   line-height: 1.05;
-  color: var(--color-cyan);
+  color: var(--color-data);
   white-space: nowrap;
 }
 

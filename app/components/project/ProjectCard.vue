@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { ArrowUpRight } from 'lucide-vue-next'
-import type { ProjectsCollectionItem } from '@nuxt/content'
 
-defineProps<{ project: ProjectsCollectionItem; large?: boolean }>()
+defineProps<{ project: ProjectSummary; large?: boolean }>()
 </script>
 
 <template>
-  <NuxtLink :to="project.path" class="panel panel--lift group flex h-full flex-col">
+  <NuxtLink :to="project.path" class="project-card panel panel--lift group flex h-full flex-col">
     <ProjectVisual :visual="project.visual ?? 'none'" class="border-b border-border" />
     <div class="flex flex-1 flex-col p-6">
       <div class="flex items-center gap-3">
         <UiStatusChip :status="project.status ?? 'shipped'" />
-        <span class="font-mono text-xs text-faint">{{ project.period }}</span>
+        <span class="font-meta text-xs text-faint">{{ project.period }}</span>
         <ArrowUpRight
           :size="18"
           class="ml-auto text-faint transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
@@ -23,7 +22,7 @@ defineProps<{ project: ProjectsCollectionItem; large?: boolean }>()
       <dl v-if="large && project.metrics?.length" class="mt-5 grid grid-cols-3 gap-4 border-t border-border pt-5">
         <div v-for="metric in project.metrics" :key="metric.label">
           <dt class="sr-only">{{ metric.label }}</dt>
-          <dd class="glow font-display text-xl font-semibold text-cyan md:text-2xl"><UiCountUp :value="metric.value" /></dd>
+          <dd class="glow font-display text-xl font-semibold text-data md:text-2xl"><UiCountUp :value="metric.value" /></dd>
           <dd class="mt-1 text-xs leading-snug text-faint">{{ metric.label }}</dd>
         </div>
       </dl>

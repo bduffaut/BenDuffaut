@@ -7,8 +7,9 @@ Ben's portfolio site: Nuxt 4 + Vue 3 + Tailwind v4 + Nuxt Content, prerendered, 
 - **Never push, open PRs, or otherwise write to GitHub.** Ben does that himself. Committing locally is fine only when asked.
 - The repo is public. Never commit `notes/`, `Ben_Resume.pdf`, `.env`, or anything with his phone number. That includes `public/resume.pdf`: it must be Ben's export without the phone.
 - Site copy belongs in `content/`, never hard-coded in components. Schemas are in `content.config.ts`.
-- Colors, fonts and easings come from the tokens in `app/assets/css/main.css`. Don't use raw hex values in components.
+- Components are styled only with design tokens (`app/assets/css/main.css` and `tokens.css`): no raw hex, `rgb()` or font names in components. That's what lets every theme restyle them. Raw values belong in `app/assets/css/themes/*.css`. Adding a theme: docs/architecture.md#adding-a-theme.
 - Every animation must respect `prefers-reduced-motion` and show a sensible static state.
+- Looping animations use opacity and transforms only, so they stay on the compositor. Measure performance on the production build, never `npm run dev`. See docs/architecture.md#performance.
 
 ## Commands
 

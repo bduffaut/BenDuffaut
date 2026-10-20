@@ -49,8 +49,8 @@ const emit = defineEmits<{ add: [entry: TrayEntry] }>()
   gap: 10px 14px;
   margin-bottom: 18px;
   padding: 10px 12px;
-  border: 1px dashed rgb(45 212 191 / 0.25);
-  background: rgb(45 212 191 / 0.03);
+  border: 1px dashed color-mix(in srgb, var(--color-accent) 25%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 3%, transparent);
   animation: tray-in 0.3s var(--ease-out-expo);
 }
 
@@ -79,7 +79,7 @@ const emit = defineEmits<{ add: [entry: TrayEntry] }>()
   padding: 7px 10px;
   border: 1px solid var(--color-border-strong);
   background: var(--color-surface-2);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  clip-path: var(--clip, polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%));
   cursor: grab;
   transition:
     border-color 0.15s,
@@ -116,7 +116,7 @@ const emit = defineEmits<{ add: [entry: TrayEntry] }>()
 }
 
 .tray__kind {
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.7rem;
   color: var(--color-faint);
 }

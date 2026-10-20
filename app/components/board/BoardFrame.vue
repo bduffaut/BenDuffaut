@@ -130,7 +130,7 @@ const readout = computed(() => {
 }
 
 .frame--pinned.frame--editing {
-  --edge: rgb(45 212 191 / 0.35);
+  --edge: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
 
 .frame--selected,
@@ -199,7 +199,7 @@ const readout = computed(() => {
   font-size: 0.75rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  color: var(--color-bg-deep);
+  color: var(--color-on-accent);
   background: var(--color-accent);
 }
 
@@ -262,7 +262,7 @@ const readout = computed(() => {
   }
 
   .frame__remove:hover {
-    color: #ec835a;
+    color: var(--color-danger);
   }
 
   .frame:hover .frame__open {

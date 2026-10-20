@@ -59,8 +59,8 @@ const ITEMS = [
   }
   45%,
   90% {
-    border-color: rgb(34 211 238 / 0.7);
-    box-shadow: 0 0 18px -4px rgb(34 211 238 / 0.45);
+    border-color: color-mix(in srgb, var(--color-data) 70%, transparent);
+    box-shadow: 0 0 18px -4px color-mix(in srgb, var(--color-data) 45%, transparent);
   }
 }
 
@@ -80,7 +80,7 @@ const ITEMS = [
   left: 14px;
   top: 50%;
   translate: 0 -50%;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.68rem;
   color: var(--color-faint);
 }
@@ -97,9 +97,9 @@ const ITEMS = [
   right: 12px;
   top: 50%;
   translate: 0 -50%;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.68rem;
-  color: var(--color-cyan);
+  color: var(--color-data);
   opacity: 0;
   animation: score 6s ease-in-out infinite;
 }
@@ -121,7 +121,13 @@ const ITEMS = [
   right: 0;
   top: 0;
   height: 60px;
-  background: linear-gradient(to bottom, transparent, rgb(45 212 191 / 0.1) 80%, rgb(45 212 191 / 0.6) 99%, transparent);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--color-accent) 10%, transparent) 80%,
+    color-mix(in srgb, var(--color-accent) 60%, transparent) 99%,
+    transparent
+  );
   animation: scan 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   pointer-events: none;
 }

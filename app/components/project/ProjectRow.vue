@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { ArrowRight } from 'lucide-vue-next'
-import type { ProjectsCollectionItem } from '@nuxt/content'
 
 // Compact one-line entry for smaller projects
-defineProps<{ project: ProjectsCollectionItem }>()
+defineProps<{ project: ProjectSummary }>()
 </script>
 
 <template>
   <NuxtLink :to="project.path" class="row group">
-    <span class="w-28 shrink-0 font-mono text-xs text-faint">{{ project.period }}</span>
+    <span class="w-28 shrink-0 font-meta text-xs text-faint">{{ project.period }}</span>
     <span class="min-w-0 flex-1">
       <span class="font-display text-text transition-colors group-hover:text-accent-strong">{{ project.title }}</span>
       <span class="mt-0.5 block text-sm text-muted">{{ project.tagline }}</span>

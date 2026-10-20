@@ -16,10 +16,10 @@
   position: relative;
   height: 100%;
   background-image:
-    linear-gradient(to right, rgb(45 212 191 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(45 212 191 / 0.06) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--color-accent) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-accent) 6%, transparent) 1px, transparent 1px);
   background-size: calc(100% / 6) 25%;
-  outline: 1px dashed rgb(45 212 191 / 0.15);
+  outline: 1px dashed color-mix(in srgb, var(--color-accent) 15%, transparent);
 }
 
 .w {
@@ -34,7 +34,7 @@
   inset: 4px;
   border: 1px solid var(--color-border-strong);
   background: var(--color-surface-2);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  clip-path: var(--clip, polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%));
   transition: border-color 0.3s;
 }
 
@@ -51,7 +51,7 @@
 .w__chart {
   position: absolute;
   inset: 26px 12px 12px;
-  background: linear-gradient(to top, rgb(34 211 238 / 0.25), transparent);
+  background: linear-gradient(to top, color-mix(in srgb, var(--color-data) 25%, transparent), transparent);
   clip-path: polygon(0 80%, 15% 55%, 30% 65%, 48% 30%, 62% 45%, 80% 15%, 100% 30%, 100% 100%, 0 100%);
 }
 
@@ -125,8 +125,8 @@
   32%,
   61%,
   66% {
-    border-color: var(--color-cyan);
-    filter: drop-shadow(0 0 8px rgb(34 211 238 / 0.5));
+    border-color: var(--color-data);
+    filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-data) 50%, transparent));
   }
 }
 

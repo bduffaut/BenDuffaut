@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
+import { DEFAULT_THEME, THEMES, THEME_STORAGE_KEY } from '../../app/themes'
 
 const PAGES = ['/', '/projects', '/projects/dashboard-grid', '/projects/tennistracker', '/projects/homelab', '/resume']
 
@@ -29,6 +30,43 @@ test.describe('pages', () => {
   })
 })
 
+// Every other theme gets the same contrast and accessibility checks on the busiest pages
+test.describe('themes', () => {
+  test.use({ contextOptions: { reducedMotion: 'reduce' } })
+
+  for (const theme of THEMES.filter((t) => t.id !== DEFAULT_THEME)) {
+    for (const path of ['/', '/projects', '/projects/dashboard-grid']) {
+      test(`${theme.label}: ${path} has no accessibility violations`, async ({ page }) => {
+        await page.addInitScript(([key, id]) => localStorage.setItem(key!, id!), [THEME_STORAGE_KEY, theme.id])
+        await page.goto(path)
+        await expect(page.locator('html')).toHaveAttribute('data-theme', theme.id)
+        await expect(page.locator('h1').first()).toBeVisible()
+
+        const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
+        expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([])
+      })
+    }
+  }
+
+  test('the theme menu switches theme and remembers it', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', DEFAULT_THEME)
+
+    await page.getByRole('button', { name: 'Change theme' }).click()
+    // Visitors click the row; the radio inside it is visually hidden
+    await page.getByText('Elements', { exact: true }).click()
+    await expect(page.getByRole('radio', { name: /Elements/ })).toBeChecked()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'elements')
+    await page.keyboard.press('Escape')
+    await expect(page.getByRole('group', { name: 'Theme' })).toBeHidden()
+
+    // Applied by the head script before the app loads, so there's no flash of the default
+    await page.route('**/_nuxt/**', (route) => route.abort())
+    await page.reload()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'elements')
+  })
+})
+
 test('home links through to a project case study', async ({ page }) => {
   await page.goto('/')
   await page.locator('#projects').getByRole('link', { name: 'Open Custom Dashboard Grid' }).click()
@@ -40,6 +78,10 @@ test('project board can be customized', async ({ page }) => {
   await page.goto('/')
   const projects = page.locator('#projects')
   await expect(projects.locator('.dg-item').first()).toBeAttached()
+  // The board hydrates when it scrolls into view (pages/index.vue), so bring it into view and
+  // wait until it's live, as a visitor scrolling down would
+  await projects.scrollIntoViewIfNeeded()
+  await expect(projects.locator('.board--settled')).toBeAttached()
   const count = await projects.locator('.dg-item').count()
 
   await projects.getByRole('button', { name: 'Customize' }).click()
@@ -79,6 +121,20 @@ test.describe('server', () => {
   test('contact API rejects invalid input', async ({ request }) => {
     const res = await request.post('/api/contact', { data: { name: '', email: 'x', message: '' } })
     expect(res.status()).toBe(422)
+  })
+
+  test('contact API refuses oversized bodies without reading them', async ({ request }) => {
+    const res = await request.post('/api/contact', { data: { name: 'x', email: 'a@b.co', message: 'x'.repeat(40_000) } })
+    expect(res.status()).toBe(413)
+  })
+
+  test('pages and static files send security headers', async ({ request }) => {
+    for (const path of ['/', '/resume.pdf']) {
+      const headers = (await request.get(path)).headers()
+      expect(headers['x-content-type-options']).toBe('nosniff')
+      expect(headers['strict-transport-security']).toContain('max-age=')
+      expect(headers['content-security-policy']).toContain("frame-ancestors 'self'")
+    }
   })
 
   test('sitemap lists the projects', async ({ request }) => {

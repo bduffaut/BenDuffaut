@@ -1,0 +1,479 @@
+/*
+ * Shared building blocks. Every theme gets these; they use only tokens, so a theme changes
+ * them by changing tokens, and adds anything beyond that in its own file.
+ */
+@layer components {
+  /*
+   * Panel: a surface with a hairline edge, plus a border light and an inner wash that follow
+   * the pointer. v-spotlight sets --mx and --my, relative to each panel. Under Signal it also
+   * has one chamfered corner (--clip).
+   */
+  .panel {
+    --edge: var(--color-border);
+    --fill: var(--color-surface);
+    position: relative;
+    isolation: isolate;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background:
+      linear-gradient(var(--fill), var(--fill)) padding-box,
+      radial-gradient(420px circle at var(--mx, -999px) var(--my, -999px), var(--spotlight), transparent 45%) border-box,
+      linear-gradient(var(--edge), var(--edge)) border-box;
+    box-shadow: var(--panel-shadow);
+    clip-path: var(--clip, polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%));
+    transition:
+      --edge 0.2s,
+      box-shadow 0.3s,
+      transform 0.35s var(--ease-out-expo),
+      scale 0.3s var(--ease-out-expo);
+  }
+
+  /* Touch screens: a band of light along the scan line instead of a circle, so both side edges
+     light where the line crosses them and the top and bottom edges flash as it passes */
+  .panel[data-scan] {
+    background:
+      linear-gradient(var(--fill), var(--fill)) padding-box,
+      linear-gradient(to bottom, transparent calc(var(--my) - 140px), var(--spotlight) var(--my), transparent calc(var(--my) + 140px))
+        border-box,
+      linear-gradient(var(--edge), var(--edge)) border-box;
+  }
+
+  /* Soft light under the pointer */
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    border-radius: inherit;
+    background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), var(--spotlight-wash), transparent 50%);
+    transition: opacity 0.3s;
+  }
+
+  /*
+   * Lit: under the mouse (:hover), or on touch screens while the scroll line crosses the panel
+   * ([data-lit], set by v-spotlight). Hover effects only run with a real pointer, so a tap
+   * never leaves a panel or button stuck in its hover look.
+   */
+  .panel[data-lit] {
+    --edge: var(--color-border-strong);
+  }
+
+  .panel[data-lit]::before {
+    opacity: 1;
+  }
+
+  @media (hover: hover) {
+    .panel:hover {
+      --edge: var(--color-border-strong);
+    }
+
+    .panel:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Pressing a panel that's a link (project cards, board widgets): the edge flashes and it dips */
+  :is(a.panel, .panel:has(.frame__body[href])):active {
+    --edge: var(--color-accent);
+    scale: 0.985;
+    transition-duration: 0.08s;
+  }
+
+  :is(a.panel, .panel:has(.frame__body[href])):active::before {
+    opacity: 1;
+  }
+
+  .panel--raised {
+    --fill: var(--color-surface-2);
+  }
+
+  @media (hover: hover) {
+    .panel--lift:hover {
+      transform: translateY(-3px);
+    }
+  }
+
+  /* Registration marks from the grid's edit mode, as decoration */
+  .marks {
+    background-image:
+      linear-gradient(var(--color-faint), var(--color-faint)), linear-gradient(var(--color-faint), var(--color-faint)),
+      linear-gradient(var(--color-faint), var(--color-faint)), linear-gradient(var(--color-faint), var(--color-faint));
+    background-size:
+      8px 1px,
+      1px 8px,
+      8px 1px,
+      1px 8px;
+    background-position:
+      0 100%,
+      0 100%,
+      100% 100%,
+      100% 100%;
+    background-repeat: no-repeat;
+  }
+
+  /* Buttons */
+  .btn {
+    --fill: var(--color-surface-2);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 42px;
+    padding: 0 1.1rem;
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-control);
+    background: var(--fill);
+    clip-path: var(--clip, polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%));
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      background-color 0.2s,
+      box-shadow 0.25s,
+      transform 0.2s var(--ease-spring);
+  }
+
+  @media (hover: hover) {
+    .btn:hover {
+      border-color: var(--color-faint);
+      --fill: var(--color-surface-3);
+    }
+
+    /* Trailing arrows nudge forward. Not in icon-only buttons, where the icon would slide off center */
+    .btn:not(.btn--icon):hover svg:last-child {
+      transform: translateX(3px);
+    }
+  }
+
+  /* Press: it gives a little and the edge flashes, on touch and mouse alike */
+  .btn:active {
+    border-color: var(--color-accent);
+    --fill: var(--color-surface-3);
+    transform: translateY(1px) scale(0.97);
+    transition-duration: 0.06s;
+  }
+
+  .btn svg {
+    transition: transform 0.3s var(--ease-spring);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Primary: filled with the accent. Themes can make it fancier (Signal's rotating edge) */
+  .btn--primary {
+    --fill: var(--color-accent);
+    color: var(--color-on-accent);
+    border-color: var(--color-accent);
+  }
+
+  @media (hover: hover) {
+    .btn--primary:hover {
+      --fill: var(--color-accent-strong);
+      border-color: var(--color-accent-strong);
+    }
+  }
+
+  .btn--primary:active {
+    --fill: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+  }
+
+  .btn--ghost {
+    --fill: transparent;
+    border-color: transparent;
+    color: var(--color-muted);
+  }
+
+  @media (hover: hover) {
+    .btn--ghost:hover {
+      color: var(--color-text);
+      border-color: var(--color-border-strong);
+    }
+  }
+
+  .btn--ghost:active {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+
+  .btn--sm {
+    min-height: 34px;
+    padding: 0 0.8rem;
+    font-size: 0.82rem;
+  }
+
+  .btn--icon {
+    width: 42px;
+    padding: 0;
+  }
+
+  /* Small label above headings and in readouts */
+  .eyebrow {
+    font-family: var(--label-font);
+    font-size: var(--label-size);
+    font-weight: var(--label-weight);
+    letter-spacing: var(--label-tracking);
+    text-transform: var(--label-case);
+    color: var(--color-accent);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.6rem;
+    font-family: var(--font-meta);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-text) 2%, transparent);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+
+  @media (hover: hover) {
+    .chip:hover {
+      color: var(--color-accent-strong);
+      border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+      background: var(--accent-soft);
+    }
+  }
+
+  .led {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--led, var(--color-accent));
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--led, var(--color-accent)) 18%, transparent),
+      0 0 10px var(--led, var(--color-accent));
+    animation: var(--animate-led);
+  }
+
+  .text-gradient {
+    background: var(--gradient-brand);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .glow {
+    text-shadow: 0 0 24px var(--data-glow);
+  }
+
+  /* Form fields */
+  .field {
+    width: 100%;
+    min-width: 0;
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-deep);
+    caret-color: var(--color-data);
+    transition:
+      border-color 0.15s,
+      box-shadow 0.2s;
+  }
+
+  .field::placeholder {
+    color: var(--color-faint);
+  }
+
+  @media (hover: hover) {
+    .field:hover {
+      border-color: var(--color-faint);
+    }
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-data);
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--color-data) 12%, transparent),
+      0 0 16px var(--data-glow);
+  }
+
+  .field[aria-invalid='true'] {
+    border-color: var(--color-danger-strong);
+  }
+
+  /* Long-form project write-ups rendered from Markdown */
+  .prose-site {
+    color: var(--color-muted);
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+
+  /* ContentRenderer wraps the Markdown in a div, so space its children too */
+  .prose-site > * + *,
+  .prose-site > div > * + * {
+    margin-top: 1.1em;
+  }
+
+  .prose-site h2 {
+    margin-top: 2.4em;
+    font-size: 1.45rem;
+    color: var(--color-text);
+  }
+
+  .prose-site h2::before {
+    content: var(--prose-marker);
+    color: var(--color-accent);
+    font-family: var(--font-meta);
+    font-size: 0.85em;
+  }
+
+  .prose-site h3 {
+    margin-top: 1.8em;
+    font-size: 1.15rem;
+    color: var(--color-text);
+  }
+
+  .prose-site a {
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    text-underline-offset: 3px;
+  }
+
+  .prose-site a:active {
+    text-decoration-color: currentColor;
+  }
+
+  @media (hover: hover) {
+    .prose-site a:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  .prose-site strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .prose-site em {
+    color: var(--color-text);
+  }
+
+  .prose-site ul {
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .prose-site ul > li {
+    position: relative;
+    padding-left: 1.4em;
+  }
+
+  .prose-site ul > li + li {
+    margin-top: 0.45em;
+  }
+
+  .prose-site ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0.15em;
+    top: 0.72em;
+    width: 7px;
+    height: 1px;
+    background: var(--color-accent);
+    box-shadow: 0 0 6px var(--accent-glow);
+  }
+
+  .prose-site code {
+    padding: 0.1em 0.4em;
+    font-family: var(--font-code);
+    font-size: 0.86em;
+    color: var(--color-data-strong);
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .prose-site pre {
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    background: var(--color-bg-deep);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .prose-site pre code {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text);
+  }
+
+  .prose-site .table-scroll {
+    overflow-x: auto;
+  }
+
+  .prose-site table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  .prose-site th {
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-family: var(--label-font);
+    font-size: 0.72rem;
+    font-weight: var(--label-weight);
+    letter-spacing: var(--label-tracking);
+    text-transform: var(--label-case);
+    color: var(--color-faint);
+    border-bottom: 1px solid var(--color-border-strong);
+  }
+
+  .prose-site td {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .prose-site td:first-child {
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+}
+
+@property --edge {
+  syntax: '<color>';
+  initial-value: transparent;
+  inherits: true;
+}
+
+/* Opacity only, so the browser can run it on the compositor without repainting */
+@keyframes led {
+  50% {
+    opacity: 0.4;
+  }
+}

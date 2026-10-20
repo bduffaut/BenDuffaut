@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Text that decodes from random glyphs into place, left to right, once on mount.
-// Server render and reduced motion both show the final text, and screen readers only
-// ever get the final text.
+// Server render, reduced motion and themes without the scramble effect all show the final
+// text, and screen readers only ever get the final text.
 
 const props = withDefaults(defineProps<{ text: string; duration?: number; delay?: number }>(), {
   duration: 1100,
@@ -10,9 +10,10 @@ const props = withDefaults(defineProps<{ text: string; duration?: number; delay?
 
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/<>[]{}#*+=-_'
 const shown = ref(props.text)
+const { theme } = useTheme()
 
 onMounted(() => {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  if (!theme.value.effects.scramble || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   const chars = [...props.text]
   let start = 0
   let frame = 0

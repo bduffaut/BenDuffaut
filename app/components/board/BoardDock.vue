@@ -68,9 +68,9 @@ const drag = useDragState()
   padding: 6px;
   translate: -50% 0;
   border: 1px solid var(--color-border-strong);
-  background: rgb(16 22 30 / 0.9);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
   backdrop-filter: blur(12px) saturate(1.4);
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  clip-path: var(--clip, polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%));
   animation: dock-in 0.35s var(--ease-out-expo);
   transition: border-color 0.15s;
 }
@@ -169,13 +169,13 @@ const drag = useDragState()
 
 .dock__done:active {
   color: var(--color-accent-strong) !important;
-  background: rgb(45 212 191 / 0.2) !important;
+  background: color-mix(in srgb, var(--color-accent) 20%, transparent) !important;
 }
 
 @media (hover: hover) {
   .dock__done:hover {
     color: var(--color-accent-strong) !important;
-    background: rgb(45 212 191 / 0.2) !important;
+    background: color-mix(in srgb, var(--color-accent) 20%, transparent) !important;
   }
 
   .dock__done:hover svg {
@@ -193,12 +193,12 @@ const drag = useDragState()
 }
 
 .dock__danger:active {
-  color: #ec835a !important;
+  color: var(--color-danger) !important;
 }
 
 @media (hover: hover) {
   .dock__danger:hover {
-    color: #ec835a !important;
+    color: var(--color-danger) !important;
   }
 }
 
@@ -213,12 +213,14 @@ const drag = useDragState()
   font-family: var(--font-display);
   font-size: 0.9rem;
   font-weight: 600;
-  color: #ec835a;
-  background: repeating-linear-gradient(-45deg, rgb(208 59 59 / 0.08) 0 8px, transparent 8px 16px), var(--color-surface);
+  color: var(--color-danger);
+  background:
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--color-danger-strong) 8%, transparent) 0 8px, transparent 8px 16px),
+    var(--color-surface);
 }
 
 .dock.dg-trash--armed {
-  border-color: rgb(208 59 59 / 0.6);
+  border-color: color-mix(in srgb, var(--color-danger-strong) 60%, transparent);
 }
 
 .dock.dg-trash--armed .dock__drop {
@@ -226,12 +228,18 @@ const drag = useDragState()
 }
 
 .dock.dg-trash--active {
-  border-color: #d03b3b;
+  border-color: var(--color-danger-strong);
 }
 
 .dock.dg-trash--active .dock__drop {
-  color: #fff;
-  background: repeating-linear-gradient(-45deg, rgb(208 59 59 / 0.3) 0 8px, rgb(208 59 59 / 0.18) 8px 16px), var(--color-surface);
+  color: var(--color-text);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--color-danger-strong) 30%, transparent) 0 8px,
+      color-mix(in srgb, var(--color-danger-strong) 18%, transparent) 8px 16px
+    ),
+    var(--color-surface);
 }
 
 @media (max-width: 720px) {

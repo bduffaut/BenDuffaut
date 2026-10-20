@@ -4,8 +4,8 @@
     <svg viewBox="0 0 400 225" class="absolute inset-0 h-full w-full">
       <defs>
         <linearGradient id="trail" x1="0" x2="1">
-          <stop offset="0" stop-color="#22d3ee" stop-opacity="0" />
-          <stop offset="1" stop-color="#22d3ee" stop-opacity="0.9" />
+          <stop offset="0" style="stop-color: var(--color-data)" stop-opacity="0" />
+          <stop offset="1" style="stop-color: var(--color-data)" stop-opacity="0.9" />
         </linearGradient>
       </defs>
 
@@ -69,11 +69,11 @@ const KEYPOINTS = [
 
 <style scoped>
 .court {
-  stroke: rgb(230 237 243 / 0.22);
+  stroke: color-mix(in srgb, var(--color-text) 22%, transparent);
 }
 
 .net {
-  stroke: rgb(230 237 243 / 0.45);
+  stroke: color-mix(in srgb, var(--color-text) 45%, transparent);
   stroke-dasharray: 3 3;
 }
 
@@ -97,7 +97,7 @@ const KEYPOINTS = [
 
 .box text,
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 8px;
   fill: var(--color-accent-strong);
 }
@@ -148,7 +148,7 @@ const KEYPOINTS = [
 }
 
 .ball {
-  fill: #e4f75a;
-  filter: drop-shadow(0 0 5px rgb(228 247 90 / 0.8));
+  fill: var(--color-warning);
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-warning) 80%, transparent));
 }
 </style>

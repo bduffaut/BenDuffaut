@@ -1,0 +1,59 @@
+/*
+ * Tokens that aren't utilities (the utility ones are in @theme in main.css). Most are derived
+ * from the colors, so a theme usually only overrides the shape, type and light ones. Loaded
+ * before the themes, so a theme's values win over these defaults.
+ */
+:root {
+  /* Shape. --clip: none turns off the chamfered corners. radius is for panels, radius-control
+     for buttons, radius-sm for small things (chips, fields) */
+  --chamfer: 14px;
+  --radius: 0px;
+  --radius-control: 0px;
+  --radius-sm: 2px;
+  --panel-shadow: none;
+  /* Things that float above the page: the hero readout, menus */
+  --shadow-lift: 0 30px 80px -20px color-mix(in srgb, var(--color-shadow) 70%, transparent);
+
+  /* Type */
+  --heading-weight: 600;
+  --heading-tracking: 0.005em;
+  --heading-stretch: normal;
+  --label-font: var(--font-meta);
+  --label-size: 0.75rem;
+  --label-weight: 500;
+  --label-tracking: 0.12em;
+  --label-case: uppercase;
+  /* Marker before headings in project write-ups */
+  --prose-marker: '// ';
+
+  /* Light. A theme without glows sets the glow tokens to transparent */
+  --accent-soft: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  --accent-glow: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  --data-glow: color-mix(in srgb, var(--color-data) 40%, transparent);
+  /* The pointer-following edge on panels, and the wash inside them */
+  --spotlight: var(--color-accent);
+  --spotlight-wash: color-mix(in srgb, var(--color-accent) 7%, transparent);
+  --gradient-brand: linear-gradient(115deg, var(--color-accent), var(--color-data) 55%, var(--color-accent-alt));
+
+  /* The page backdrop: background layers over bg, the grid's line color, film grain */
+  --backdrop:
+    radial-gradient(1100px 620px at 78% -8%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 62%),
+    radial-gradient(900px 560px at -10% 18%, color-mix(in srgb, var(--color-accent-alt) 6%, transparent), transparent 60%);
+  --backdrop-grid: color-mix(in srgb, var(--color-text) 3.5%, transparent);
+  --grain: 0.05;
+  --header-bg: color-mix(in srgb, var(--color-bg) 72%, transparent);
+
+  /* custom-dashboard-grid theming hooks */
+  --dg-radius: var(--radius-sm);
+  --dg-placeholder-bg: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  --dg-placeholder-border: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  --dg-handle-hover: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  --dg-pending-bg: color-mix(in srgb, var(--color-accent) 4%, transparent);
+  --dg-cell-color: color-mix(in srgb, var(--color-accent) 4.5%, transparent);
+  --dg-cell-active-color: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  --dg-focus-color: var(--color-accent);
+  --dg-selection-color: var(--color-accent);
+  --dg-marquee-bg: color-mix(in srgb, var(--color-accent) 7%, transparent);
+
+  color-scheme: dark;
+}

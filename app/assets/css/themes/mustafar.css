@@ -1,0 +1,466 @@
+/*
+ * Mustafar: a lava world at the end of a war, shot like film.
+ *
+ * Restraint over spectacle. The palette is smoke and basalt, ash-white type and ember orange,
+ * with one Sith red kept for the sabers. Barlow Condensed in wide-tracked capitals, like a
+ * film's titles. The lava is never shown head on: its light rises from beyond a horizon of dark
+ * ridges fixed behind the page, and embers and ash drift through the frame in three depths
+ * (app/backdrops/mustafar.ts).
+ *
+ * The name is a title card: the first name small and spaced out in ember, the surname large in
+ * ash white, a saber igniting beneath it. Panels are quiet dark slabs; hovering one sweeps a
+ * molten line along its lower edge and warms the light under it. Buttons ignite a saber blade
+ * along their edge. Section rules are short sabers that light as they scroll in.
+ *
+ * Ornaments are SVGs in public/themes/mustafar/, used as masks so they take the theme's colors
+ * and only download for this theme. Rules start with :root so they outrank scoped styles.
+ */
+[data-theme='mustafar'] {
+  --color-bg: #0b0706;
+  --color-bg-deep: #060403;
+  --color-surface: #120c0a;
+  --color-surface-2: #17100d;
+  --color-surface-3: #211612;
+  --color-border: #2c1d17;
+  --color-border-strong: #45291e;
+
+  --color-text: #ece2d9;
+  --color-muted: #c4a99b;
+  --color-faint: #a98d7f;
+
+  /* Ember orange for the interface, lava yellow for numbers, Sith red for the sabers */
+  --color-accent: #ff7a2e;
+  --color-accent-strong: #ffab70;
+  --color-data: #ffc56a;
+  --color-data-strong: #ffe6b8;
+  --color-accent-alt: #e0262b;
+  --color-on-accent: #1a0905;
+
+  --color-good: #7fd18b;
+  --color-warning: #ffc56a;
+  --color-danger: #ff8a7a;
+  --color-danger-strong: #e0262b;
+  --color-shadow: #000;
+
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-meta: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+
+  --clip: none;
+  --chamfer: 0px;
+  --radius: 3px;
+  --radius-control: 2px;
+  --radius-sm: 2px;
+  /* A fine highlight along the top edge, as if lit from above by the sky's last light */
+  --panel-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-text) 6%, transparent);
+  --shadow-lift: 0 40px 80px -40px color-mix(in srgb, var(--color-shadow) 90%, transparent);
+
+  --heading-weight: 600;
+  --heading-tracking: 0.05em;
+  --label-font: var(--font-display);
+  --label-size: 0.8rem;
+  --label-weight: 600;
+  --label-tracking: 0.34em;
+  --label-case: uppercase;
+  --prose-marker: none;
+
+  --accent-glow: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  --data-glow: color-mix(in srgb, var(--color-data) 35%, transparent);
+  --spotlight: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --spotlight-wash: color-mix(in srgb, var(--color-accent) 4%, transparent);
+  --gradient-brand: linear-gradient(115deg, var(--color-data), var(--color-accent) 50%, var(--color-accent-alt));
+  /* The saber: a near-white core in a red glow */
+  --saber: var(--color-accent-alt);
+  --saber-core: #fff4ee;
+  --saber-glow:
+    0 0 2px 0.5px var(--saber), 0 0 8px 1.5px color-mix(in srgb, var(--saber) 85%, transparent),
+    0 0 22px 3px color-mix(in srgb, var(--saber) 45%, transparent);
+
+  /* Smoke overhead; low on the horizon, the light of the lava beyond it */
+  --backdrop:
+    radial-gradient(
+      130% 50% at 50% 106%,
+      color-mix(in srgb, var(--color-accent) 26%, transparent),
+      color-mix(in srgb, var(--color-accent-alt) 9%, transparent) 45%,
+      transparent 72%
+    ),
+    radial-gradient(70% 45% at 85% -12%, color-mix(in srgb, var(--color-accent-alt) 7%, transparent), transparent 70%),
+    linear-gradient(to bottom, var(--color-bg-deep), var(--color-bg) 55%);
+  --backdrop-grid: transparent;
+  --grain: 0.08;
+  --header-bg: color-mix(in srgb, var(--color-bg-deep) 82%, transparent);
+
+  color-scheme: dark;
+}
+
+/* --- The horizon ---------------------------------------------------------------------- */
+
+/* Dark volcanic ridges along the bottom of the frame, black against the lava light. The
+   backdrop's grid layer isn't used here, so it carries them */
+:root[data-theme='mustafar'] .backdrop::before {
+  inset: auto 0 0 0;
+  height: clamp(90px, 20vh, 220px);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bg-deep) 80%, var(--color-accent-alt)), var(--color-bg-deep) 45%);
+  mask: url('/themes/mustafar/ridge.svg') bottom / 100% 100% no-repeat;
+}
+
+/* --- Type ----------------------------------------------------------------------------- */
+
+:root[data-theme='mustafar'] :is(h1, h2, h3) {
+  text-transform: uppercase;
+}
+
+:root[data-theme='mustafar'] .text-gradient {
+  background: none;
+  color: inherit;
+}
+
+:root[data-theme='mustafar'] .glow {
+  text-shadow: 0 0 18px var(--data-glow);
+}
+
+/* The name as a title card: the first name small, spaced out and ember-lit above the surname,
+   which stands large in ash white with a saber igniting under it */
+:root[data-theme='mustafar'] .hero__name {
+  font-size: clamp(3.6rem, 11.5vw, 7.4rem);
+  font-weight: 600;
+  line-height: 0.86;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  text-shadow: 0 20px 50px color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
+:root[data-theme='mustafar'] .hero__name > :first-child {
+  margin-bottom: 0.45em;
+  font-size: 0.26em;
+  font-weight: 600;
+  letter-spacing: 0.7em;
+  color: var(--color-accent);
+  text-shadow: none;
+}
+
+:root[data-theme='mustafar'] .hero__name::after {
+  content: '';
+  display: block;
+  width: 2.4em;
+  height: 3px;
+  margin-top: 0.2em;
+  border-radius: 3px;
+  background: var(--saber-core);
+  box-shadow: var(--saber-glow);
+  transform-origin: left;
+  animation: ignite 1s 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+@keyframes ignite {
+  from {
+    scale: 0 1;
+    opacity: 0.3;
+  }
+}
+
+/* --- Header and footer ---------------------------------------------------------------- */
+
+:root[data-theme='mustafar'] .brand__mark {
+  border-radius: 50%;
+  color: var(--color-accent);
+  background: var(--color-bg-deep);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 55%, transparent),
+    0 0 18px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+/* The same ridges close up, standing over the footer, the lava light behind them */
+:root[data-theme='mustafar'] .site-footer {
+  position: relative;
+  margin-top: 12rem;
+  border-top: 0;
+  background: var(--color-bg-deep);
+}
+
+:root[data-theme='mustafar'] .site-footer::before,
+:root[data-theme='mustafar'] .site-footer::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  pointer-events: none;
+}
+
+:root[data-theme='mustafar'] .site-footer::before {
+  height: clamp(60px, 8vw, 120px);
+  background: var(--color-bg-deep);
+  mask: url('/themes/mustafar/ridge.svg') bottom / 100% 100% no-repeat;
+}
+
+:root[data-theme='mustafar'] .site-footer::after {
+  z-index: -1;
+  height: 240px;
+  background: radial-gradient(70% 100% at 50% 100%, color-mix(in srgb, var(--color-accent) 22%, transparent), transparent 70%);
+}
+
+/* --- Hero ----------------------------------------------------------------------------- */
+
+:root[data-theme='mustafar'] .pill {
+  border-radius: 2px;
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  box-shadow: none;
+  font-family: var(--font-display);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* The readout as a facility console: a molten line across the top of its header */
+:root[data-theme='mustafar'] .readout > header {
+  position: relative;
+  background: color-mix(in srgb, var(--color-surface-3) 70%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+}
+
+:root[data-theme='mustafar'] .readout > header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent) 30%, var(--color-data) 50%, var(--color-accent) 70%, transparent);
+}
+
+:root[data-theme='mustafar'] .readout dt {
+  font-family: var(--font-display);
+  letter-spacing: 0.22em;
+  color: var(--color-accent);
+}
+
+/* --- Sections ------------------------------------------------------------------------- */
+
+/* The rule is a short saber that ignites as the heading comes into view */
+:root[data-theme='mustafar'] .section-heading__rule {
+  width: 56px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--saber-core);
+  box-shadow: var(--saber-glow);
+  transform-origin: left;
+  transition: scale 0.8s 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+:root.js[data-theme='mustafar'] .section-heading:not(.is-revealed) .section-heading__rule {
+  scale: 0 1;
+}
+
+:root[data-theme='mustafar'] .section-heading__title {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 0.95;
+}
+
+/* Experience: a hairline rail, an ember breathing at each job */
+:root[data-theme='mustafar'] .timeline::before {
+  width: 1px;
+  margin-left: 5px;
+  background: linear-gradient(to bottom, var(--color-accent), color-mix(in srgb, var(--color-accent) 30%, transparent) 60%, transparent);
+}
+
+:root[data-theme='mustafar'] .timeline__node {
+  width: 11px;
+  height: 11px;
+  border: 0;
+  border-radius: 50%;
+  rotate: none;
+  background: radial-gradient(circle, var(--color-data-strong), var(--color-accent) 55%, var(--color-accent-alt));
+  box-shadow: 0 0 14px 3px var(--accent-glow);
+  animation: breathe 3.2s ease-in-out infinite alternate;
+}
+
+/* Opacity only, so it runs on the compositor */
+@keyframes breathe {
+  to {
+    opacity: 0.6;
+  }
+}
+
+:root[data-theme='mustafar'] .timeline__date {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.22em;
+  color: var(--color-accent);
+}
+
+:root[data-theme='mustafar'] .bullet::before {
+  width: 8px;
+  height: 1px;
+  background: var(--color-accent);
+  box-shadow: none;
+}
+
+/* Skills: each group a slab, its name set down the side */
+:root[data-theme='mustafar'] :has(> .skill-group) {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 430px), 1fr));
+}
+
+/* Side by side from 640px; stacked on phones, where the chips need the width */
+@media (min-width: 640px) {
+  :root[data-theme='mustafar'] .skill-group {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  :root[data-theme='mustafar'] .skill-group > ul {
+    margin-top: 0;
+  }
+}
+
+/* A last group left alone on its row takes the whole row */
+:root[data-theme='mustafar'] .skill-group:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+:root[data-theme='mustafar'] .rank {
+  font-size: 11rem;
+  -webkit-text-stroke-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+:root[data-theme='mustafar'] .contact-card .label {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+}
+
+/* --- Panels --------------------------------------------------------------------------- */
+
+:root[data-theme='mustafar'] .panel {
+  --fill: var(--color-surface);
+}
+
+/* A molten line that sweeps along the lower edge when the panel is lit. Scale only, so the
+   sweep runs on the compositor */
+:root[data-theme='mustafar'] .panel::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--color-accent), var(--color-data), var(--color-accent), transparent);
+  scale: 0 1;
+  transition: scale 0.7s var(--ease-out-expo);
+}
+
+/* Lit: the edge warms, the line sweeps across, and the lava light rises under the panel */
+:root[data-theme='mustafar'] .panel[data-lit] {
+  --edge: color-mix(in srgb, var(--color-accent) 35%, var(--color-border-strong));
+  box-shadow:
+    var(--panel-shadow),
+    0 26px 60px -34px color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+:root[data-theme='mustafar'] .panel[data-lit]::after {
+  scale: 1 1;
+}
+
+@media (hover: hover) {
+  :root[data-theme='mustafar'] .panel:hover {
+    --edge: color-mix(in srgb, var(--color-accent) 35%, var(--color-border-strong));
+    box-shadow:
+      var(--panel-shadow),
+      0 26px 60px -34px color-mix(in srgb, var(--color-accent) 45%, transparent);
+  }
+
+  :root[data-theme='mustafar'] .panel:hover::after {
+    scale: 1 1;
+  }
+}
+
+:root[data-theme='mustafar'] .chip {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-color: var(--color-border-strong);
+  background: transparent;
+}
+
+/* --- Buttons: a saber blade ignites along the edge ------------------------------------ */
+
+:root[data-theme='mustafar'] .btn {
+  --fill: transparent;
+  overflow: visible;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-color: color-mix(in srgb, var(--color-text) 22%, transparent);
+}
+
+:root[data-theme='mustafar'] .btn--ghost {
+  border-color: transparent;
+}
+
+/* The blade lies along the bottom edge until it ignites, left to right */
+:root[data-theme='mustafar'] .btn:not(.btn--icon)::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--saber-core);
+  box-shadow: var(--saber-glow);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  pointer-events: none;
+}
+
+/* The primary button glows faintly red at rest, its blade a sliver from lighting */
+:root[data-theme='mustafar'] .btn--primary {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--saber) 55%, transparent);
+  box-shadow: inset 0 0 18px -6px color-mix(in srgb, var(--saber) 45%, transparent);
+}
+
+:root[data-theme='mustafar'] .btn--primary::after {
+  scale: 0.08 1;
+}
+
+@media (hover: hover) {
+  :root[data-theme='mustafar'] .btn:hover {
+    --fill: color-mix(in srgb, var(--saber) 7%, transparent);
+    color: var(--color-text);
+    border-color: color-mix(in srgb, var(--saber) 60%, transparent);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--saber) 75%, transparent);
+  }
+
+  :root[data-theme='mustafar'] .btn:hover::after {
+    scale: 1 1;
+  }
+}
+
+:root[data-theme='mustafar'] .btn:active::after {
+  scale: 1 1;
+}
+
+/* Fields: dark wells that warm when you type in them */
+:root[data-theme='mustafar'] .field {
+  border-color: var(--color-border-strong);
+  background: color-mix(in srgb, var(--color-bg-deep) 70%, transparent);
+}
+
+:root[data-theme='mustafar'] .field:focus {
+  border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-accent) 15%, transparent),
+    0 12px 30px -16px var(--accent-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme='mustafar'] .timeline__node {
+    animation: none;
+  }
+}

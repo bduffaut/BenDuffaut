@@ -18,6 +18,10 @@ export async function sendContactMail(message: ContactInput): Promise<void> {
     port: Number(contact.smtpPort),
     secure: String(contact.smtpSecure) !== 'false',
     auth: { user: contact.smtpUser, pass: contact.smtpPass },
+    // Nodemailer waits minutes by default. Fail fast so the visitor gets the "email me" message
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000,
   })
 
   const from = contact.from || contact.smtpUser

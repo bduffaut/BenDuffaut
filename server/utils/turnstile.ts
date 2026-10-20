@@ -2,8 +2,10 @@
 // the site key (build time) and the secret (runtime) are set.
 
 export async function verifyTurnstile(token: string | undefined, ip: string | undefined): Promise<boolean> {
-  const secret = useRuntimeConfig().contact.turnstileSecret
-  if (!secret) return true
+  const { contact, public: config } = useRuntimeConfig()
+  const secret = contact.turnstileSecret
+  // Without the site key the form never shows the check, so requiring it would reject everyone
+  if (!secret || !config.turnstileSiteKey) return true
   if (!token) return false
 
   try {

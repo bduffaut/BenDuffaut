@@ -40,7 +40,7 @@ const meta = computed(() =>
       <div v-reveal>
         <div class="flex flex-wrap items-center gap-3">
           <UiStatusChip :status="project.status ?? 'shipped'" />
-          <span class="font-mono text-xs text-faint">{{ project.period }}</span>
+          <span class="font-meta text-xs text-faint">{{ project.period }}</span>
         </div>
         <h1 class="mt-5 text-4xl text-text md:text-6xl">{{ project.title }}</h1>
         <p class="mt-5 text-xl text-muted">{{ project.tagline }}</p>
@@ -97,7 +97,7 @@ const meta = computed(() =>
     <dl v-if="project.metrics?.length" v-spotlight class="mt-5 grid gap-5 sm:grid-cols-3">
       <div v-for="(metric, i) in project.metrics" :key="metric.label" v-reveal="i * 80" class="panel p-6">
         <dt class="sr-only">{{ metric.label }}</dt>
-        <dd class="glow font-display text-4xl font-semibold text-cyan"><UiCountUp :value="metric.value" /></dd>
+        <dd class="glow font-display text-4xl font-semibold text-data"><UiCountUp :value="metric.value" /></dd>
         <dd class="mt-2 text-sm text-muted">{{ metric.label }}</dd>
       </div>
     </dl>
@@ -127,11 +127,11 @@ const meta = computed(() =>
   align-items: center;
   gap: 0.5rem;
   padding: 0.35rem 0.8rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.75rem;
   color: var(--color-muted);
   border: 1px solid var(--color-border-strong);
-  background: rgb(7 10 15 / 0.8);
+  background: color-mix(in srgb, var(--color-bg-deep) 80%, transparent);
   backdrop-filter: blur(6px);
 }
 </style>

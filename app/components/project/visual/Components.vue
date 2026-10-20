@@ -19,7 +19,7 @@
   display: flex;
   gap: 1.2rem;
   padding-bottom: 0.4rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.72rem;
   color: var(--color-muted);
   border-bottom: 1px solid var(--color-border);
@@ -29,7 +29,7 @@
   position: absolute;
   bottom: -1px;
   height: 2px;
-  background: var(--gradient-signal);
+  background: var(--gradient-brand);
   box-shadow: 0 0 8px var(--accent-glow);
   animation: ink 6s var(--ease-out-expo) infinite;
 }
@@ -80,7 +80,7 @@
 @keyframes track {
   45%,
   95% {
-    background: rgb(45 212 191 / 0.3);
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
     border-color: var(--color-accent);
   }
 }
@@ -99,10 +99,10 @@
   height: 30px;
   min-width: 150px;
   padding: 0 0.6rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-meta);
   font-size: 0.72rem;
-  border: 1px solid var(--color-cyan);
-  box-shadow: 0 0 0 3px rgb(34 211 238 / 0.12);
+  border: 1px solid var(--color-data);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-data) 12%, transparent);
   background: var(--color-bg-deep);
 }
 
@@ -126,7 +126,7 @@
   width: 1px;
   height: 14px;
   margin-left: 1px;
-  background: var(--color-cyan);
+  background: var(--color-data);
   animation: blink 1s steps(1) infinite;
 }
 
@@ -142,9 +142,9 @@
   font-family: var(--font-display);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-bg-deep);
-  background: linear-gradient(110deg, var(--color-cyan), var(--color-indigo));
+  color: var(--color-on-accent);
+  background: linear-gradient(110deg, var(--color-data), var(--color-accent-alt));
   border-radius: 10px;
-  box-shadow: 0 0 20px rgb(129 140 248 / 0.3);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent-alt) 30%, transparent);
 }
 </style>

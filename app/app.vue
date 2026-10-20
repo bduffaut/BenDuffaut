@@ -4,11 +4,15 @@ const route = useRoute()
 const profile = await useRequiredProfile()
 
 const canonical = computed(() => `${config.siteUrl}${route.path === '/' ? '' : route.path.replace(/\/$/, '')}`)
+const { theme } = useTheme()
 
 useHead({
   titleTemplate: (title) => (title ? `${title} · ${profile.value.shortName}` : `${profile.value.name} · ${profile.value.role}`),
+  htmlAttrs: { 'data-theme': () => theme.value.id },
   link: [{ rel: 'canonical', href: canonical }],
   script: [
+    // Apply the visitor's saved theme before first paint (composables/useTheme.ts)
+    { key: 'theme-boot', innerHTML: themeBootScript(), tagPriority: 'critical' },
     // Mark the document before first paint so scroll-reveal content starts hidden. If the app
     // hasn't hydrated within 4s (blocked or failed JS), drop the mark so nothing stays hidden.
     {
@@ -67,7 +71,7 @@ useHead({
 </script>
 
 <template>
-  <NuxtLoadingIndicator color="linear-gradient(90deg, #2dd4bf, #22d3ee, #818cf8)" :height="2" />
+  <NuxtLoadingIndicator color="var(--gradient-brand)" :height="2" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
