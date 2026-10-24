@@ -57,7 +57,7 @@ services:
   # Self-hosted analytics. The site proxies the tracker at /stats, so Umami needs no public
   # hostname for visitors. Its dashboard is on localhost:3001, or behind Cloudflare Access.
   umami:
-    image: ghcr.io/umami-software/umami:3.4.0
+    image: ghcr.io/umami-software/umami:3.4.1
     profiles: [analytics]
     restart: unless-stopped
     environment:
