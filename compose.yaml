@@ -44,7 +44,7 @@ services:
   # Outbound-only tunnel to Cloudflare: no open router ports and the home IP stays private.
   # In the Zero Trust dashboard, point the tunnel's public hostnames at http://site:3000.
   cloudflared:
-    image: cloudflare/cloudflared:2026.10.1
+    image: cloudflare/cloudflared:2026.10.3
     profiles: [tunnel]
     restart: unless-stopped
     command: tunnel --no-autoupdate run
