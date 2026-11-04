@@ -90,9 +90,9 @@ test('project board can be customized', async ({ page }) => {
   await expect(projects.locator('.dg-item .frame__body[href]')).toHaveCount(0)
 
   // Remove a widget, then put it back from the tray
-  await projects.getByRole('button', { name: 'Remove Mode & Surface' }).click()
+  await projects.getByRole('button', { name: 'Remove TennisTracker' }).click()
   await expect(projects.locator('.dg-item')).toHaveCount(count - 1)
-  await projects.getByRole('button', { name: 'Add Mode & Surface' }).click()
+  await projects.getByRole('button', { name: 'Add TennisTracker' }).click()
   await expect(projects.locator('.dg-item')).toHaveCount(count)
 
   await page.getByRole('toolbar', { name: 'Board layout commands' }).getByRole('button', { name: 'Done' }).click()

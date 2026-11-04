@@ -22,6 +22,11 @@ export default defineContentConfig({
         summary: z.string(),
         location: z.string(),
         email: z.string(),
+        /* The hero's readout panel, see components/home/HomeHero.vue */
+        readout: z.object({
+          role: z.string(),
+          stack: z.string(),
+        }),
         availability: z.object({
           open: z.boolean(),
           label: z.string(),

@@ -9,11 +9,11 @@ const latest = computed(() => experience.value?.[0])
 const school = computed(() => education.value?.[0])
 
 const readout = computed(() => [
-  { key: 'role', value: 'Full-stack · frontend first' },
+  { key: 'role', value: profile.value.readout.role },
   { key: 'base', value: profile.value.location },
   { key: 'edu', value: school.value ? `UCF · CS · ${school.value.end.split(' ').pop()}` : '' },
   { key: 'last', value: latest.value ? `${latest.value.company}` : '' },
-  { key: 'stack', value: 'Vue · TypeScript · Node' },
+  { key: 'stack', value: profile.value.readout.stack },
 ])
 </script>
 
@@ -68,7 +68,7 @@ const readout = computed(() => [
       <dl class="divide-y divide-border/70 px-4 py-2 font-meta text-[0.82rem]">
         <div v-for="(row, i) in readout" :key="row.key" class="readout__row" :style="{ '--i': i }">
           <dt class="w-14 shrink-0 text-faint uppercase">{{ row.key }}</dt>
-          <dd class="truncate text-text">{{ row.value }}</dd>
+          <dd class="min-w-0 truncate text-text">{{ row.value }}</dd>
         </div>
       </dl>
       <HomeSignalStrip class="border-t border-border" />

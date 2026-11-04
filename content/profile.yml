@@ -2,10 +2,15 @@ name: Benjamin Duffaut
 shortName: Ben Duffaut
 role: Software Engineer
 # The hero headline. Keep it short, it's set in the display face at a large size.
-headline: I build fast, polished interfaces and the systems behind them.
+headline: From the database to the details people notice.
 summary: >-
-  Full-stack engineer whose strongest work is on the frontend. Vue, TypeScript, careful
-  animation, and the backend work it takes to ship. Computer Science at UCF, class of 2027.
+  I'm a full-stack engineer who owns features from start to finish: the data behind them, the
+  interface in front of them, and the server they ship to. Most recently I built production
+  features at Reveal Security, and I'm finishing Computer Science at UCF, class of 2027.
+# The hero's readout panel. Location, school and latest role come from the other content files.
+readout:
+  role: Full-stack · end to end
+  stack: TypeScript · Python · Vue · Postgres
 location: Orlando, FL
 # Public address on the site. Set up Cloudflare Email Routing to forward it to Gmail (docs/deployment.md).
 email: ben@benduffaut.com
@@ -18,20 +23,21 @@ links:
   repo: https://github.com/bduffaut/BenDuffaut
 about:
   - >-
-    I'm a software engineer finishing my Computer Science degree at UCF. I do my best work on the
-    frontend: component systems, dashboards, and the interaction details that make an interface
-    feel fast and intentional. I care about how things look, but I care more about whether they
+    I'm a full-stack software engineer finishing my Computer Science degree at UCF. I like owning
+    a feature from end to end: the data it needs, the logic behind it, the interface people use,
+    and how it gets deployed. Most recently I interned at Reveal Security, working directly with
+    the CTO and product lead. I wrote the PostgreSQL queries that fed a customizable security
+    dashboard, built the Vue features on top of it, and tested both sides.
+  - >-
+    On my senior design team I'm the Scrum Master and own DevOps, and I build much of the Python
+    engine: an async runner that scores thousands of test cases concurrently and streams every
+    result to disk, plus the data models and loaders underneath it. I run my own infrastructure
+    too. This site lives on a Linux server in my apartment and deploys itself every time I push.
+  - >-
+    I still have a soft spot for the frontend. After Reveal I wanted to understand grid layouts
+    properly, so I wrote my own drag-and-drop engine and published it on npm. It powers the
+    projects board on this page. I care how things look, but I care more about whether they
     actually make someone's work easier.
-  - >-
-    Most recently I interned at Reveal Security, where I shipped production Vue features working
-    directly with the CTO and product lead, from a customizable security dashboard to the tests
-    behind it. That dashboard got me curious about how grid layouts really work, so I built my own
-    engine from scratch and published it on npm. It's the project I'm proudest of, and it powers
-    the projects board on this page.
-  - >-
-    I'm comfortable across the stack, from Node and Express APIs to MongoDB, Postgres, Docker and
-    CI, and I've built applied machine learning systems in PyTorch. I also like owning things end
-    to end: this site runs on a laptop server in my apartment and deploys itself every time I push.
 beyond:
   - title: UCF Club Tennis
     meta: National team · 2023 to present

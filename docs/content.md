@@ -6,24 +6,24 @@ After editing, `npm run dev` shows the change immediately. Pushing to `main` dep
 
 ## Files
 
-| File               | What it controls                                                                         |
-| ------------------ | ---------------------------------------------------------------------------------------- |
-| `profile.yml`      | Name, headline, summary, email, links, availability, about text, "Beyond the code" cards |
-| `experience/*.yml` | One file per job or research position                                                    |
-| `education/*.yml`  | One file per school                                                                      |
-| `skills.yml`       | Skill groups                                                                             |
-| `projects/*.md`    | One file per project: front matter for the card, Markdown body for the case study        |
+| File               | What it controls                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| `profile.yml`      | Name, headline, summary, hero readout, email, links, availability, about text, "Beyond the code" cards |
+| `experience/*.yml` | One file per job or research position                                                                  |
+| `education/*.yml`  | One file per school                                                                                    |
+| `skills.yml`       | Skill groups                                                                                           |
+| `projects/*.md`    | One file per project: front matter for the card, Markdown body for the case study                      |
 
 ## Flags
 
-| Field      | Where                           | Effect                                                                                                                                                        |
-| ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `order`    | experience, education, projects | Sort order, lowest first                                                                                                                                      |
-| `draft`    | experience                      | `true` hides the entry everywhere                                                                                                                             |
-| `featured` | projects                        | Card in the home page's project grid and the top of `/projects`. Others go in "More projects". Grid order follows `order`: two wide cards, then rows of three |
-| `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                                                                                  |
-| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `homelab`, `none`                                            |
-| `video`    | projects                        | Path to a demo video under `public/`, or `pending` to show "Demo video coming soon"                                                                           |
+| Field      | Where                           | Effect                                                                                                                                                                                                                 |
+| ---------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `order`    | experience, education, projects | Sort order, lowest first                                                                                                                                                                                               |
+| `draft`    | experience                      | `true` hides the entry everywhere                                                                                                                                                                                      |
+| `featured` | projects                        | Card in the home page's project grid and the top of `/projects`. Others go in "More projects". The home board's positions are hand-placed in `shared/utils/projectLayout.ts`, so place new featured projects there too |
+| `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                                                                                                                                           |
+| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `homelab`, `none`                                                                                                     |
+| `video`    | projects                        | Path to a demo video under `public/`, or `pending` to show "Demo video coming soon"                                                                                                                                    |
 
 ## Adding a project
 

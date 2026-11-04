@@ -2,12 +2,12 @@ import { describe, expect, it } from 'vitest'
 import { BOARD_BREAKPOINTS, defaultProjectLayout, projectCatalog, statId, unplaced } from '../../shared/utils/projectLayout'
 
 const FEATURED = [
-  { slug: 'dashboard-grid', metrics: 3 },
-  { slug: 'tennistracker', metrics: 3 },
-  { slug: 'news-briefing', metrics: 0 },
-  { slug: 'mtlj', metrics: 0 },
-  { slug: 'mode-surface', metrics: 0 },
+  { slug: 'mtlj', metrics: 3 },
+  { slug: 'this-site', metrics: 0 },
   { slug: 'homelab', metrics: 3 },
+  { slug: 'dashboard-grid', metrics: 3 },
+  { slug: 'news-briefing', metrics: 0 },
+  { slug: 'tennistracker', metrics: 3 },
 ]
 
 describe('defaultProjectLayout', () => {
@@ -15,13 +15,13 @@ describe('defaultProjectLayout', () => {
 
   it('has a widget per project plus the stat tiles', () => {
     expect(layout.map((w) => w.id)).toEqual([
-      'dashboard-grid',
-      'tennistracker',
-      'news-briefing',
       'mtlj',
-      'mode-surface',
+      'this-site',
       'homelab',
-      statId('tennistracker', 0),
+      'dashboard-grid',
+      'news-briefing',
+      'tennistracker',
+      statId('mtlj', 0),
       statId('dashboard-grid', 0),
       statId('homelab', 0),
       statId('homelab', 1),
@@ -89,6 +89,6 @@ describe('unplaced', () => {
     const widget = unplaced(defaultProjectLayout(FEATURED)[0]!)
     expect(widget).not.toHaveProperty('x')
     expect(widget).not.toHaveProperty('y')
-    expect(widget).toMatchObject({ id: 'dashboard-grid', w: 7, h: 7 })
+    expect(widget).toMatchObject({ id: 'mtlj', w: 7, h: 7 })
   })
 })

@@ -13,7 +13,7 @@ import type { GridWidget } from 'custom-dashboard-grid'
 // still reads as a dashboard: wide project tiles, two projects side by side, and stat tiles in
 // pairs. 6 rather than 2 because projects can't go below 3 columns or stats below 2.
 
-export const PROJECT_LAYOUT_VERSION = 3
+export const PROJECT_LAYOUT_VERSION = 4
 
 /* The board's breakpoints, by the board's own width. `phone` matches PHONE_PLACEMENT below. */
 export const BOARD_BREAKPOINTS = { lg: { width: 700, columns: 12 }, phone: { width: 0, columns: 6 } }
@@ -35,13 +35,13 @@ const STAT_SIZE = { minW: 2, minH: 2, maxH: 4 }
 
 /* Hand-placed default board: x, y, w, h per widget id */
 const DEFAULT_PLACEMENT: Record<string, [x: number, y: number, w: number, h: number]> = {
-  'dashboard-grid': [0, 0, 7, 7],
-  tennistracker: [7, 0, 5, 5],
-  'stat-tennistracker-0': [7, 5, 5, 2],
-  'news-briefing': [0, 7, 5, 5],
-  mtlj: [5, 7, 3, 5],
+  mtlj: [0, 0, 7, 7],
+  'this-site': [7, 0, 5, 5],
+  'stat-mtlj-0': [7, 5, 5, 2],
+  'dashboard-grid': [0, 7, 5, 5],
+  'news-briefing': [5, 7, 3, 5],
   // Starts small on purpose: resizing it shows how widgets open up as they grow
-  'mode-surface': [8, 7, 4, 3],
+  tennistracker: [8, 7, 4, 3],
   'stat-dashboard-grid-0': [8, 10, 4, 2],
   // Big enough to show the network map, the stack and the numbers, with two stat tiles beside it
   homelab: [0, 12, 8, 6],
@@ -51,14 +51,14 @@ const DEFAULT_PLACEMENT: Record<string, [x: number, y: number, w: number, h: num
 
 /* Hand-placed phone board, 6 columns, in reading order: x, y, w, h per widget id */
 const PHONE_PLACEMENT: Record<string, [x: number, y: number, w: number, h: number]> = {
-  'dashboard-grid': [0, 0, 6, 6],
-  'stat-dashboard-grid-0': [0, 6, 3, 3],
-  'stat-tennistracker-0': [3, 6, 3, 3],
-  tennistracker: [0, 9, 6, 5],
-  'news-briefing': [0, 14, 6, 5],
+  mtlj: [0, 0, 6, 6],
+  'stat-mtlj-0': [0, 6, 3, 3],
+  'stat-dashboard-grid-0': [3, 6, 3, 3],
+  'this-site': [0, 9, 6, 5],
+  'dashboard-grid': [0, 14, 6, 5],
   // Compact side-by-side cards: too narrow for a visual, so title, tagline and status only
-  mtlj: [0, 19, 3, 3],
-  'mode-surface': [3, 19, 3, 3],
+  'news-briefing': [0, 19, 3, 3],
+  tennistracker: [3, 19, 3, 3],
   homelab: [0, 22, 6, 6],
   'stat-homelab-0': [0, 28, 3, 3],
   'stat-homelab-1': [3, 28, 3, 3],
@@ -66,7 +66,7 @@ const PHONE_PLACEMENT: Record<string, [x: number, y: number, w: number, h: numbe
 
 /* Which project metrics get their own stat tile: [project slug, index into its metrics] */
 const STAT_TILES: [slug: string, metric: number][] = [
-  ['tennistracker', 0],
+  ['mtlj', 0],
   ['dashboard-grid', 0],
   ['homelab', 0],
   ['homelab', 1],

@@ -6,7 +6,8 @@ start: Jun 2026
 end: Oct 2026
 kind: work
 highlights:
-  - Shipped 5+ features to the production codebase, working directly with the CTO and Senior Director of Product on the Vue.js frontend and supporting backend work.
+  - Shipped 5+ features to the production codebase end to end, working directly with the CTO and Senior Director of Product.
   - Built a fully custom, componentized dashboard on GridStack.js with widget-level data caching, so adding, removing and rearranging widgets doesn't degrade performance. Real-time alerts link straight into detailed views.
+  - Wrote the PostgreSQL queries that supplied the dashboard's data, shaping it for the Vue frontend to consume.
   - Wrote frontend unit and browser tests with Vitest and Playwright and backend API tests with Jest, using Mockoon for mock data-ingestion APIs and pgAdmin for test data seeding.
-stack: [Vue 3, TypeScript, GridStack.js, Vitest, Playwright, Jest, PostgreSQL]
+stack: [Vue 3, TypeScript, PostgreSQL, GridStack.js, Vitest, Playwright, Jest]

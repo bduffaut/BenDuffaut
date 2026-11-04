@@ -1,15 +1,15 @@
 groups:
   - name: Languages
-    items: [TypeScript, JavaScript, Python, Java, C, C++, SQL, HTML/CSS, Bash]
-  - name: Frontend
-    items: [Vue 3, Nuxt, React, React Native, Tailwind CSS, Vite, Flutter, Figma]
+    items: [TypeScript, JavaScript, Python, SQL, Java, C, C++, PHP, Bash, HTML/CSS]
   - name: Backend and data
-    items: [Node.js, Express, FastAPI, MongoDB, PostgreSQL, MySQL, REST APIs]
-  - name: Testing
-    items: [Vitest, Jest, Playwright, Mockoon, Postman]
+    items: [Node.js, Express, FastAPI, Pydantic, asyncio, PostgreSQL, MongoDB, Mongoose, MySQL, REST APIs]
+  - name: Frontend
+    items: [Vue 3, Nuxt, React, React Native, Tailwind CSS, Vite, Flutter]
   - name: Infrastructure
-    items: [Docker, Docker Compose, GitHub Actions, Cloudflare Tunnel, Linux, Git]
+    items: [Docker, Docker Compose, GitHub Actions, Linux, systemd, Cloudflare Tunnel, Tailscale, uv, Git]
+  - name: Testing
+    items: [pytest, Vitest, Jest, Playwright, Mockoon, Postman]
   - name: Machine learning
     items: [PyTorch, torchvision, OpenCV, LLM APIs, Ollama]
   - name: Process
-    items: [Scrum, Jira, Code review]
+    items: [Scrum, Jira, Code review, Figma]
