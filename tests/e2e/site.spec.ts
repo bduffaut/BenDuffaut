@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { DEFAULT_THEME, THEMES, THEME_STORAGE_KEY } from '../../app/themes'
 
-const PAGES = ['/', '/projects', '/projects/dashboard-grid', '/projects/tennistracker', '/projects/homelab', '/resume']
+const PAGES = ['/', '/projects', '/projects/dashboard-grid', '/projects/courtsense', '/projects/hangar', '/projects/homelab', '/resume']
 
 test.describe('pages', () => {
   // Check colors at rest, not halfway through a fade-in
@@ -90,13 +90,13 @@ test('project board can be customized', async ({ page }) => {
   await expect(projects.locator('.dg-item .frame__body[href]')).toHaveCount(0)
 
   // Remove a widget, then put it back from the tray
-  await projects.getByRole('button', { name: 'Remove TennisTracker' }).click()
+  await projects.getByRole('button', { name: 'Remove CourtSense' }).click()
   await expect(projects.locator('.dg-item')).toHaveCount(count - 1)
-  await projects.getByRole('button', { name: 'Add TennisTracker' }).click()
+  await projects.getByRole('button', { name: 'Add CourtSense' }).click()
   await expect(projects.locator('.dg-item')).toHaveCount(count)
 
   await page.getByRole('toolbar', { name: 'Board layout commands' }).getByRole('button', { name: 'Done' }).click()
-  await expect(projects.getByRole('link', { name: 'Open TennisTracker' })).toBeAttached()
+  await expect(projects.getByRole('link', { name: 'Open CourtSense' })).toBeAttached()
 })
 
 test('contact form checks fields before sending', async ({ page }) => {
@@ -139,7 +139,7 @@ test.describe('server', () => {
 
   test('sitemap lists the projects', async ({ request }) => {
     const body = await (await request.get('/sitemap.xml')).text()
-    expect(body).toContain('/projects/tennistracker')
+    expect(body).toContain('/projects/courtsense')
   })
 
   test('resume PDF is served', async ({ request }) => {

@@ -7,7 +7,8 @@ const FEATURED = [
   { slug: 'homelab', metrics: 3 },
   { slug: 'dashboard-grid', metrics: 3 },
   { slug: 'news-briefing', metrics: 0 },
-  { slug: 'tennistracker', metrics: 3 },
+  { slug: 'courtsense', metrics: 3 },
+  { slug: 'hangar', metrics: 3 },
 ]
 
 describe('defaultProjectLayout', () => {
@@ -20,11 +21,14 @@ describe('defaultProjectLayout', () => {
       'homelab',
       'dashboard-grid',
       'news-briefing',
-      'tennistracker',
+      'courtsense',
+      'hangar',
       statId('mtlj', 0),
       statId('dashboard-grid', 0),
       statId('homelab', 0),
       statId('homelab', 1),
+      statId('hangar', 0),
+      statId('hangar', 1),
     ])
   })
 
@@ -74,8 +78,8 @@ describe('phone layout', () => {
 
 describe('projectCatalog', () => {
   it('skips stat tiles whose project or metric is missing', () => {
-    const ids = projectCatalog([{ slug: 'tennistracker', metrics: 0 }]).map((e) => e.id)
-    expect(ids).toEqual(['tennistracker'])
+    const ids = projectCatalog([{ slug: 'courtsense', metrics: 0 }]).map((e) => e.id)
+    expect(ids).toEqual(['courtsense'])
   })
 
   it('puts projects without a hand-placed spot below the board for the grid to place', () => {

@@ -120,7 +120,7 @@ export default defineContentConfig({
           .default([]),
         links: z.array(link).default([]),
         /* Which visual the card and case study header use, see components/project/ProjectVisual.vue */
-        visual: z.enum(['grid', 'tennis', 'news', 'mutation', 'components', 'site', 'homelab', 'none']).default('none'),
+        visual: z.enum(['grid', 'tennis', 'news', 'mutation', 'components', 'site', 'homelab', 'hangar', 'none']).default('none'),
         /* Path under public/ of a demo video. Leave empty to show a placeholder. */
         video: z.string().optional(),
       }),

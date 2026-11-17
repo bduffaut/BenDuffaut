@@ -22,7 +22,7 @@ After editing, `npm run dev` shows the change immediately. Pushing to `main` dep
 | `draft`    | experience                      | `true` hides the entry everywhere                                                                                                                                                                                      |
 | `featured` | projects                        | Card in the home page's project grid and the top of `/projects`. Others go in "More projects". The home board's positions are hand-placed in `shared/utils/projectLayout.ts`, so place new featured projects there too |
 | `status`   | projects                        | `shipped`, `in-progress` or `archived` (shown as "Complete")                                                                                                                                                           |
-| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `homelab`, `none`                                                                                                     |
+| `visual`   | projects                        | Which animated illustration to show: `grid`, `tennis`, `news`, `mutation`, `components`, `site`, `homelab`, `hangar`, `none`                                                                                           |
 | `video`    | projects                        | Path to a demo video under `public/`, or `pending` to show "Demo video coming soon"                                                                                                                                    |
 
 ## Adding a project
@@ -61,4 +61,4 @@ The resume isn't built from `content/`. It's my own PDF, exported from LaTeX, sa
 
 ## Things to fill in
 
-- `projects/02.tennistracker.md`: `video:` once the demo is recorded
+- `projects/06.courtsense.md`: `video:` once the demo is recorded

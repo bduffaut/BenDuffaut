@@ -9,6 +9,7 @@ import Mutation from './visual/Mutation.vue'
 import Components from './visual/Components.vue'
 import Site from './visual/Site.vue'
 import Homelab from './visual/Homelab.vue'
+import Hangar from './visual/Hangar.vue'
 
 const props = defineProps<{ visual: string }>()
 
@@ -20,6 +21,7 @@ const VISUALS: Record<string, Component> = {
   components: Components,
   site: Site,
   homelab: Homelab,
+  hangar: Hangar,
 }
 
 const component = computed(() => VISUALS[props.visual])

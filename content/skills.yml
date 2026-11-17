@@ -2,11 +2,11 @@ groups:
   - name: Languages
     items: [TypeScript, JavaScript, Python, SQL, Java, C, C++, PHP, Bash, HTML/CSS]
   - name: Backend and data
-    items: [Node.js, Express, FastAPI, Pydantic, asyncio, PostgreSQL, MongoDB, Mongoose, MySQL, REST APIs]
+    items: [Node.js, Express, Fastify, FastAPI, Pydantic, asyncio, PostgreSQL, MongoDB, Mongoose, MySQL, REST APIs]
   - name: Frontend
     items: [Vue 3, Nuxt, React, React Native, Tailwind CSS, Vite, Flutter]
   - name: Infrastructure
-    items: [Docker, Docker Compose, GitHub Actions, Linux, systemd, Cloudflare Tunnel, Tailscale, uv, Git]
+    items: [Docker, Docker Compose, GitHub Actions, Linux, systemd, Cloudflare, Cloudflare Tunnel, Tailscale, uv, Git]
   - name: Testing
     items: [pytest, Vitest, Jest, Playwright, Mockoon, Postman]
   - name: Machine learning

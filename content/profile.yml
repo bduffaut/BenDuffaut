@@ -29,10 +29,11 @@ about:
     the CTO and product lead. I wrote the PostgreSQL queries that fed a customizable security
     dashboard, built the Vue features on top of it, and tested both sides.
   - >-
-    On my senior design team I'm the Scrum Master and own DevOps, and I build much of the Python
-    engine: an async runner that scores thousands of test cases concurrently and streams every
-    result to disk, plus the data models and loaders underneath it. I run my own infrastructure
-    too. This site lives on a Linux server in my apartment and deploys itself every time I push.
+    On my senior design team I'm the Scrum Master and technical lead, and I wrote over half of
+    the Python codebase: an async engine that scores thousands of test cases concurrently, the
+    audit CLI, and a test suite of 1,000+ tests that runs offline in CI. I run my own
+    infrastructure too. This site lives on a Linux server in my apartment and deploys itself every
+    time I push, and I'm building Hangar, an open-source, self-hosted deployment platform.
   - >-
     I still have a soft spot for the frontend. After Reveal I wanted to understand grid layouts
     properly, so I wrote my own drag-and-drop engine and published it on npm. It powers the
@@ -40,11 +41,11 @@ about:
     actually make someone's work easier.
 beyond:
   - title: UCF Club Tennis
-    meta: National team · 2023 to present
+    meta: National team · Four years
     stat: 12th
     body: >-
-      Three straight years on the national team. We qualified for USTA/ITA Club Tennis Nationals
-      and finished 12th in the country. Tennis is also why my ML project analyzes match video.
+      Four years on the national team. We qualified for USTA/ITA Club Tennis Nationals and
+      finished 12th in the country. Tennis is also why my ML project analyzes match video.
   - title: Under the hood
     meta: Car projects · Always ongoing
     icon: wrench
