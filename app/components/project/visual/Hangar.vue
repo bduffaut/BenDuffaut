@@ -1,8 +1,8 @@
 <!-- Hangar's deploy pipeline, told the way Hangar tells it: a push rolls an aircraft out of the
      hangar, down the runway through its four statuses (Holding, Preflight, Taking off, Airborne)
      and into the air. The address only switches to the new version once its health check answers,
-     so the old one keeps serving until then. Below, the Control Tower relay: each self-hosted
-     server dials out over one socket, with no inbound ports.
+     so the old one keeps serving until then. Below, the private Control Tower: only the owner's
+     own devices reach it, over their Tailscale network, so there's no public login page.
 
      Everything that loops is opacity or transform. Without motion it shows the finished deploy. -->
 <template>
@@ -51,13 +51,13 @@
         <text :x="stage.x" y="162" text-anchor="middle" class="label">{{ stage.label }}</text>
       </g>
 
-      <!-- Control Tower relay: one outbound socket per server, nothing listening on them -->
+      <!-- Private Control Tower: the owner's devices reach it over Tailscale, nobody else can -->
       <line x1="14" y1="178" x2="386" y2="178" class="divider" />
       <rect x="18" y="191" width="78" height="18" rx="9" class="tower" />
       <text x="57" y="203" text-anchor="middle" class="tower-text">control tower</text>
       <line x1="96" y1="200" x2="346" y2="200" class="socket" />
       <circle
-        v-for="(s, i) in SERVERS"
+        v-for="(s, i) in DEVICES"
         :key="`p-${s.x}`"
         :cx="s.x - 14"
         cy="200"
@@ -65,13 +65,13 @@
         class="packet"
         :style="{ '--d': `${s.x - 110}px`, animationDelay: `${i * -0.7}s` }"
       />
-      <g v-for="s in SERVERS" :key="s.x">
+      <g v-for="s in DEVICES" :key="s.x">
         <rect :x="s.x - 12" y="192" width="24" height="16" rx="2" class="server" />
         <line :x1="s.x - 7" y1="197" :x2="s.x + 7" y2="197" class="server-line" />
         <line :x1="s.x - 7" y1="201" :x2="s.x + 7" y2="201" class="server-line" />
         <text :x="s.x" y="219" text-anchor="middle" class="label">{{ s.label }}</text>
       </g>
-      <text x="125" y="192" class="label">outbound only, 0 inbound ports</text>
+      <text x="125" y="192" class="label">tailnet only, no public login</text>
     </svg>
   </div>
 </template>
@@ -86,10 +86,10 @@ const STAGES = [
   { label: 'airborne', x: 296 },
 ]
 
-const SERVERS = [
-  { label: 'laptop', x: 230 },
-  { label: 'mini pc', x: 290 },
-  { label: 'pi', x: 350 },
+const DEVICES = [
+  { label: 'phone', x: 230 },
+  { label: 'laptop', x: 290 },
+  { label: 'desktop', x: 350 },
 ]
 </script>
 
@@ -297,7 +297,7 @@ const SERVERS = [
   stroke: color-mix(in srgb, var(--color-text) 25%, transparent);
 }
 
-/* Messages travel from each server to the tower: the servers dial out */
+/* Requests travel from each of the owner's devices to the tower over the tailnet */
 .packet {
   fill: var(--color-accent-alt);
   filter: drop-shadow(0 0 2px var(--color-accent-alt));
