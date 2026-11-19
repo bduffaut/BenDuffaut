@@ -4,7 +4,7 @@ Ben's portfolio site: Nuxt 4 + Vue 3 + Tailwind v4 + Nuxt Content, prerendered, 
 
 ## Rules
 
-- **Never push, open PRs, or otherwise write to GitHub.** Ben does that himself. Committing locally is fine only when asked.
+- **Committing and pushing to `main` is fine when Ben asks.** Commit messages and code comments must read like Ben wrote them: no mention of Claude or AI, and no `Co-Authored-By` or other attribution lines. Opening PRs, creating repos and other GitHub writes are still his to do.
 - The repo is public. Never commit `notes/`, `Ben_Resume.pdf`, `.env`, or anything with his phone number. That includes `public/resume.pdf`: it must be Ben's export without the phone.
 - Site copy belongs in `content/`, never hard-coded in components. Schemas are in `content.config.ts`.
 - Components are styled only with design tokens (`app/assets/css/main.css` and `tokens.css`): no raw hex, `rgb()` or font names in components. That's what lets every theme restyle them. Raw values belong in `app/assets/css/themes/*.css`. Adding a theme: docs/architecture.md#adding-a-theme.
